@@ -1,0 +1,2 @@
+# GRIDs
+Hyperlocal Network Platform
