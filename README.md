@@ -1,2 +1,2 @@
-# GRIDs
+# FriendZone
 Hyperlocal Network Platform
