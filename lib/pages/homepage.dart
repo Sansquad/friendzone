@@ -68,14 +68,16 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 60), // Increased space between text and buttons
+            SizedBox(height: 20), // Increased space between text and buttons
+            // Sign In Button
+            SizedBox(height: 20), // Increased space between text and buttons
             // Sign In Button
             SizedBox(
               width: 288,
               height: 48,
               child: ElevatedButton(
                 onPressed: () {
-                  // Add your sign in action here
+                  Navigator.pushNamed(context, '/signin'); // Navigate to sign-in page
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white, // Correct property
@@ -88,7 +90,6 @@ class HomePage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                 )),
-                
               ),
             ),
             SizedBox(height: 20),

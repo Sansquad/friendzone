@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 //import pages
 import 'pages/homepage.dart';
+import 'pages/signin.dart';
 
 
 void main() {
@@ -18,6 +19,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomePage(),
+      routes: {
+        '/signin': (context) => SignInPage(),
+      }
     );
   }
 }
