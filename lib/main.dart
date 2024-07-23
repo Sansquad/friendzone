@@ -1,10 +1,9 @@
-//required 
+//required
 import 'package:flutter/material.dart';
 
 //import pages
-import 'pages/homepage.dart';
-import 'pages/signin.dart';
-
+import 'pages/home_page.dart';
+import 'pages/sign_in_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,13 +16,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
-      routes: {
-        '/signin': (context) => SignInPage(),
-      }
-    );
+        debugShowCheckedModeBanner: false,
+        home: HomePage(),
+        routes: {
+          '/signin': (context) => SignInPage(),
+        });
   }
 }
-
-
