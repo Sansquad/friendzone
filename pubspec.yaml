@@ -51,7 +51,11 @@ flutter:
       fonts:
         - asset: fonts/TurretRoad-Bold.ttf
         - asset: fonts/TurretRoad-Medium.ttf
+    - family: BigShouldersText
+      fonts:
         - asset: fonts/BigShouldersText-Bold.ttf
+    - family: BigShouldersDisplay
+      fonts:
         - asset: fonts/BigShouldersDisplay-Medium.ttf
       
     # - family: Schyler
