@@ -1,12 +1,9 @@
-//required 
 import 'package:flutter/material.dart';
-
-//import pages
 import 'pages/homepage.dart';
 import 'pages/signin.dart';
 import 'pages/get_started.dart';
-
-
+import 'pages/checkyouremail.dart';
+import 'pages/createyourprofile.dart'
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +12,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,10 +19,10 @@ class MyApp extends StatelessWidget {
       home: HomePage(),
       routes: {
         '/signin': (context) => SignInPage(),
-        '/getstarted': (context) => GetStartedPage(), // Added route
-
+        '/getstarted': (context) => GetStartedPage(),
+        '/checkyouremail': (context) => CheckYourEmailPage(), // Added route
+        '/createyourprofile': (context) => CreateYourProfilePage(), // Added route
       },
     );
   }
 }
-

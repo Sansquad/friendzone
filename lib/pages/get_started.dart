@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class GetStartedPage extends StatefulWidget {
   @override
   _GetStartedPageState createState() => _GetStartedPageState();
@@ -154,7 +155,8 @@ class _GetStartedPageState extends State<GetStartedPage> {
                           style: TextStyle(
                             fontFamily: 'BigShouldersDisplay',
                             fontSize: 20,
-                            fontWeight: FontWeight.w600, // Semibold
+                            fontWeight: FontWeight.w500, // Semibold
+                            color: Colors.black,
                           ),
                         ),
                       ),
