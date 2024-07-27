@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 //import pages
 import 'pages/homepage.dart';
 import 'pages/signin.dart';
+import 'pages/get_started.dart';
+
 
 
 void main() {
@@ -21,9 +23,10 @@ class MyApp extends StatelessWidget {
       home: HomePage(),
       routes: {
         '/signin': (context) => SignInPage(),
-      }
+        '/getstarted': (context) => GetStartedPage(), // Added route
+
+      },
     );
   }
 }
-
 

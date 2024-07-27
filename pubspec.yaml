@@ -45,14 +45,22 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/icons/
+    - assets/images/background_blue.png
+
 
   fonts:
+    - family: BigShouldersDisplay
+      fonts:
+        - asset: fonts/BigShouldersDisplay-Regular.ttf
+    - family: BigShouldersText
+      fonts:
+        - asset: fonts/BigShouldersText-Regular.ttf
+        - asset: fonts/BigShouldersText-Bold.ttf
+        - asset: fonts/BigShouldersText-SemiBold.ttf
+          weight: 700
     - family: TurretRoad
       fonts:
-        - asset: fonts/TurretRoad-Bold.ttf
-        - asset: fonts/TurretRoad-Medium.ttf
-        - asset: fonts/BigShouldersText-Bold.ttf
-        - asset: fonts/BigShouldersDisplay-Medium.ttf
+        - asset: fonts/TurretRoad-Regular.ttf
       
     # - family: Schyler
     #   fonts:
