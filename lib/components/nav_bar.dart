@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class NavBarComponent extends StatelessWidget {
   final int currentIndex;
@@ -12,18 +13,37 @@ class NavBarComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NavigationBar(
-      backgroundColor: Colors.blueAccent,
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+      backgroundColor: Colors.transparent,
+      indicatorColor: Colors.transparent,
       selectedIndex: currentIndex,
       onDestinationSelected: onDestinationSelected,
-      destinations: const [
-        NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+      destinations: [
         NavigationDestination(
-            icon: Icon(Icons.local_fire_department_rounded), label: 'Best'),
+            icon: SvgPicture.asset(currentIndex == 0
+                ? 'assets/icons/nav_home_highlight.svg'
+                : 'assets/icons/nav_home.svg'),
+            label: 'Home'),
         NavigationDestination(
-            icon: Icon(Icons.add_box_outlined), label: 'Post'),
+            icon: SvgPicture.asset(currentIndex == 1
+                ? 'assets/icons/nav_best_highlight.svg'
+                : 'assets/icons/nav_best.svg'),
+            label: 'Best'),
         NavigationDestination(
-            icon: Icon(Icons.all_inbox_rounded), label: 'Archive'),
-        NavigationDestination(icon: Icon(Icons.more_horiz), label: 'More')
+            icon: SvgPicture.asset(currentIndex == 2
+                ? 'assets/icons/nav_post_highlight.svg'
+                : 'assets/icons/nav_post.svg'),
+            label: 'Post'),
+        NavigationDestination(
+            icon: SvgPicture.asset(currentIndex == 3
+                ? 'assets/icons/nav_archive_highlight.svg'
+                : 'assets/icons/nav_archive.svg'),
+            label: 'Archive'),
+        NavigationDestination(
+            icon: SvgPicture.asset(currentIndex == 4
+                ? 'assets/icons/nav_more_highlight.svg'
+                : 'assets/icons/nav_more.svg'),
+            label: 'More'),
       ],
     );
   }

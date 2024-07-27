@@ -1,6 +1,6 @@
 //required
 import 'package:flutter/material.dart';
-import 'package:friendzone/pages/content_home_page.dart';
+import 'package:friendzone/pages/content_layout.dart';
 
 //import pages
 import 'pages/home_page.dart';
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: const ContentHomePage(),
+        home: const ContentLayout(),
         routes: {
           '/signin': (context) => SignInPage(),
         });
