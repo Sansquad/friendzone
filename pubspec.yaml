@@ -57,6 +57,10 @@ flutter:
     - family: BigShouldersDisplay
       fonts:
         - asset: fonts/BigShouldersDisplay-Medium.ttf
+    - family: ABeeZee
+      fonts:
+        - asset: fonts/ABeeZee-Regular.ttf
+        - asset: fonts/ABeeZee-Italic.ttf
       
     # - family: Schyler
     #   fonts:
