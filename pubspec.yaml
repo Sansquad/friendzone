@@ -37,17 +37,18 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/background_blue.png
+    - assets/fonts
 
 
   fonts:
     - family: BigShouldersDisplay
       fonts:
-        - asset: fonts/BigShouldersDisplay-Regular.ttf
+        - asset: assets/fonts/BigShouldersDisplay-Regular.ttf
     - family: BigShouldersText
       fonts:
-        - asset: fonts/BigShouldersText-Regular.ttf
-        - asset: fonts/BigShouldersText-Bold.ttf
-        - asset: fonts/BigShouldersText-SemiBold.ttf
+        - asset: assets/fonts/BigShouldersText-Regular.ttf
+        - asset: assets/fonts/BigShouldersText-Bold.ttf
+        - asset: assets/fonts/BigShouldersText-SemiBold.ttf
           weight: 700
     - family: TurretRoad
       fonts:
