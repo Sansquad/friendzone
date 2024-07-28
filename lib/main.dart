@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:friendzone/pages/content_layout.dart';
 import 'pages/home_page.dart';
 import 'pages/sign_in_page.dart';
 import 'pages/get_started.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       //debugShowMaterialGrid: true,
-      home: HomePage(),
+      home: ContentLayout(),
       routes: {
         '/signin': (context) => SignInPage(),
         '/getstarted': (context) => GetStartedPage(),

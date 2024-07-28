@@ -64,7 +64,7 @@ class _ContentHomeState extends State<ContentHome> {
                   height: 27,
                   width: 27,
                 ),
-                SizedBox(width: 8),
+                SizedBox(width: 12),
                 Text(
                   'Zone C - 137',
                   style: TextStyle(
@@ -86,8 +86,15 @@ class _ContentHomeState extends State<ContentHome> {
                 ))
           ],
         ),
-        body: ListView.builder(
+        body: ListView.separated(
             itemCount: _posts.length,
+            separatorBuilder: (BuildContext context, int index) => Divider(
+                  color: Color(0xff999999),
+                  height: 0,
+                  thickness: 1,
+                  indent: 20,
+                  endIndent: 20,
+                ),
             itemBuilder: (context, index) {
               return PostWidget(postData: _posts[index]);
             }));

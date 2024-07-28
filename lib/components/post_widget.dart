@@ -23,7 +23,7 @@ class PostWidget extends StatelessWidget {
                   backgroundColor: Colors.grey[300],
                   child: Icon(Icons.person, color: Colors.white),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 8),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -84,17 +84,18 @@ class PostWidget extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    SvgPicture.asset(
-                      'assets/icons/post_like.svg',
-                      height: 15,
-                      width: 15,
+                    Image.asset(
+                      'assets/icons/post_like.png',
+                      height: 12,
+                      width: 12,
                     ),
                     SizedBox(width: 5),
                     Text(postData['likes']!),
-                    SvgPicture.asset(
-                      'assets/icons/post_comment.svg',
-                      height: 15,
-                      width: 15,
+                    SizedBox(width: 10),
+                    Image.asset(
+                      'assets/icons/post_comment.png',
+                      height: 12,
+                      width: 12,
                     ),
                     SizedBox(width: 5),
                     Text(postData['comments']!),
