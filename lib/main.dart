@@ -1,10 +1,11 @@
-//required
 import 'package:flutter/material.dart';
-import 'package:friendzone/pages/content_layout.dart';
-
-//import pages
 import 'pages/home_page.dart';
 import 'pages/sign_in_page.dart';
+import 'pages/get_started.dart';
+import 'pages/checkyouremail.dart';
+import 'pages/createyourprofile.dart';
+import 'pages/welcometofriendzone.dart';
+import 'pages/google_map_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,15 +14,20 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        //debugShowMaterialGrid: true,
-        home: const ContentLayout(),
-        routes: {
-          '/signin': (context) => SignInPage(),
-        });
+      debugShowCheckedModeBanner: false,
+      //debugShowMaterialGrid: true,
+      home: HomePage(),
+      routes: {
+        '/signin': (context) => SignInPage(),
+        '/getstarted': (context) => GetStartedPage(),
+        '/checkyouremail': (context) => CheckYourEmailPage(),
+        '/createyourprofile': (context) => CreateYourProfilePage(),
+        '/welcometofriendzone': (context) => WelcomeToFriendZonePage(),
+        '/googlemappage': (context) => GoogleMapPage(),
+      },
+    );
   }
 }
