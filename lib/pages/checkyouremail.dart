@@ -100,6 +100,8 @@ class _CheckYourEmailPageState extends State<CheckYourEmailPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         // Add your confirm action here
+                        Navigator.pushNamed(context, '/createyourprofile');
+
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF69B7FF),

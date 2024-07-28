@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CreateYourProfilePage extends StatefulWidget {
@@ -33,7 +34,7 @@ class _CreateYourProfilePageState extends State<CreateYourProfilePage> {
                 Align(
                   alignment: Alignment.topCenter,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 125, 0, 20), // Adjust padding for positioning
+                    padding: const EdgeInsets.fromLTRB(0, 55, 0, 20), // Adjust padding for positioning
                     child: Text(
                       'Create your profile',
                       style: TextStyle(
@@ -72,7 +73,7 @@ class _CreateYourProfilePageState extends State<CreateYourProfilePage> {
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: Color(0xFF818080),
+                          color: Color(0xFFF0EDED),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Center(
@@ -122,6 +123,8 @@ class _CreateYourProfilePageState extends State<CreateYourProfilePage> {
                   child: ElevatedButton(
                     onPressed: () {
                       // Add your next action here
+                      //changed from welcometofriendzone to googlemappage for testing
+                      Navigator.pushNamed(context, '/googlemappage');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF69B7FF),
@@ -135,10 +138,15 @@ class _CreateYourProfilePageState extends State<CreateYourProfilePage> {
                         fontFamily: 'BigShouldersDisplay',
                         fontSize: 20,
                         fontWeight: FontWeight.w600, // Semibold
+                        color:Colors.black,
                       ),
                     ),
-                  ),
+                  ),         
                 ),
+                SizedBox(height: 300),
+                Padding(
+                padding: EdgeInsets.only(bottom: 200),
+                 ), // Additional padding at the bottom
               ],
             ),
           ),
