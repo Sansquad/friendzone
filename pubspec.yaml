@@ -49,18 +49,18 @@ flutter:
   fonts:
     - family: TurretRoad
       fonts:
-        - asset: fonts/TurretRoad-Bold.ttf
-        - asset: fonts/TurretRoad-Medium.ttf
+        - asset: assets/fonts/TurretRoad-Bold.ttf
+        - asset: assets/fonts/TurretRoad-Medium.ttf
     - family: BigShouldersText
       fonts:
-        - asset: fonts/BigShouldersText-Bold.ttf
+        - asset: assets/fonts/BigShouldersText-Bold.ttf
     - family: BigShouldersDisplay
       fonts:
-        - asset: fonts/BigShouldersDisplay-Medium.ttf
+        - asset: assets/fonts/BigShouldersDisplay-Medium.ttf
     - family: ABeeZee
       fonts:
-        - asset: fonts/ABeeZee-Regular.ttf
-        - asset: fonts/ABeeZee-Italic.ttf
+        - asset: assets/fonts/ABeeZee-Regular.ttf
+        - asset: assets/fonts/ABeeZee-Italic.ttf
       
     # - family: Schyler
     #   fonts:

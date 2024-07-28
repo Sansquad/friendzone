@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class PostWidget extends StatelessWidget {
   final Map<String, String> postData;
@@ -18,7 +19,7 @@ class PostWidget extends StatelessWidget {
             Row(
               children: [
                 CircleAvatar(
-                  radius: 14.5,
+                  radius: 16,
                   backgroundColor: Colors.grey[300],
                   child: Icon(Icons.person, color: Colors.white),
                 ),
@@ -29,43 +30,72 @@ class PostWidget extends StatelessWidget {
                     Text(
                       postData['username']!,
                       style: TextStyle(
-                          fontFamily: 'BigShouldersDisplay',
-                          fontWeight: FontWeight.w600),
+                        fontFamily: 'BigShouldersDisplay',
+                        fontWeight: FontWeight.w600,
+                        //fontSize: 12,
+                      ),
                     ),
-                    Text(postData['timestamp']!,
-                        style: TextStyle(
-                            fontFamily: 'BigShouldersDisplay',
-                            fontWeight: FontWeight.w300,
-                            color: Color(0xff818080))),
+                    Text(
+                      postData['timestamp']!,
+                      style: TextStyle(
+                        fontFamily: 'BigShouldersDisplay',
+                        fontWeight: FontWeight.w300,
+                        color: Color(0xff818080),
+                        fontSize: 12,
+                      ),
+                    ),
                   ],
                 ),
                 Spacer(),
+                SvgPicture.asset(
+                  'assets/icons/bar_home.svg',
+                  height: 15,
+                  width: 15,
+                ),
+                SizedBox(width: 5),
                 Text(
                   postData['location']!,
-                  style: TextStyle(color: Colors.grey),
+                  style: TextStyle(
+                      fontFamily: 'BigShouldersDisplay',
+                      fontWeight: FontWeight.normal,
+                      color: Color(0xff808080)
+                      //fontSize: 12,
+                      ),
                 ),
               ],
             ),
             SizedBox(height: 10),
-            Text(postData['text']!),
+            Text(
+              postData['text']!,
+              style: TextStyle(
+                fontFamily: 'ABeeZee',
+                fontWeight: FontWeight.normal,
+                color: Color(0xff323232),
+                fontSize: 13,
+              ),
+            ),
             if (postData['imageUrl']!.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Image.network(postData['imageUrl']!),
               ),
+            SizedBox(height: 10),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    Icon(Icons.thumb_up_off_alt, size: 20),
+                    SvgPicture.asset(
+                      'assets/icons/post_like.svg',
+                      height: 15,
+                      width: 15,
+                    ),
                     SizedBox(width: 5),
                     Text(postData['likes']!),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Icon(Icons.comment, size: 20),
+                    SvgPicture.asset(
+                      'assets/icons/post_comment.svg',
+                      height: 15,
+                      width: 15,
+                    ),
                     SizedBox(width: 5),
                     Text(postData['comments']!),
                   ],
