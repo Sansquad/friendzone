@@ -45,5 +45,13 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	
+	<!-- Added below for GoogleMaps permission on Ios 2024-07-27 -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location to show your current position on the map</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We need your location to show your current position on the map</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We need your location to show your current position on the map</string>
 </dict>
 </plist>
