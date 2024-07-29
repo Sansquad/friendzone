@@ -13,6 +13,7 @@ class NavBarComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NavigationBar(
+      overlayColor: WidgetStateProperty.all<Color>(Colors.transparent),
       labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       backgroundColor: Colors.transparent,
       indicatorColor: Colors.transparent,
