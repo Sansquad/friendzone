@@ -15,6 +15,8 @@ class HomePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+
+              const SizedBox(height: 50),
               // Logo
               Image.asset(
                 'assets/icons/logo_temp.png', // Ensure the image exists in this path
@@ -46,7 +48,7 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 20), // Increased space between text and buttons
+              const SizedBox(height: 60), // Increased space between text and buttons
               SizedBox(
                 width: 288,
                 height: 48,

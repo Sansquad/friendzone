@@ -18,10 +18,13 @@ dependencies:
   #hell yeah we adding googlmaps boyyyy 20240727|23:17
   location: ^7.0.0
   google_maps_flutter: ^2.5.3
+  geolocator: ^12.0.0
 
 
   cupertino_icons: ^1.0.6
   flutter_svg: ^2.0.10+1
+  firebase_core: ^3.2.0
+  cloud_firestore: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -42,23 +45,22 @@ flutter:
   fonts:
     - family: BigShouldersDisplay
       fonts:
-        - asset: fonts/BigShouldersDisplay-Regular.ttf
-        - asset: fonts/BigShouldersDisplay-Medium.ttf
+        - asset: assets/fonts/BigShouldersDisplay-Regular.ttf
+        - asset: assets/fonts/BigShouldersDisplay-Medium.ttf
     - family: BigShouldersText
       fonts:
-        - asset: fonts/BigShouldersText-Regular.ttf
-        - asset: fonts/BigShouldersText-Bold.ttf
-        - asset: fonts/BigShouldersText-SemiBold.ttf
+        - asset: assets/fonts/BigShouldersText-Regular.ttf
+        - asset: assets/fonts/BigShouldersText-Bold.ttf
+        - asset: assets/fonts/BigShouldersText-SemiBold.ttf
           weight: 700
     - family: TurretRoad
       fonts:
-        - asset: fonts/TurretRoad-Bold.ttf
-        - asset: fonts/TurretRoad-Medium.ttf
-
+        - asset: assets/fonts/TurretRoad-Bold.ttf
+        - asset: assets/fonts/TurretRoad-Medium.ttf
     - family: ABeeZee
       fonts:
-        - asset: fonts/ABeeZee-Regular.ttf
-        - asset: fonts/ABeeZee-Italic.ttf
+        - asset: assets/fonts/ABeeZee-Regular.ttf
+        - asset: assets/fonts/ABeeZee-Italic.ttf
       
     # - family: Schyler
     #   fonts:

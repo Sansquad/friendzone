@@ -163,6 +163,53 @@ class _GetStartedPageState extends State<GetStartedPage> {
                     );
                   },
                 ),
+
+                // Adding "- or -", Google Sign in, Apple sign in
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFF818080),
+                          thickness: 1,
+                          endIndent: 8,
+                        ),
+                      ),
+                      Text(
+                        'OR',
+                        style: TextStyle(
+                          fontFamily: 'BigShouldersDisplay',
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF818080),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFF818080),
+                          thickness: 1,
+                          indent: 8,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                // Continue with Apple button
+                SocialButton(
+                  assetPath: 'assets/icons/apple_logo.png',
+                  text: 'Continue with Apple',
+                ),
+                SizedBox(height: 10),
+                // Continue with Google button
+                SocialButton(
+                  assetPath: 'assets/icons/google_logo.png',
+                  text: 'Continue with Google',
+                ),
+                SizedBox(height: 20),
+
+
                 SizedBox(height: 20),
                 RichText(
                   text: TextSpan(
@@ -259,6 +306,56 @@ class CustomTextField extends StatelessWidget {
             ),
           ),
           suffixIcon: suffixIcon,
+        ),
+      ),
+    );
+  }
+}
+
+class SocialButton extends StatelessWidget {
+  final String assetPath;
+  final String text;
+
+  const SocialButton({required this.assetPath, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 313,
+      height: 47,
+      child: OutlinedButton(
+        onPressed: () {},
+        style: OutlinedButton.styleFrom(
+          padding: EdgeInsets.symmetric(horizontal: 12.0), // Adjust padding to align logos to the left
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          side: BorderSide(
+            color: Color(0xFFCECECE),
+            width: 2,
+          ),
+        ),
+        child: Row(
+          children: [
+            Image.asset(
+              assetPath,
+              height: 24,
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Center(
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    fontFamily: 'BigShouldersDisplay',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -16,7 +16,7 @@ class _ContentHomeState extends State<ContentHome> {
       'timestamp': '30 minutes ago',
       'text':
           'I am so extremely hungry\nNo breakfast. 2 eggs for lunch. 10 hours of work.... Can’t wait to go home...',
-      'location': 'Grid A - 857',
+      'location': 'Grid C - 137',
       'likes': '1',
       'comments': '6',
       'imageUrl': ''
@@ -25,7 +25,7 @@ class _ContentHomeState extends State<ContentHome> {
       'username': 'ilovedanchu',
       'timestamp': '44 minutes ago',
       'text': 'Peaceful Tuesday',
-      'location': 'Grid A - 857',
+      'location': 'Grid C - 137',
       'likes': '1',
       'comments': '6',
       'imageUrl':
@@ -35,7 +35,7 @@ class _ContentHomeState extends State<ContentHome> {
       'username': 'hellothisisxyz',
       'timestamp': '4 hours ago',
       'text': 'watch this video\nhttps://www.youtube.com/watch?v=E8H-67ILaqc',
-      'location': 'Grid A - 857',
+      'location': 'Grid C - 137',
       'likes': '1',
       'comments': '6',
       'imageUrl': ''
@@ -44,7 +44,7 @@ class _ContentHomeState extends State<ContentHome> {
       'username': 'hiddenperson',
       'timestamp': '4 hours ago',
       'text': 'damn you found me by scrolling are you flutter god',
-      'location': 'Grid A - 857',
+      'location': 'Grid C - 137',
       'likes': '1',
       'comments': '6',
       'imageUrl': ''
@@ -56,7 +56,7 @@ class _ContentHomeState extends State<ContentHome> {
     return Scaffold(
         appBar: AppBar(
           title: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
               children: [
                 SvgPicture.asset(
@@ -81,7 +81,7 @@ class _ContentHomeState extends State<ContentHome> {
             IconButton(
                 onPressed: () {},
                 icon: Padding(
-                  padding: const EdgeInsets.only(right: 21.0),
+                  padding: const EdgeInsets.only(right: 15.0),
                   child: SvgPicture.asset('assets/icons/bar_map.svg'),
                 ))
           ],

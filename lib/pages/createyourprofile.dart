@@ -18,7 +18,7 @@ class _CreateYourProfilePageState extends State<CreateYourProfilePage> {
             Navigator.pop(context); // Navigate back to the previous screen
           },
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.black),
       ),
@@ -124,6 +124,7 @@ class _CreateYourProfilePageState extends State<CreateYourProfilePage> {
                     onPressed: () {
                       // Add your next action here
                       //changed from welcometofriendzone to googlemappage for testing
+                      // Navigator.pushNamed(context, '/googlemappage');
                       Navigator.pushNamed(context, '/googlemappage');
                     },
                     style: ElevatedButton.styleFrom(
