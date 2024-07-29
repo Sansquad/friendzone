@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 
-
 class GoogleMapPage extends StatefulWidget {
   const GoogleMapPage({super.key});
 
@@ -114,9 +113,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
           IconButton(
             icon: Icon(Icons.close),
             onPressed: () {
-
-            Navigator.pushNamed(context, '/contentlayout'); // Navigate to contentlayout
-
+              Navigator.pushNamed(context, '/content_layout'); // Navigate to content_layout
             },
           ),
         ],
@@ -159,7 +156,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                 height: 293,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.black, width: 1),
+                  border: Border.all(color: Colors.black, width: 2),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),

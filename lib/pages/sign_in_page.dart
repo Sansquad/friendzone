@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'google_map_page.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -96,7 +97,12 @@ class _SignInPageState extends State<SignInPage> {
                   width: 313,
                   height: 48,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => GoogleMapPage()),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF69B7FF),
                       shape: RoundedRectangleBorder(
