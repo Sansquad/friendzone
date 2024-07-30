@@ -40,14 +40,18 @@ flutter:
     - assets/icons/
     - assets/images/background_blue.png
 
-
   fonts:
     - family: BigShouldersDisplay
       fonts:
         - asset: assets/fonts/BigShouldersDisplay-Regular.ttf
         - asset: assets/fonts/BigShouldersDisplay-Medium.ttf
+        - asset: assets/fonts/BigShouldersDisplay-Regular.ttf
+        - asset: assets/fonts/BigShouldersDisplay-Medium.ttf
     - family: BigShouldersText
       fonts:
+        - asset: assets/fonts/BigShouldersText-Regular.ttf
+        - asset: assets/fonts/BigShouldersText-Bold.ttf
+        - asset: assets/fonts/BigShouldersText-SemiBold.ttf
         - asset: assets/fonts/BigShouldersText-Regular.ttf
         - asset: assets/fonts/BigShouldersText-Bold.ttf
         - asset: assets/fonts/BigShouldersText-SemiBold.ttf
