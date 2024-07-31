@@ -1,6 +1,5 @@
 # Uncomment this line to define a global platform for your project
-# Uncommented and changed from 12.0 to 14.0 20240717
-platform :ios, '14.0'
+# platform :ios, '12.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -34,9 +33,6 @@ target 'Runner' do
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   target 'RunnerTests' do
-    #added 20240730 in attempt to enhance xcode buildtime | clour_firestore_package_Ver : 5.1.0
-    # pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '5.1.0'
-    
     inherit! :search_paths
   end
 end
@@ -46,4 +42,3 @@ post_install do |installer|
     flutter_additional_ios_build_settings(target)
   end
 end
-
