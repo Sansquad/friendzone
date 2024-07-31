@@ -93,33 +93,30 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 SizedBox(height: 20),
                 // Sign in button
-                SizedBox(
-                  width: 313,
-                  height: 48,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => GoogleMapPage()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF69B7FF),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    child: Text(
-                      'Sign In',
-                      style: TextStyle(
-                        fontFamily: 'BigShouldersDisplay',
-                        fontSize: 20,
-                        fontWeight: FontWeight.w300, // Semibold
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
+SizedBox(
+  width: 313,
+  height: 48,
+  child: ElevatedButton(
+    onPressed: () {
+      Navigator.pushNamed(context, '/contentlayout'); // Navigate to contentlayout
+    },
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Color(0xFF69B7FF),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+    ),
+    child: Text(
+      'Sign In',
+      style: TextStyle(
+        fontFamily: 'BigShouldersDisplay',
+        fontSize: 20,
+        fontWeight: FontWeight.w300, // Semibold
+        color: Colors.black,
+      ),
+    ),
+  ),
+),
                 SizedBox(height: 10),
                 // Align "Forgot Password?" with the right side of the sign-in button
                 Container(
