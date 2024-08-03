@@ -1,5 +1,10 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
-import 'google_map_page.dart';
+import 'package:flutter/widgets.dart';
+import 'package:friendzone/components/authentication/firebase_auth_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../widgets/form_container_widget.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -7,15 +12,18 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  bool _obscureText = true;
+
+  final FirebaseAuthService _auth = FirebaseAuthService();
 
   // take in either username/ email
-  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _usernameOrEmailController = TextEditingController();
+  // TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
   @override
     void dispose() {
-      _usernameController.dispose();
+      _usernameOrEmailController.dispose();
+      // _emailController.dispose();
       _passwordController.dispose();
       super.dispose();
     }
@@ -28,7 +36,7 @@ class _SignInPageState extends State<SignInPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // Navigate back to the previous screen (home page)
+            Navigator.pop(context); // Navigate back to the previous screen
           },
         ),
         backgroundColor: Colors.white,
@@ -43,45 +51,37 @@ class _SignInPageState extends State<SignInPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                // Sign in text
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(36, 0, 0, 40), // Adjust padding to bring up
-                    child: Text(
-                      'Sign in',
-                      style: TextStyle(
-                        fontFamily: 'BigShouldersText',
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black, // Adjust color for better contrast with the background
-                      ),
-                    ),
+
+              children: [
+                Text(
+                  "Sign in",
+                  style: TextStyle(
+                    fontFamily: 'BigShouldersText',
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
                 ),
-                // Email Address or Username TextField
-                CustomTextField(
+                SizedBox(
+                  height: 20,
+                ),
+
+                FormContainerWidget(
+                  controller:_usernameOrEmailController,
+                  // controller: _emailController,
                   hintText: 'Email Address or Username',
-                  obscureText: false,
+                  
+                  isPasswordField: false,
                 ),
-                SizedBox(height: 20),
-                // Password TextField with visibility toggle
-                CustomTextField(
+                SizedBox(height: 20,),
+
+                FormContainerWidget(
+                  controller: _passwordController,
                   hintText: 'Password',
-                  obscureText: _obscureText,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscureText ? Icons.visibility : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
-                  ),
+                  isPasswordField: true,
                 ),
-                SizedBox(height: 10),
+              // ],
+                SizedBox(height: 20,),
                 // Align "Remember me?" checkbox with the left side of the sign-in button
                 Container(
                   width: 313,
@@ -110,7 +110,7 @@ SizedBox(
   height: 48,
   child: ElevatedButton(
     onPressed: () {
-      Navigator.pushNamed(context, '/contentlayout'); // Navigate to contentlayout
+      _signIn();
     },
     style: ElevatedButton.styleFrom(
       backgroundColor: Color(0xFF69B7FF),
@@ -253,55 +253,42 @@ SizedBox(
       ),
     );
   }
-}
 
-class CustomTextField extends StatelessWidget {
-  final String hintText;
-  final bool obscureText;
-  final Widget? suffixIcon;
+ void _signIn() async{
+    String input = _usernameOrEmailController.text;
+    // String email = _emailController.text;
+    String password = _passwordController.text;
 
-  const CustomTextField({
-    required this.hintText,
-    this.obscureText = false,
-    this.suffixIcon,
-  });
+    String? email;
+    if (input.contains('@')) {
+      email = input;
+    } else {
+      email = await _auth.getEmailFromUsername(input);
+    }
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 313,
-      height: 47,
-      child: TextField(
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(
-            fontFamily: 'BigShouldersDisplay',
-            fontSize: 17,
-            fontWeight: FontWeight.w500,
-          ),
-          filled: true,
-          fillColor: Colors.white,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(
-              color: Color(0xFFF0EDED),
-              width: 2,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(
-              color: Color(0xFFF0EDED),
-              width: 2,
-            ),
-          ),
-          suffixIcon: suffixIcon,
-        ),
-      ),
-    );
+ if (email != null) {
+    try {
+
+      User? user = await _auth.signInWithEmailAndPassword(email, password);
+      if (user != null) {
+        print('Sign in successful');
+        if (mounted) {
+          Navigator.pushNamed(context, '/contentlayout');
+        }
+      } else {
+        print('Sign in failed: User is null');
+      }
+    } on FirebaseAuthException catch (e) {
+      print('Sign in failed: ${e.message}');
+    } catch (e) {
+      print('Sign in failed: $e');
+    }
+  } else {
+    print('No user found for that username.');
+  }
   }
 }
+
 
 class SocialButton extends StatelessWidget {
   final String assetPath;
@@ -351,4 +338,7 @@ class SocialButton extends StatelessWidget {
       ),
     );
   }
+
+
+
 }
