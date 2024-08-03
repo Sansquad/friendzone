@@ -1,6 +1,9 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:friendzone/components/authentication/firebase_auth_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/form_container_widget.dart';
 
 class SignIn2Page extends StatefulWidget {
@@ -9,15 +12,18 @@ class SignIn2Page extends StatefulWidget {
 }
 
 class _SignIn2PageState extends State<SignIn2Page> {
-  bool _obscureText = true; 
+
+  final FirebaseAuthService _auth = FirebaseAuthService();
 
   // take in either username/ email
-  TextEditingController _usernameController = TextEditingController();
+  // TextEditingController _usernameOrEmailController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
   @override
     void dispose() {
-      _usernameController.dispose();
+      // _usernameOrEmailController.dispose();
+      _emailController.dispose();
       _passwordController.dispose();
       super.dispose();
     }
@@ -30,7 +36,7 @@ class _SignIn2PageState extends State<SignIn2Page> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // Navigate back to the previous screen (home page)
+            _signIn();
           },
         ),
         backgroundColor: Colors.white,
@@ -61,7 +67,8 @@ class _SignIn2PageState extends State<SignIn2Page> {
                 ),
 
                 FormContainerWidget(
-                  controller: _usernameController,
+                  // controller:_usernameOrEmailController,
+                  controller: _emailController,
                   hintText: 'Email Address or Username',
                   
                   isPasswordField: false,
@@ -246,6 +253,25 @@ SizedBox(
       ),
     );
   }
+
+ void _signIn() async{
+    // String email = _usernameOrEmailController.text;
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    User? user = await _auth.signInWithEmailAndPassword(email, password);
+
+    if (user != null) {
+      print('Sign in successful');
+      if (mounted) {
+      Navigator.pushNamed(context, '/contentlayout');
+      }
+
+    } else {
+      print('Sign in failed');
+    }
+  }
+
 }
 
 
@@ -297,4 +323,7 @@ class SocialButton extends StatelessWidget {
       ),
     );
   }
+
+
+
 }
