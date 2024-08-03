@@ -54,7 +54,8 @@ class HomePage extends StatelessWidget {
                 height: 48,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/signin2'); // Navigate to sign-in page
+                    print('Sign In Button Pressed'); // Debug print
+                    Navigator.pushNamed(context, '/signin'); // Navigate to sign-in page
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
@@ -75,7 +76,7 @@ class HomePage extends StatelessWidget {
                 height: 48,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/getstarted2'); // Navigate to get started page
+                    Navigator.pushNamed(context, '/getstarted'); // Navigate to get started page
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
