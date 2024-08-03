@@ -16,14 +16,14 @@ class _SignIn2PageState extends State<SignIn2Page> {
   final FirebaseAuthService _auth = FirebaseAuthService();
 
   // take in either username/ email
-  // TextEditingController _usernameOrEmailController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
+  TextEditingController _usernameOrEmailController = TextEditingController();
+  // TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
   @override
     void dispose() {
-      // _usernameOrEmailController.dispose();
-      _emailController.dispose();
+      _usernameOrEmailController.dispose();
+      // _emailController.dispose();
       _passwordController.dispose();
       super.dispose();
     }
@@ -36,7 +36,7 @@ class _SignIn2PageState extends State<SignIn2Page> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            _signIn();
+            Navigator.pop(context); // Navigate back to the previous screen
           },
         ),
         backgroundColor: Colors.white,
@@ -67,13 +67,13 @@ class _SignIn2PageState extends State<SignIn2Page> {
                 ),
 
                 FormContainerWidget(
-                  // controller:_usernameOrEmailController,
-                  controller: _emailController,
+                  controller:_usernameOrEmailController,
+                  // controller: _emailController,
                   hintText: 'Email Address or Username',
                   
                   isPasswordField: false,
                 ),
-                SizedBox(height: 10,),
+                SizedBox(height: 20,),
 
                 FormContainerWidget(
                   controller: _passwordController,
@@ -81,7 +81,7 @@ class _SignIn2PageState extends State<SignIn2Page> {
                   isPasswordField: true,
                 ),
               // ],
-                SizedBox(height: 10,),
+                SizedBox(height: 20,),
                 // Align "Remember me?" checkbox with the left side of the sign-in button
                 Container(
                   width: 313,
@@ -110,7 +110,7 @@ SizedBox(
   height: 48,
   child: ElevatedButton(
     onPressed: () {
-      Navigator.pushNamed(context, '/contentlayout'); // Navigate to contentlayout
+      _signIn();
     },
     style: ElevatedButton.styleFrom(
       backgroundColor: Color(0xFF69B7FF),
@@ -255,23 +255,38 @@ SizedBox(
   }
 
  void _signIn() async{
-    // String email = _usernameOrEmailController.text;
-    String email = _emailController.text;
+    String input = _usernameOrEmailController.text;
+    // String email = _emailController.text;
     String password = _passwordController.text;
 
-    User? user = await _auth.signInWithEmailAndPassword(email, password);
-
-    if (user != null) {
-      print('Sign in successful');
-      if (mounted) {
-      Navigator.pushNamed(context, '/contentlayout');
-      }
-
+    String? email;
+    if (input.contains('@')) {
+      email = input;
     } else {
-      print('Sign in failed');
+      email = await _auth.getEmailFromUsername(input);
     }
-  }
 
+ if (email != null) {
+    try {
+
+      User? user = await _auth.signInWithEmailAndPassword(email, password);
+      if (user != null) {
+        print('Sign in successful');
+        if (mounted) {
+          Navigator.pushNamed(context, '/contentlayout');
+        }
+      } else {
+        print('Sign in failed: User is null');
+      }
+    } on FirebaseAuthException catch (e) {
+      print('Sign in failed: ${e.message}');
+    } catch (e) {
+      print('Sign in failed: $e');
+    }
+  } else {
+    print('No user found for that username.');
+  }
+  }
 }
 
 

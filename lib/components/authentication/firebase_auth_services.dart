@@ -1,7 +1,29 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseAuthService{
   FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseFirestore _firestore = FirebaseFirestore.instance; // Added Firestore instance
+
+
+  Future<String?> getEmailFromUsername(String username) async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collection('users')
+          .where('username', isEqualTo: username)
+          .limit(1)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+        return snapshot.docs.first['email'] as String;
+      } else {
+        print('No user found for that username.');
+      }
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
 
 
   Future<User?> signUpWithEmailAndPassword(String email, String password) async {
