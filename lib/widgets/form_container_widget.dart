@@ -58,7 +58,7 @@ class _FormContainerWidgetState extends State<FormContainerWidget>{
           filled: true,
           hintText: widget.hintText,
           hintStyle: TextStyle(
-            fontFamily: 'BigShoulderDispaly',
+            fontFamily: 'BigShouldersDisplay',
             fontSize: 17,
             fontWeight: FontWeight.w500,
           ),

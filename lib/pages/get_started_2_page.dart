@@ -1,27 +1,54 @@
-import 'dart:ffi';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import '../widgets/form_container_widget.dart';
 
-class SignIn2Page extends StatefulWidget {
+class GetStarted2Page extends StatefulWidget {
   @override
-  _SignIn2PageState createState() => _SignIn2PageState();
+  _GetStarted2PageState createState() => _GetStarted2PageState();
 }
 
-class _SignIn2PageState extends State<SignIn2Page> {
-  bool _obscureText = true; 
-
-  // take in either username/ email
+class _GetStarted2PageState extends State<GetStarted2Page> {
   TextEditingController _usernameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  
+  ValueNotifier<bool> _isPasswordInvalid = ValueNotifier(false);
+  ValueNotifier<bool> _isPasswordValid = ValueNotifier(false);
+  
+  
+  // Check if password is valid (> 8 characters)
+  @override
+  void initState() {
+    super.initState();
+    _passwordController.addListener(_validatePassword);
+  }
 
+  void _validatePassword() {
+    final password = _passwordController.text;
+    if (password.length >= 8) {
+      _isPasswordValid.value = true;
+      _isPasswordInvalid.value = false;
+    } else {
+      _isPasswordValid.value = false;
+      _isPasswordInvalid.value = true;
+    }
+  }
+  
+  
+  
+  
   @override
     void dispose() {
       _usernameController.dispose();
+      _emailController.dispose();
       _passwordController.dispose();
+
+      _isPasswordInvalid.dispose();
+      _isPasswordValid.dispose();
       super.dispose();
     }
-  
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,102 +72,116 @@ class _SignIn2PageState extends State<SignIn2Page> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
-
-              children: [
-                Text(
-                  "Sign in",
-                  style: TextStyle(
-                    fontFamily: 'BigShouldersText',
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(36, 0, 0, 20), // Adjust padding for positioning
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Get started with Friend',
+                            style: TextStyle(
+                              fontFamily: 'BigShouldersText',
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'zone',
+                            style: TextStyle(
+                              fontFamily: 'BigShouldersText',
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF69B7FF),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 20,
                 ),
 
                 FormContainerWidget(
                   controller: _usernameController,
-                  hintText: 'Email Address or Username',
-                  
+                  hintText: 'Username',
+                  isPasswordField: false,
+                  ),
+                SizedBox(height: 20),
+
+                FormContainerWidget(
+                  controller: _emailController,
+                  hintText: 'Email Address',
                   isPasswordField: false,
                 ),
-                SizedBox(height: 10,),
+                SizedBox(height: 20),
 
                 FormContainerWidget(
                   controller: _passwordController,
                   hintText: 'Password',
                   isPasswordField: true,
                 ),
-              // ],
-                SizedBox(height: 10,),
-                // Align "Remember me?" checkbox with the left side of the sign-in button
-                Container(
-                  width: 313,
-                  child: Row(
-                    children: [
-                      Checkbox(
-                        value: false,
-                        onChanged: (bool? newValue) {},
-                      ),
-                      Text(
-                        'Remember me?',
-                        style: TextStyle(
-                          fontFamily: 'BigShouldersDisplay',
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black, // Adjust color for better contrast
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 SizedBox(height: 20),
-                // Sign in button
-SizedBox(
-  width: 313,
-  height: 48,
-  child: ElevatedButton(
-    onPressed: () {
-      Navigator.pushNamed(context, '/contentlayout'); // Navigate to contentlayout
-    },
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Color(0xFF69B7FF),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-    ),
-    child: Text(
-      'Sign In',
-      style: TextStyle(
-        fontFamily: 'BigShouldersDisplay',
-        fontSize: 20,
-        fontWeight: FontWeight.w300, // Semibold
-        color: Colors.black,
-      ),
-    ),
-  ),
-),
-                SizedBox(height: 10),
-                // Align "Forgot Password?" with the right side of the sign-in button
-                Container(
-                  width: 313,
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 46.0),
                   child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'Forgot Password?',
-                      style: TextStyle(
-                        fontFamily: 'BigShouldersDisplay',
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF818080),
-                      ),
+                    alignment: Alignment.centerLeft,
+                    child: ValueListenableBuilder<bool>(
+                      valueListenable: _isPasswordInvalid,
+                      builder: (context, isPasswordInvalid, child) {
+                        return Text(
+                          'Must be at least 8 characters',
+                          style: TextStyle(
+                            fontFamily: 'BigShouldersDisplay',
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                            color: isPasswordInvalid ? Colors.red : Colors.black,
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
                 SizedBox(height: 20),
-                // OR line with padding
+                ValueListenableBuilder<bool>(
+                  valueListenable: _isPasswordValid,
+                  builder: (context, isPasswordValid, child) {
+                    return SizedBox(
+                      width: 313,
+                      height: 48,
+                      child: ElevatedButton(
+                        onPressed: isPasswordValid
+                            ? () {
+                                Navigator.pushNamed(context, '/contentlayout');
+                              }
+                            : () {
+                                _isPasswordInvalid.value = true;
+                                // Optional: Implement buzzing effect here
+                              },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF69B7FF),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        child: Text(
+                          'Create Account',
+                          style: TextStyle(
+                            fontFamily: 'BigShouldersDisplay',
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500, // Semibold
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+
+                // Adding "- or -", Google Sign in, Apple sign in
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Row(
@@ -184,30 +225,14 @@ SizedBox(
                   text: 'Continue with Google',
                 ),
                 SizedBox(height: 20),
-                // New to Friendzone? Click to Create Account >
+
+
+                SizedBox(height: 20),
                 RichText(
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: 'New to Friend',
-                        style: TextStyle(
-                          fontFamily: 'BigShouldersDisplay',
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF818080),
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'zone',
-                        style: TextStyle(
-                          fontFamily: 'BigShouldersDisplay',
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF69B7FF),
-                        ),
-                      ),
-                      TextSpan(
-                        text: '? ',
+                        text: 'Already have an account? ',
                         style: TextStyle(
                           fontFamily: 'BigShouldersDisplay',
                           fontSize: 17,
@@ -220,25 +245,30 @@ SizedBox(
                         style: TextStyle(
                           fontFamily: 'BigShouldersDisplay',
                           fontSize: 17,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.bold,
                           color: Colors.black,
                           decoration: TextDecoration.underline,
                         ),
                       ),
                       TextSpan(
-                        text: ' to Create Account >',
+                        text: ' to Sign In',
                         style: TextStyle(
                           fontFamily: 'BigShouldersDisplay',
                           fontSize: 17,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                       ),
+                      WidgetSpan(
+                        child: Icon(
+                          Icons.chevron_right,
+                          color: Color(0xFF69B7FF),
+                        ),
+                      ),
                     ],
-                    
                   ),
                 ),
-                SizedBox(height: 120),
+                SizedBox(height: 90),
               ],
             ),
           ),

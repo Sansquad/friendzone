@@ -76,7 +76,7 @@ class HomePage extends StatelessWidget {
                 height: 48,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/getstarted'); // Navigate to get started page
+                    Navigator.pushNamed(context, '/getstarted2'); // Navigate to get started page
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
