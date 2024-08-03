@@ -66,6 +66,7 @@ class _ContentHomeState extends State<ContentHome> {
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
+        automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
@@ -90,9 +91,12 @@ class _ContentHomeState extends State<ContentHome> {
         centerTitle: false,
         actions: [
           IconButton(
-            //highlightColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             visualDensity: VisualDensity.compact,
-            onPressed: () {},
+            onPressed: () {
+              print("Pressed notification icon");
+
+            },
             icon: SvgPicture.asset('assets/icons/bar_notification.svg'),
           ),
           IconButton(

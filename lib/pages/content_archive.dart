@@ -62,6 +62,7 @@ class _ContentArchiveState extends State<ContentArchive> {
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
+        automaticallyImplyLeading:false ,
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
