@@ -18,10 +18,12 @@ dependencies:
   #hell yeah we adding googlmaps boyyyy 20240727|23:17
   location: ^7.0.0
   google_maps_flutter: ^2.5.3
-
+  geolocator: ^12.0.0
 
   cupertino_icons: ^1.0.6
   flutter_svg: ^2.0.10+1
+  firebase_core: ^3.2.0
+  cloud_firestore: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -43,8 +45,13 @@ flutter:
       fonts:
         - asset: assets/fonts/BigShouldersDisplay-Regular.ttf
         - asset: assets/fonts/BigShouldersDisplay-Medium.ttf
+        - asset: assets/fonts/BigShouldersDisplay-Regular.ttf
+        - asset: assets/fonts/BigShouldersDisplay-Medium.ttf
     - family: BigShouldersText
       fonts:
+        - asset: assets/fonts/BigShouldersText-Regular.ttf
+        - asset: assets/fonts/BigShouldersText-Bold.ttf
+        - asset: assets/fonts/BigShouldersText-SemiBold.ttf
         - asset: assets/fonts/BigShouldersText-Regular.ttf
         - asset: assets/fonts/BigShouldersText-Bold.ttf
         - asset: assets/fonts/BigShouldersText-SemiBold.ttf
@@ -53,9 +60,6 @@ flutter:
       fonts:
         - asset: assets/fonts/TurretRoad-Bold.ttf
         - asset: assets/fonts/TurretRoad-Medium.ttf
-    - family: BigShouldersText
-      fonts:
-        - asset: assets/fonts/BigShouldersText-Bold.ttf
     - family: ABeeZee
       fonts:
         - asset: assets/fonts/ABeeZee-Regular.ttf
