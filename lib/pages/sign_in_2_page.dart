@@ -1,13 +1,15 @@
-import 'package:flutter/material.dart';
-import 'google_map_page.dart';
+import 'dart:ffi';
 
-class SignInPage extends StatefulWidget {
+import 'package:flutter/material.dart';
+import '../widgets/form_container_widget.dart';
+
+class SignIn2Page extends StatefulWidget {
   @override
-  _SignInPageState createState() => _SignInPageState();
+  _SignIn2PageState createState() => _SignIn2PageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
-  bool _obscureText = true;
+class _SignIn2PageState extends State<SignIn2Page> {
+  bool _obscureText = true; 
 
   // take in either username/ email
   TextEditingController _usernameController = TextEditingController();
@@ -43,45 +45,35 @@ class _SignInPageState extends State<SignInPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                // Sign in text
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(36, 0, 0, 40), // Adjust padding to bring up
-                    child: Text(
-                      'Sign in',
-                      style: TextStyle(
-                        fontFamily: 'BigShouldersText',
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black, // Adjust color for better contrast with the background
-                      ),
-                    ),
+
+              children: [
+                Text(
+                  "Sign in",
+                  style: TextStyle(
+                    fontFamily: 'BigShouldersText',
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
                 ),
-                // Email Address or Username TextField
-                CustomTextField(
+                SizedBox(
+                  height: 20,
+                ),
+
+                FormContainerWidget(
+                  controller: _usernameController,
                   hintText: 'Email Address or Username',
-                  obscureText: false,
+                  isPasswordField: false,
                 ),
-                SizedBox(height: 20),
-                // Password TextField with visibility toggle
-                CustomTextField(
+                SizedBox(height: 10,),
+
+                FormContainerWidget(
+                  controller: _passwordController,
                   hintText: 'Password',
-                  obscureText: _obscureText,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscureText ? Icons.visibility : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
-                  ),
+                  isPasswordField: true,
                 ),
-                SizedBox(height: 10),
+              // ],
+                SizedBox(height: 10,),
                 // Align "Remember me?" checkbox with the left side of the sign-in button
                 Container(
                   width: 313,
@@ -255,53 +247,6 @@ SizedBox(
   }
 }
 
-class CustomTextField extends StatelessWidget {
-  final String hintText;
-  final bool obscureText;
-  final Widget? suffixIcon;
-
-  const CustomTextField({
-    required this.hintText,
-    this.obscureText = false,
-    this.suffixIcon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 313,
-      height: 47,
-      child: TextField(
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(
-            fontFamily: 'BigShouldersDisplay',
-            fontSize: 17,
-            fontWeight: FontWeight.w500,
-          ),
-          filled: true,
-          fillColor: Colors.white,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(
-              color: Color(0xFFF0EDED),
-              width: 2,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(
-              color: Color(0xFFF0EDED),
-              width: 2,
-            ),
-          ),
-          suffixIcon: suffixIcon,
-        ),
-      ),
-    );
-  }
-}
 
 class SocialButton extends StatelessWidget {
   final String assetPath;

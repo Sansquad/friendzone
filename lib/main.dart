@@ -10,6 +10,7 @@ import 'pages/checkyouremail.dart';
 import 'pages/createyourprofile.dart';
 // import 'pages/google_map_testing.dart';
 import 'pages/google_map_page.dart';
+import 'pages/sign_in_2_page.dart';
 import 'pages/content_layout.dart';
 
 void main() async {
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
       home: HomePage(),
       routes: {
         '/signin': (context) => SignInPage(),
+        '/signin2' : (context) => SignIn2Page(),
         '/getstarted': (context) => GetStartedPage(),
         '/checkyouremail': (context) => CheckYourEmailPage(),
         '/createyourprofile': (context) => CreateYourProfilePage(),
