@@ -1,5 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:friendzone/components/authentication/firebase_auth_services.dart';
+import '../widgets/form_container_widget.dart';
 
 class GetStartedPage extends StatefulWidget {
   @override
@@ -7,27 +11,46 @@ class GetStartedPage extends StatefulWidget {
 }
 
 class _GetStartedPageState extends State<GetStartedPage> {
-  bool _obscureText = true;
-  final TextEditingController _passwordController = TextEditingController();
-  final ValueNotifier<bool> _isPasswordValid = ValueNotifier<bool>(false);
-  final ValueNotifier<bool> _isPasswordInvalid = ValueNotifier<bool>(false);
-
+  
+  final FirebaseAuthService _auth = FirebaseAuthService();
+  
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  
+  ValueNotifier<bool> _isPasswordInvalid = ValueNotifier(false);
+  ValueNotifier<bool> _isPasswordValid = ValueNotifier(false);
+  
+  
+  // Check if password is valid (> 8 characters)
   @override
   void initState() {
     super.initState();
-    _passwordController.addListener(() {
-      _isPasswordValid.value = _passwordController.text.length >= 8;
-      _isPasswordInvalid.value = false;
-    });
+    _passwordController.addListener(_validatePassword);
   }
 
-  @override
-  void dispose() {
-    _passwordController.dispose();
-    _isPasswordValid.dispose();
-    _isPasswordInvalid.dispose();
-    super.dispose();
+  void _validatePassword() {
+    final password = _passwordController.text;
+    if (password.length >= 8) {
+      _isPasswordValid.value = true;
+      _isPasswordInvalid.value = false;
+    } else {
+      _isPasswordValid.value = false;
+      _isPasswordInvalid.value = true;
+    }
   }
+  
+  @override
+    void dispose() {
+      _usernameController.dispose();
+      _emailController.dispose();
+      _passwordController.dispose();
+
+      _isPasswordInvalid.dispose();
+      _isPasswordValid.dispose();
+      super.dispose();
+    }
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +62,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
             Navigator.pop(context); // Navigate back to the previous screen (home page)
           },
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.black),
       ),
@@ -82,32 +105,28 @@ class _GetStartedPageState extends State<GetStartedPage> {
                     ),
                   ),
                 ),
-                CustomTextField(
+
+                FormContainerWidget(
+                  controller: _usernameController,
                   hintText: 'Username',
-                  obscureText: false,
-                ),
-                SizedBox(height: 20),
-                CustomTextField(
-                  hintText: 'Email Address',
-                  obscureText: false,
-                ),
-                SizedBox(height: 20),
-                CustomTextField(
-                  hintText: 'Password',
-                  obscureText: _obscureText,
-                  controller: _passwordController,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscureText ? Icons.visibility : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
+                  isPasswordField: false,
                   ),
+                SizedBox(height: 20),
+
+                FormContainerWidget(
+                  controller: _emailController,
+                  hintText: 'Email Address',
+                  isPasswordField: false,
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 20),
+
+                FormContainerWidget(
+                  controller: _passwordController,
+                  hintText: 'Password',
+                  isPasswordField: true,
+                ),
+                SizedBox(height: 20),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 46.0),
                   child: Align(
@@ -138,7 +157,8 @@ class _GetStartedPageState extends State<GetStartedPage> {
                       child: ElevatedButton(
                         onPressed: isPasswordValid
                             ? () {
-                                Navigator.pushNamed(context, '/checkyouremail');
+                              _signUp();
+                              // Navigator.pushNamed(context, '/contentlayout');
                               }
                             : () {
                                 _isPasswordInvalid.value = true;
@@ -259,58 +279,27 @@ class _GetStartedPageState extends State<GetStartedPage> {
       ),
     );
   }
-}
 
-class CustomTextField extends StatelessWidget {
-  final String hintText;
-  final bool obscureText;
-  final TextEditingController? controller;
-  final Widget? suffixIcon;
+  void _signUp() async{
+    String username = _usernameController.text;
+    String email = _emailController.text;
+    String password = _passwordController.text;
 
-  const CustomTextField({
-    required this.hintText,
-    this.obscureText = false,
-    this.controller,
-    this.suffixIcon,
-  });
+    User? user = await _auth.signUpWithEmailAndPassword(email, password);
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 313,
-      height: 47,
-      child: TextField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(
-            fontFamily: 'BigShouldersDisplay',
-            fontSize: 17,
-            fontWeight: FontWeight.w500,
-          ),
-          filled: true,
-          fillColor: Colors.white,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(
-              color: Color(0xFFF0EDED),
-              width: 2,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(
-              color: Color(0xFFF0EDED),
-              width: 2,
-            ),
-          ),
-          suffixIcon: suffixIcon,
-        ),
-      ),
-    );
+    if (user != null) {
+      print('Sign up successful');
+      if (mounted) {
+      Navigator.pushNamed(context, '/contentlayout');
+      }
+
+    } else {
+      print('Sign up failed');
+    }
   }
+
 }
+
 
 class SocialButton extends StatelessWidget {
   final String assetPath;
