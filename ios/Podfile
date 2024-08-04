@@ -36,12 +36,28 @@ target 'Runner' do
   # TODO another attempt to improve build: was avg 244 seconds ----> 33 seconds. nice.
   pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '10.29.0'
   target 'RunnerTests' do
-    #added 20240730 in attempt to enhance xcode buildtime | clour_firestore_package_Ver : 5.1.0
-    # pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '5.1.0'
-
-   inherit! :search_paths
+    
+    inherit! :search_paths
   end
 end
+
+# added below 08/04 for testing - xcode build error
+# target 'Runner' do
+#   use_frameworks!
+#   use_modular_headers!
+
+#   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+
+#   # Add Firebase dependencies
+#   pod 'Firebase/Core'
+#   pod 'Firebase/Auth'
+#   pod 'Firebase/Firestore'
+#   pod 'Firebase/Analytics' # Add other Firebase pods you need
+
+#   target 'RunnerTests' do
+#     inherit! :search_paths
+#   end
+# end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
