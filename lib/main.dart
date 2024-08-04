@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
       //debugShowMaterialGrid: true,
       home: HomePage(),
       routes: {
+        '/homepage': (context) => HomePage(),
         '/signin' : (context) => SignInPage(),
         '/getstarted': (context) => GetStartedPage(),
         '/checkyouremail': (context) => CheckYourEmailPage(),

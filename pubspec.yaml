@@ -15,19 +15,20 @@ dependencies:
   #
   flutter:
     sdk: flutter
-  #hell yeah we adding googlmaps boyyyy 20240727|23:17
+
   location: ^7.0.0
   google_maps_flutter: ^2.5.3
   geolocator: ^12.0.0
-
   cupertino_icons: ^1.0.6
   flutter_svg: ^2.0.10+1
   firebase_core: ^3.2.0
   cloud_firestore: ^5.1.0
-
-  # adding firebase authentication packages 20240803|11:42
   firebase_auth: ^5.1.3
   firebase_storage: ^12.1.2
+
+  ### google log in 20240803 ###
+  google_sign_in: ^6.2.1
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:

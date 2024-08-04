@@ -1,11 +1,16 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:friendzone/components/authentication/firebase_auth_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:friendzone/pages/authentication_start.dart';
 import '../widgets/form_container_widget.dart';
 
 class GetStartedPage extends StatefulWidget {
+  // final VoidCallback showSignInPage;
+  // const GetStartedPage({Key? key, required this.showSignInPage}) : super(key: key);
+
   @override
   _GetStartedPageState createState() => _GetStartedPageState();
 }
@@ -39,6 +44,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
       _isPasswordInvalid.value = true;
     }
   }
+
   
   @override
     void dispose() {
@@ -59,7 +65,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // Navigate back to the previous screen (home page)
+                Navigator.pushNamed(context, '/homepage');
           },
         ),
         backgroundColor: Colors.white,
@@ -229,54 +235,42 @@ class _GetStartedPageState extends State<GetStartedPage> {
                 ),
                 SizedBox(height: 20),
 
-
-                SizedBox(height: 20),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Already have an account? ',
+                  Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Already have an account? ',
+                      style: TextStyle(
+                        fontFamily: 'BigShouldersDisplay',
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF818080),
+                      ),
+                    ),
+                    GestureDetector(
+                      // onTap: widget.showSignInPage,
+                      onTap: () {
+                        Navigator.pushNamed(context, '/signin');
+                      },
+                  child: Text(
+                        'Sign In',
                         style: TextStyle(
                           fontFamily: 'BigShouldersDisplay',
                           fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF818080),
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'Click',
-                        style: TextStyle(
-                          fontFamily: 'BigShouldersDisplay',
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                      TextSpan(
-                        text: ' to Sign In',
-                        style: TextStyle(
-                          fontFamily: 'BigShouldersDisplay',
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      WidgetSpan(
-                        child: Icon(
-                          Icons.chevron_right,
+                          fontWeight: FontWeight.w700,
                           color: Color(0xFF69B7FF),
-                        ),
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                    ),
+                  ],
+),
                 SizedBox(height: 90),
+
               ],
-            ),
           ),
         ),
       ),
+    ),
     );
   }
 
