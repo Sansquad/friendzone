@@ -20,6 +20,7 @@ import 'pages/content_layout.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  //print("UploadingData...");
   //await uploadDummyData();
   runApp(const MyApp());
 }
