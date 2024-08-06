@@ -10,49 +10,50 @@ class ContentArchive extends StatefulWidget {
 }
 
 class _ContentArchiveState extends State<ContentArchive> {
-  final List<Map<String, String>> _posts = [
+  final List<Map<String, dynamic>> _posts = [
     {
+      'gridCode': 'C - 137',
       'username': 'Kusupman_David',
       'profileImgUrl': '',
       'timestamp': '30 minutes ago',
-      'text':
+      'contentText':
           '**URGENT** how do i divide the earth into zones in flutter. help me dev gods',
-      'location': 'Grid C - 137',
-      'likes': '120344',
-      'comments': '2103',
-      'imageUrl': ''
+      'likeNum': 120344,
+      'commentNum': 2103,
+      'contentImageUrl': ''
     },
     {
+      'gridCode': 'A - 283',
       'username': 'Kusupman_David',
       'profileImgUrl': '',
       'timestamp': '44 minutes ago',
-      'text':
-          'this is a test for very looooooooooooooong looooooooooooooong looooooooooooooong looooooooooooooong text.',
-      'location': 'Grid A - 283',
-      'likes': '10367',
-      'comments': '6292',
-      'imageUrl':
+      'contentText':
+          'this is a test for very looooooooooooooong looooooooooooooong looooooooooooooong looooooooooooooong contentText.',
+      'likeNum': 10367,
+      'commentNum': 6292,
+      'contentImageUrl':
           'https://file.forms.app/sitefile/55+Hilarious-developer-memes-that-will-leave-you-in-splits-9.jpeg'
     },
     {
+      'gridCode': 'D - 283',
       'username': 'Kusupman_David',
       'profileImgUrl': '',
       'timestamp': '4 hours ago',
-      'text': 'watch this video\nhttps://www.youtube.com/watch?v=9RZ2Y-IyK3g',
-      'location': 'Grid D - 283',
-      'likes': '1123',
-      'comments': '632',
-      'imageUrl': ''
+      'contentText':
+          'watch this video\nhttps://www.youtube.com/watch?v=9RZ2Y-IyK3g',
+      'likeNum': 1123,
+      'commentNum': 632,
+      'contentImageUrl': ''
     },
     {
+      'gridCode': 'C - 137',
       'username': 'Kusupman_David',
       'profileImgUrl': '',
       'timestamp': '4 hours ago',
-      'text': 'SPOILER ALERT how muzan dies',
-      'location': 'Grid C - 137',
-      'likes': '1',
-      'comments': '6',
-      'imageUrl':
+      'contentText': 'SPOILER ALERT how muzan dies',
+      'likeNum': 1,
+      'commentNum': 6,
+      'contentImageUrl':
           'https://i.pinimg.com/736x/f9/06/a1/f906a1909dc27df0acedb174d18b6901.jpg'
     }
   ];
@@ -62,7 +63,7 @@ class _ContentArchiveState extends State<ContentArchive> {
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
-        automaticallyImplyLeading:false ,
+        automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(

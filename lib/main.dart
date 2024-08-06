@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:friendzone/firebase_options.dart'; 
+import 'package:friendzone/firebase_options.dart';
 
 import 'package:flutter/material.dart';
 import 'package:friendzone/pages/content_layout.dart';
+import 'database/upload_dummy_data.dart';
 import 'pages/authentication_home.dart';
 import 'pages/authentication_signin.dart';
 import 'pages/authentication_start.dart';
@@ -14,12 +15,12 @@ import 'pages/google_map_page.dart';
 import 'pages/sign_in_2_page.dart';
 import 'pages/get_started_2_page.dart';
 
-
 import 'pages/content_layout.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  //await uploadDummyData();
   runApp(const MyApp());
 }
 
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
       home: HomePage(),
       routes: {
         '/signin': (context) => SignInPage(),
-        '/signin2' : (context) => SignIn2Page(),
+        '/signin2': (context) => SignIn2Page(),
         '/getstarted': (context) => GetStartedPage(),
         '/getstarted2': (context) => GetStarted2Page(),
         '/checkyouremail': (context) => CheckYourEmailPage(),
@@ -42,7 +43,6 @@ class MyApp extends StatelessWidget {
         // '/googlemaptesting': (context) => GoogleMapTestingPage(),
         '/googlemappage': (context) => GoogleMapPage(),
         '/contentlayout': (context) => ContentLayout(),
-
       },
     );
   }

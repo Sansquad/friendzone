@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 
 class PostWidget extends StatelessWidget {
-  final Map<String, String> postData;
+  final Map<String, dynamic> postData;
 
   const PostWidget({super.key, required this.postData});
 
@@ -62,7 +62,7 @@ class PostWidget extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Text(
-              postData['text']!,
+              postData['contentText']!,
               style: TextStyle(
                 fontFamily: 'ABeeZee',
                 fontWeight: FontWeight.normal,
@@ -70,10 +70,10 @@ class PostWidget extends StatelessWidget {
                 fontSize: 13,
               ),
             ),
-            if (postData['imageUrl']!.isNotEmpty)
+            if (postData['contentImageUrl']!.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
-                child: Image.network(postData['imageUrl']!),
+                child: Image.network(postData['contentImageUrl']!),
               ),
             SizedBox(height: 10),
             Row(
@@ -86,7 +86,7 @@ class PostWidget extends StatelessWidget {
                       width: 14,
                     ),
                     SizedBox(width: 2),
-                    Text(postData['likes']!),
+                    Text(postData['likeNum']!.toString()),
                     SizedBox(width: 10),
                     SvgPicture.asset(
                       'assets/icons/post_comment.svg',
@@ -94,7 +94,7 @@ class PostWidget extends StatelessWidget {
                       width: 14,
                     ),
                     SizedBox(width: 2),
-                    Text(postData['comments']!),
+                    Text(postData['commentNum']!.toString()),
                   ],
                 ),
                 Spacer(),
@@ -105,7 +105,7 @@ class PostWidget extends StatelessWidget {
                 ),
                 SizedBox(width: 5),
                 Text(
-                  postData['location']!,
+                  postData['gridCode']!,
                   style: TextStyle(
                       fontFamily: 'BigShouldersDisplay',
                       fontWeight: FontWeight.normal,
