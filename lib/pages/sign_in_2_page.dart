@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:friendzone/components/authentication/firebase_auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../widgets/form_container_widget.dart';
+import '../components/form_container_widget.dart';
 
 class SignIn2Page extends StatefulWidget {
   @override
@@ -12,7 +12,6 @@ class SignIn2Page extends StatefulWidget {
 }
 
 class _SignIn2PageState extends State<SignIn2Page> {
-
   final FirebaseAuthService _auth = FirebaseAuthService();
 
   // take in either username/ email
@@ -21,13 +20,12 @@ class _SignIn2PageState extends State<SignIn2Page> {
   TextEditingController _passwordController = TextEditingController();
 
   @override
-    void dispose() {
-      _usernameOrEmailController.dispose();
-      // _emailController.dispose();
-      _passwordController.dispose();
-      super.dispose();
-    }
-  
+  void dispose() {
+    _usernameOrEmailController.dispose();
+    // _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +49,6 @@ class _SignIn2PageState extends State<SignIn2Page> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
-
               children: [
                 Text(
                   "Sign in",
@@ -67,21 +64,25 @@ class _SignIn2PageState extends State<SignIn2Page> {
                 ),
 
                 FormContainerWidget(
-                  controller:_usernameOrEmailController,
+                  controller: _usernameOrEmailController,
                   // controller: _emailController,
                   hintText: 'Email Address or Username',
-                  
+
                   isPasswordField: false,
                 ),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
 
                 FormContainerWidget(
                   controller: _passwordController,
                   hintText: 'Password',
                   isPasswordField: true,
                 ),
-              // ],
-                SizedBox(height: 20,),
+                // ],
+                SizedBox(
+                  height: 20,
+                ),
                 // Align "Remember me?" checkbox with the left side of the sign-in button
                 Container(
                   width: 313,
@@ -97,7 +98,8 @@ class _SignIn2PageState extends State<SignIn2Page> {
                           fontFamily: 'BigShouldersDisplay',
                           fontSize: 17,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black, // Adjust color for better contrast
+                          color:
+                              Colors.black, // Adjust color for better contrast
                         ),
                       ),
                     ],
@@ -105,30 +107,30 @@ class _SignIn2PageState extends State<SignIn2Page> {
                 ),
                 SizedBox(height: 20),
                 // Sign in button
-SizedBox(
-  width: 313,
-  height: 48,
-  child: ElevatedButton(
-    onPressed: () {
-      _signIn();
-    },
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Color(0xFF69B7FF),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-    ),
-    child: Text(
-      'Sign In',
-      style: TextStyle(
-        fontFamily: 'BigShouldersDisplay',
-        fontSize: 20,
-        fontWeight: FontWeight.w300, // Semibold
-        color: Colors.black,
-      ),
-    ),
-  ),
-),
+                SizedBox(
+                  width: 313,
+                  height: 48,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _signIn();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF69B7FF),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    child: Text(
+                      'Sign In',
+                      style: TextStyle(
+                        fontFamily: 'BigShouldersDisplay',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300, // Semibold
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
                 SizedBox(height: 10),
                 // Align "Forgot Password?" with the right side of the sign-in button
                 Container(
@@ -242,7 +244,6 @@ SizedBox(
                         ),
                       ),
                     ],
-                    
                   ),
                 ),
                 SizedBox(height: 120),
@@ -254,7 +255,7 @@ SizedBox(
     );
   }
 
- void _signIn() async{
+  void _signIn() async {
     String input = _usernameOrEmailController.text;
     // String email = _emailController.text;
     String password = _passwordController.text;
@@ -266,29 +267,27 @@ SizedBox(
       email = await _auth.getEmailFromUsername(input);
     }
 
- if (email != null) {
-    try {
-
-      User? user = await _auth.signInWithEmailAndPassword(email, password);
-      if (user != null) {
-        print('Sign in successful');
-        if (mounted) {
-          Navigator.pushNamed(context, '/contentlayout');
+    if (email != null) {
+      try {
+        User? user = await _auth.signInWithEmailAndPassword(email, password);
+        if (user != null) {
+          print('Sign in successful');
+          if (mounted) {
+            Navigator.pushNamed(context, '/contentlayout');
+          }
+        } else {
+          print('Sign in failed: User is null');
         }
-      } else {
-        print('Sign in failed: User is null');
+      } on FirebaseAuthException catch (e) {
+        print('Sign in failed: ${e.message}');
+      } catch (e) {
+        print('Sign in failed: $e');
       }
-    } on FirebaseAuthException catch (e) {
-      print('Sign in failed: ${e.message}');
-    } catch (e) {
-      print('Sign in failed: $e');
+    } else {
+      print('No user found for that username.');
     }
-  } else {
-    print('No user found for that username.');
-  }
   }
 }
-
 
 class SocialButton extends StatelessWidget {
   final String assetPath;
@@ -304,7 +303,8 @@ class SocialButton extends StatelessWidget {
       child: OutlinedButton(
         onPressed: () {},
         style: OutlinedButton.styleFrom(
-          padding: EdgeInsets.symmetric(horizontal: 12.0), // Adjust padding to align logos to the left
+          padding: EdgeInsets.symmetric(
+              horizontal: 12.0), // Adjust padding to align logos to the left
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
@@ -338,7 +338,4 @@ class SocialButton extends StatelessWidget {
       ),
     );
   }
-
-
-
 }

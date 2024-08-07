@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:friendzone/components/authentication/firebase_auth_services.dart';
-import '../widgets/form_container_widget.dart';
+import '../components/form_container_widget.dart';
 
 class GetStarted2Page extends StatefulWidget {
   @override
@@ -11,17 +11,15 @@ class GetStarted2Page extends StatefulWidget {
 }
 
 class _GetStarted2PageState extends State<GetStarted2Page> {
-  
   final FirebaseAuthService _auth = FirebaseAuthService();
-  
+
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  
+
   ValueNotifier<bool> _isPasswordInvalid = ValueNotifier(false);
   ValueNotifier<bool> _isPasswordValid = ValueNotifier(false);
-  
-  
+
   // Check if password is valid (> 8 characters)
   @override
   void initState() {
@@ -39,18 +37,17 @@ class _GetStarted2PageState extends State<GetStarted2Page> {
       _isPasswordInvalid.value = true;
     }
   }
-  
+
   @override
-    void dispose() {
-      _usernameController.dispose();
-      _emailController.dispose();
-      _passwordController.dispose();
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
 
-      _isPasswordInvalid.dispose();
-      _isPasswordValid.dispose();
-      super.dispose();
-    }
-
+    _isPasswordInvalid.dispose();
+    _isPasswordValid.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +56,8 @@ class _GetStarted2PageState extends State<GetStarted2Page> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // Navigate back to the previous screen (home page)
+            Navigator.pop(
+                context); // Navigate back to the previous screen (home page)
           },
         ),
         backgroundColor: Colors.white,
@@ -78,7 +76,8 @@ class _GetStarted2PageState extends State<GetStarted2Page> {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(36, 0, 0, 20), // Adjust padding for positioning
+                    padding: const EdgeInsets.fromLTRB(
+                        36, 0, 0, 20), // Adjust padding for positioning
                     child: RichText(
                       text: TextSpan(
                         children: [
@@ -110,7 +109,7 @@ class _GetStarted2PageState extends State<GetStarted2Page> {
                   controller: _usernameController,
                   hintText: 'Username',
                   isPasswordField: false,
-                  ),
+                ),
                 SizedBox(height: 20),
 
                 FormContainerWidget(
@@ -140,7 +139,8 @@ class _GetStarted2PageState extends State<GetStarted2Page> {
                             fontFamily: 'BigShouldersDisplay',
                             fontSize: 17,
                             fontWeight: FontWeight.w500,
-                            color: isPasswordInvalid ? Colors.red : Colors.black,
+                            color:
+                                isPasswordInvalid ? Colors.red : Colors.black,
                           ),
                         );
                       },
@@ -157,8 +157,8 @@ class _GetStarted2PageState extends State<GetStarted2Page> {
                       child: ElevatedButton(
                         onPressed: isPasswordValid
                             ? () {
-                              _signUp();
-                              // Navigator.pushNamed(context, '/contentlayout');
+                                _signUp();
+                                // Navigator.pushNamed(context, '/contentlayout');
                               }
                             : () {
                                 _isPasswordInvalid.value = true;
@@ -229,7 +229,6 @@ class _GetStarted2PageState extends State<GetStarted2Page> {
                 ),
                 SizedBox(height: 20),
 
-
                 SizedBox(height: 20),
                 RichText(
                   text: TextSpan(
@@ -280,7 +279,7 @@ class _GetStarted2PageState extends State<GetStarted2Page> {
     );
   }
 
-  void _signUp() async{
+  void _signUp() async {
     String username = _usernameController.text;
     String email = _emailController.text;
     String password = _passwordController.text;
@@ -290,16 +289,13 @@ class _GetStarted2PageState extends State<GetStarted2Page> {
     if (user != null) {
       print('Sign up successful');
       if (mounted) {
-      Navigator.pushNamed(context, '/contentlayout');
+        Navigator.pushNamed(context, '/contentlayout');
       }
-
     } else {
       print('Sign up failed');
     }
   }
-
 }
-
 
 class SocialButton extends StatelessWidget {
   final String assetPath;
@@ -315,7 +311,8 @@ class SocialButton extends StatelessWidget {
       child: OutlinedButton(
         onPressed: () {},
         style: OutlinedButton.styleFrom(
-          padding: EdgeInsets.symmetric(horizontal: 12.0), // Adjust padding to align logos to the left
+          padding: EdgeInsets.symmetric(
+              horizontal: 12.0), // Adjust padding to align logos to the left
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
