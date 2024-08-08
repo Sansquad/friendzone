@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -13,12 +15,32 @@ import 'pages/get_started_2_page.dart';
 import 'pages/google_map_page.dart';
 import 'pages/sign_in_2_page.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   //print("UploadingData...");
   //await uploadDummyData();
+
+  // Check if running in development mode (aka. not production)
+  const bool isDevelopment = !bool.fromEnvironment('dart.vm.product');
+
+  if (isDevelopment) {
+    await _configureEmulators();
+  }
+
   runApp(const MyApp());
+}
+
+Future<void> _configureEmulators() async {
+  const String host = 'localhost';
+
+  FirebaseAuth.instance.useAuthEmulator(host, 9099);
+
+  FirebaseFirestore.instance.settings = const Settings(
+    host: 'localhost:8080',
+    sslEnabled: false, // ask
+    persistenceEnabled: true,
+  );
 }
 
 class MyApp extends StatelessWidget {
