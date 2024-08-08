@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'config/firebase_options.dart';
+import 'database/upload_dummy_data.dart';
 import 'pages/authentication_email.dart';
 import 'pages/authentication_home.dart';
 import 'pages/authentication_profile.dart';
@@ -26,6 +27,7 @@ Future<void> main() async {
 
   if (isDevelopment) {
     await _configureEmulators();
+    await uploadDummyData();
   }
 
   runApp(const MyApp());

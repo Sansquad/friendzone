@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'user.dart';
 
 class Post {
   final String gridCode;
   final User user;
-  final String timestamp;
+  final Timestamp timestamp;
   final String contentText;
   final int likeNum;
   final int commentNum;

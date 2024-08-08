@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class PostWidget extends StatelessWidget {
   final Map<String, dynamic> postData;
@@ -42,7 +44,8 @@ class PostWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      postData['timestamp']!,
+                      timeago.format(
+                          (postData['timestamp'] as Timestamp).toDate()),
                       style: TextStyle(
                         fontFamily: 'BigShouldersDisplay',
                         fontWeight: FontWeight.w300,

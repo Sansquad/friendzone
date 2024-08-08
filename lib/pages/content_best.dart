@@ -72,7 +72,7 @@ class _ContentBestState extends State<ContentBest> {
               ),
               SizedBox(width: 12),
               Text(
-                'Best of All Zones',
+                'Best of Zones',
                 style: TextStyle(
                   fontFamily: 'BigShouldersText',
                   fontSize: 30,
