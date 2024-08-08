@@ -1,21 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:friendzone/firebase_options.dart';
-
 import 'package:flutter/material.dart';
-import 'package:friendzone/pages/content_layout.dart';
-import 'database/upload_dummy_data.dart';
+
+import 'config/firebase_options.dart';
+import 'pages/authentication_email.dart';
 import 'pages/authentication_home.dart';
+import 'pages/authentication_profile.dart';
 import 'pages/authentication_signin.dart';
 import 'pages/authentication_start.dart';
-import 'pages/authentication_email.dart';
-import 'pages/authentication_profile.dart';
+import 'pages/content_layout.dart';
+import 'pages/get_started_2_page.dart';
 // import 'pages/google_map_testing.dart';
 import 'pages/google_map_page.dart';
-
 import 'pages/sign_in_2_page.dart';
-import 'pages/get_started_2_page.dart';
-
-import 'pages/content_layout.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
