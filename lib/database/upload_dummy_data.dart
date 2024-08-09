@@ -55,7 +55,7 @@ Future<void> uploadDummyData() async {
 ;
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
+  print("Uploading dummy data...");
   for (var postData in dummyData) {
     final user = User(
       username: postData['username']!,

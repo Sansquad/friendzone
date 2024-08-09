@@ -100,3 +100,52 @@ For best:
           'https://i.pinimg.com/736x/f9/06/a1/f906a1909dc27df0acedb174d18b6901.jpg'
     }
   ]
+
+For Archive (posts by same user):
+[
+    {
+      'gridCode': 'C - 137',
+      'username': 'Kusupman_David',
+      'profileImgUrl': '',
+      'timestamp': '30 minutes ago',
+      'contentText':
+          '**URGENT** how do i divide the earth into zones in flutter. help me dev gods',
+      'likeNum': 120344,
+      'commentNum': 2103,
+      'contentImageUrl': ''
+    },
+    {
+      'gridCode': 'A - 283',
+      'username': 'Kusupman_David',
+      'profileImgUrl': '',
+      'timestamp': '44 minutes ago',
+      'contentText':
+          'this is a test for very looooooooooooooong looooooooooooooong looooooooooooooong looooooooooooooong contentText.',
+      'likeNum': 10367,
+      'commentNum': 6292,
+      'contentImageUrl':
+          'https://file.forms.app/sitefile/55+Hilarious-developer-memes-that-will-leave-you-in-splits-9.jpeg'
+    },
+    {
+      'gridCode': 'D - 283',
+      'username': 'Kusupman_David',
+      'profileImgUrl': '',
+      'timestamp': '4 hours ago',
+      'contentText':
+          'watch this video\nhttps://www.youtube.com/watch?v=9RZ2Y-IyK3g',
+      'likeNum': 1123,
+      'commentNum': 632,
+      'contentImageUrl': ''
+    },
+    {
+      'gridCode': 'C - 137',
+      'username': 'Kusupman_David',
+      'profileImgUrl': '',
+      'timestamp': '4 hours ago',
+      'contentText': 'SPOILER ALERT how muzan dies',
+      'likeNum': 1,
+      'commentNum': 6,
+      'contentImageUrl':
+          'https://i.pinimg.com/736x/f9/06/a1/f906a1909dc27df0acedb174d18b6901.jpg'
+    }
+  ];

@@ -19,15 +19,13 @@ import 'pages/sign_in_2_page.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  //print("UploadingData...");
-  //await uploadDummyData();
 
   // Check if running in development mode (aka. not production)
   const bool isDevelopment = !bool.fromEnvironment('dart.vm.product');
 
   if (isDevelopment) {
     await _configureEmulators();
-    await uploadDummyData();
+    //await uploadDummyData();
   }
 
   runApp(const MyApp());

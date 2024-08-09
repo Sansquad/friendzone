@@ -10,53 +10,6 @@ class ContentArchive extends StatefulWidget {
 }
 
 class _ContentArchiveState extends State<ContentArchive> {
-  final List<Map<String, dynamic>> _posts = [
-    {
-      'gridCode': 'C - 137',
-      'username': 'Kusupman_David',
-      'profileImgUrl': '',
-      'timestamp': '30 minutes ago',
-      'contentText':
-          '**URGENT** how do i divide the earth into zones in flutter. help me dev gods',
-      'likeNum': 120344,
-      'commentNum': 2103,
-      'contentImageUrl': ''
-    },
-    {
-      'gridCode': 'A - 283',
-      'username': 'Kusupman_David',
-      'profileImgUrl': '',
-      'timestamp': '44 minutes ago',
-      'contentText':
-          'this is a test for very looooooooooooooong looooooooooooooong looooooooooooooong looooooooooooooong contentText.',
-      'likeNum': 10367,
-      'commentNum': 6292,
-      'contentImageUrl':
-          'https://file.forms.app/sitefile/55+Hilarious-developer-memes-that-will-leave-you-in-splits-9.jpeg'
-    },
-    {
-      'gridCode': 'D - 283',
-      'username': 'Kusupman_David',
-      'profileImgUrl': '',
-      'timestamp': '4 hours ago',
-      'contentText':
-          'watch this video\nhttps://www.youtube.com/watch?v=9RZ2Y-IyK3g',
-      'likeNum': 1123,
-      'commentNum': 632,
-      'contentImageUrl': ''
-    },
-    {
-      'gridCode': 'C - 137',
-      'username': 'Kusupman_David',
-      'profileImgUrl': '',
-      'timestamp': '4 hours ago',
-      'contentText': 'SPOILER ALERT how muzan dies',
-      'likeNum': 1,
-      'commentNum': 6,
-      'contentImageUrl':
-          'https://i.pinimg.com/736x/f9/06/a1/f906a1909dc27df0acedb174d18b6901.jpg'
-    }
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +49,11 @@ class _ContentArchiveState extends State<ContentArchive> {
           )
         ],
       ),
-      body: ListView.separated(
+      body:
+      // TODO: implement archive page
+      Column(),
+      /*
+      ListView.separated(
         itemCount: _posts.length,
         separatorBuilder: (BuildContext context, int index) => Divider(
           color: Color(0xff999999),
@@ -108,7 +65,7 @@ class _ContentArchiveState extends State<ContentArchive> {
         itemBuilder: (context, index) {
           return PostWidget(postData: _posts[index]);
         },
-      ),
+      ),*/
     );
   }
 }
