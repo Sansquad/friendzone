@@ -40,8 +40,8 @@ Future<void> _configureEmulators() async {
 
   FirebaseFirestore.instance.settings = const Settings(
     host: 'localhost:8080',
-    sslEnabled: false, // ask
-    persistenceEnabled: true,
+    sslEnabled: false,
+    persistenceEnabled: false,
   );
 }
 
