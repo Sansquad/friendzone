@@ -22,55 +22,55 @@ class NavBarComponent extends StatelessWidget {
       destinations: [
         NavigationDestination(
             icon: SvgPicture.asset(
-              currentIndex == 0
-                  ? 'assets/icons/nav_home_highlight.svg'
-                  : 'assets/icons/nav_home.svg',
+              'assets/icons/nav_home.svg',
               colorFilter: ColorFilter.mode(
-                Theme.of(context).colorScheme.primary,
+                currentIndex == 0
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.primary.withOpacity(0.4),
                 BlendMode.srcIn,
               ),
             ),
             label: 'Home'),
         NavigationDestination(
             icon: SvgPicture.asset(
-              currentIndex == 1
-                  ? 'assets/icons/nav_best_highlight.svg'
-                  : 'assets/icons/nav_best.svg',
+              'assets/icons/nav_best.svg',
               colorFilter: ColorFilter.mode(
-                Theme.of(context).colorScheme.primary,
+                currentIndex == 1
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.primary.withOpacity(0.4),
                 BlendMode.srcIn,
               ),
             ),
             label: 'Best'),
         NavigationDestination(
             icon: SvgPicture.asset(
-              currentIndex == 2
-                  ? 'assets/icons/nav_post_highlight.svg'
-                  : 'assets/icons/nav_post.svg',
+              'assets/icons/nav_post.svg',
               colorFilter: ColorFilter.mode(
-                Theme.of(context).colorScheme.primary,
+                currentIndex == 2
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.primary.withOpacity(0.4),
                 BlendMode.srcIn,
               ),
             ),
             label: 'Post'),
         NavigationDestination(
             icon: SvgPicture.asset(
-              currentIndex == 3
-                  ? 'assets/icons/nav_archive_highlight.svg'
-                  : 'assets/icons/nav_archive.svg',
+              'assets/icons/nav_chat.svg',
               colorFilter: ColorFilter.mode(
-                Theme.of(context).colorScheme.primary,
+                currentIndex == 3
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.primary.withOpacity(0.4),
                 BlendMode.srcIn,
               ),
             ),
             label: 'Archive'),
         NavigationDestination(
             icon: SvgPicture.asset(
-              currentIndex == 4
-                  ? 'assets/icons/nav_more_highlight.svg'
-                  : 'assets/icons/nav_more.svg',
+              'assets/icons/nav_more.svg',
               colorFilter: ColorFilter.mode(
-                Theme.of(context).colorScheme.primary,
+                currentIndex == 4
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.primary.withOpacity(0.4),
                 BlendMode.srcIn,
               ),
             ),

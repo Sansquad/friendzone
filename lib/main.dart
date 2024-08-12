@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:friendzone/database/initialize_best_posts.dart';
 
 import 'config/firebase_options.dart';
 import 'database/upload_dummy_data.dart';
@@ -28,6 +29,7 @@ Future<void> main() async {
   if (isDevelopment) {
     await _configureEmulators();
     //await uploadDummyData();
+    //await initializeBestPosts();
   }
 
   runApp(const MyApp());

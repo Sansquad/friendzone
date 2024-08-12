@@ -9,6 +9,7 @@ class ContentPost extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
           forceMaterialTransparency: true,
           leading: IconButton(
@@ -26,6 +27,10 @@ class ContentPost extends StatelessWidget {
                       'assets/icons/bar_home.svg',
                       height: 20,
                       width: 20,
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).colorScheme.primary,
+                        BlendMode.srcIn,
+                      ),
                     ),
                     SizedBox(width: 5),
                     Text(
@@ -108,6 +113,10 @@ class ContentPost extends StatelessWidget {
                           'assets/icons/camera.svg',
                           height: 23,
                           width: 26.93,
+                          colorFilter: ColorFilter.mode(
+                            Theme.of(context).colorScheme.inverseSurface,
+                            BlendMode.srcIn,
+                          ),
                         ),
                         onPressed: () {},
                       ),
@@ -116,6 +125,10 @@ class ContentPost extends StatelessWidget {
                           'assets/icons/photo.svg',
                           height: 23,
                           width: 23,
+                          colorFilter: ColorFilter.mode(
+                            Theme.of(context).colorScheme.inverseSurface,
+                            BlendMode.srcIn,
+                          ),
                         ),
                         onPressed: () {},
                       ),
@@ -135,7 +148,7 @@ class ContentPost extends StatelessWidget {
                         fontFamily: 'BigShouldersDisplay',
                         fontWeight: FontWeight.w300,
                         fontSize: 15,
-                        color: Colors.black,
+                        color: Theme.of(context).colorScheme.inverseSurface,
                       ),
                     ),
                   ),

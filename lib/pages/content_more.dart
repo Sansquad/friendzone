@@ -12,6 +12,7 @@ class _ContentMoreState extends State<ContentMore> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         forceMaterialTransparency:  true,
         leading: Padding(

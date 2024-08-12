@@ -93,7 +93,7 @@ class _ContentHomeState extends State<ContentHome> {
             }
 
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-              return Center(child: Text('No posts in the current zone.'));
+              return Center(child: Text('No posts in the current zone yet.'));
             }
 
             final _posts = snapshot.data!.docs.map((doc) {
