@@ -4,16 +4,18 @@ import 'package:flutter/material.dart';
 
 import 'package:friendzone/pages/content_layout.dart';
 import 'pages/authentication_home.dart';
-import 'pages/X_signin.dart';
-import 'pages/X_start.dart';
 import 'pages/authentication_email.dart';
 import 'pages/authentication_profile.dart';
+import 'pages/authentication_start.dart';
+import 'pages/authentication_signin.dart';
+
 // import 'pages/google_map_testing.dart';
 import 'pages/google_map_page.dart';
 
-import 'pages/authentication_signin.dart';
-import 'pages/authentication_start.dart';
-import 'pages/google_auth.dart';
+import 'pages/X_authentication_signin.dart';
+import 'pages/X_signin.dart';
+import 'pages/X_start.dart';
+
 
 
 import 'pages/content_layout.dart';
@@ -44,10 +46,6 @@ class MyApp extends StatelessWidget {
         // '/googlemaptesting': (context) => GoogleMapTestingPage(),
         '/googlemappage': (context) => GoogleMapPage(),
         '/contentlayout': (context) => ContentLayout(),
-
-
-        // google authentication testing page
-        '/googleauth': (context) => GoogleInPage(),
       },
     );
   }

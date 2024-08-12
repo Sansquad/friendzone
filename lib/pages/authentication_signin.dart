@@ -87,14 +87,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import '../widgets/form_container_widget.dart';
 
-class GoogleInPage extends StatefulWidget {
-  const GoogleInPage({Key? key}) : super(key: key);
+class SignInPage extends StatefulWidget {
+  const SignInPage({Key? key}) : super(key: key);
   
   @override
-  _GoogleInPageState createState() => _GoogleInPageState();
+  _SignInPageState createState() => _SignInPageState();
 }
 
-class _GoogleInPageState extends State<GoogleInPage> {
+class _SignInPageState extends State<SignInPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Implementing google authentication

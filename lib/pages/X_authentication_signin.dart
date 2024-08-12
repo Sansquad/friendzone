@@ -6,14 +6,14 @@ import 'package:friendzone/components/authentication/firebase_auth_services.dart
 import 'package:google_sign_in/google_sign_in.dart';
 import '../widgets/form_container_widget.dart';
 
-class SignInPage extends StatefulWidget {
-  const SignInPage({super.key});
+class SignInPageX extends StatefulWidget {
+  const SignInPageX({super.key});
   
   @override
-  _SignInPageState createState() => _SignInPageState();
+  _SignInPageXState createState() => _SignInPageXState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _SignInPageXState extends State<SignInPageX> {
   bool _isSigning = false;
 
   final FirebaseAuthService _auth = FirebaseAuthService();

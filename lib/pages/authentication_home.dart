@@ -56,7 +56,7 @@ class HomePage extends StatelessWidget {
                   onPressed: () {
                     print('Sign In Button Pressed'); // Debug print
                     // 0804 google authenticatio ntesting
-                    Navigator.pushNamed(context, '/googleauth'); // Navigate to google authentication testing page
+                    Navigator.pushNamed(context, '/signin'); // Navigate to google authentication testing page
                     // Navigator.pushNamed(context, '/signin'); // Navigate to sign-in page
                   },
                   style: ElevatedButton.styleFrom(
