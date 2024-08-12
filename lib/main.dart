@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:friendzone/firebase_options.dart'; 
-
 import 'package:flutter/material.dart';
+
 import 'package:friendzone/pages/content_layout.dart';
 import 'pages/authentication_home.dart';
 import 'pages/X_signin.dart';
@@ -13,6 +13,7 @@ import 'pages/google_map_page.dart';
 
 import 'pages/authentication_signin.dart';
 import 'pages/authentication_start.dart';
+import 'pages/google_auth.dart';
 
 
 import 'pages/content_layout.dart';
@@ -20,6 +21,8 @@ import 'pages/content_layout.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
@@ -42,6 +45,9 @@ class MyApp extends StatelessWidget {
         '/googlemappage': (context) => GoogleMapPage(),
         '/contentlayout': (context) => ContentLayout(),
 
+
+        // google authentication testing page
+        '/googleauth': (context) => GoogleInPage(),
       },
     );
   }
