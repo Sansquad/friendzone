@@ -16,6 +16,7 @@ class _ContentHomeState extends State<ContentHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         forceMaterialTransparency: true,
         automaticallyImplyLeading: false,
@@ -27,6 +28,10 @@ class _ContentHomeState extends State<ContentHome> {
                 'assets/icons/bar_home.svg',
                 height: 27,
                 width: 27,
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.primary,
+                  BlendMode.srcIn,
+                ),
               ),
               SizedBox(width: 12),
               Text(
@@ -48,14 +53,26 @@ class _ContentHomeState extends State<ContentHome> {
             onPressed: () {
               print("Pressed notification icon");
             },
-            icon: SvgPicture.asset('assets/icons/bar_notification.svg'),
+            icon: SvgPicture.asset(
+              'assets/icons/bar_notification.svg',
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).colorScheme.inverseSurface,
+                BlendMode.srcIn,
+              ),
+            ),
           ),
           IconButton(
             //highlightColor: Colors.transparent,
             onPressed: () {},
             icon: Padding(
               padding: const EdgeInsets.only(right: 15.0),
-              child: SvgPicture.asset('assets/icons/bar_map.svg'),
+              child: SvgPicture.asset(
+                'assets/icons/bar_map.svg',
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.inverseSurface,
+                  BlendMode.srcIn,
+                ),
+              ),
             ),
           )
         ],
@@ -97,7 +114,7 @@ class _ContentHomeState extends State<ContentHome> {
             return ListView.separated(
               itemCount: _posts.length,
               separatorBuilder: (BuildContext context, int index) => Divider(
-                color: Color(0xff999999),
+                color: Theme.of(context).colorScheme.inverseSurface.withOpacity(0.4),
                 height: 0,
                 thickness: 1,
                 indent: 20,

@@ -15,7 +15,8 @@ class _ContentBestState extends State<ContentBest> {
     List<Map<String, dynamic>> bestPosts = [];
 
     // Fetch all grid documents
-    QuerySnapshot gridSnapshot = await FirebaseFirestore.instance.collection('grids').get();
+    QuerySnapshot gridSnapshot =
+        await FirebaseFirestore.instance.collection('grids').get();
     List<DocumentSnapshot> grids = gridSnapshot.docs;
 
     for (var grid in grids) {
@@ -58,6 +59,7 @@ class _ContentBestState extends State<ContentBest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         forceMaterialTransparency: true,
         automaticallyImplyLeading: false,
@@ -69,6 +71,10 @@ class _ContentBestState extends State<ContentBest> {
                 'assets/icons/bar_best.svg',
                 height: 27,
                 width: 27,
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.primary,
+                  BlendMode.srcIn,
+                ),
               ),
               SizedBox(width: 12),
               Text(
@@ -85,17 +91,29 @@ class _ContentBestState extends State<ContentBest> {
         centerTitle: false,
         actions: [
           IconButton(
-            //highlightColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             visualDensity: VisualDensity.compact,
             onPressed: () {},
-            icon: SvgPicture.asset('assets/icons/bar_notification.svg'),
+            icon: SvgPicture.asset(
+              'assets/icons/bar_notification.svg',
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).colorScheme.inverseSurface,
+                BlendMode.srcIn,
+              ),
+            ),
           ),
           IconButton(
-            //highlightColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             onPressed: () {},
             icon: Padding(
               padding: const EdgeInsets.only(right: 15.0),
-              child: SvgPicture.asset('assets/icons/bar_map.svg'),
+              child: SvgPicture.asset(
+                'assets/icons/bar_map.svg',
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.inverseSurface,
+                  BlendMode.srcIn,
+                ),
+              ),
             ),
           )
         ],
@@ -139,4 +157,3 @@ class _ContentBestState extends State<ContentBest> {
     );
   }
 }
-

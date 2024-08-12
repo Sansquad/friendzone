@@ -40,6 +40,7 @@ class PostWidget extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'BigShouldersDisplay',
                         fontWeight: FontWeight.w600,
+                        color: Theme.of(context).colorScheme.inverseSurface,
                         //fontSize: 12,
                       ),
                     ),
@@ -49,7 +50,10 @@ class PostWidget extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'BigShouldersDisplay',
                         fontWeight: FontWeight.w300,
-                        color: Color(0xff818080),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .inverseSurface
+                            .withOpacity(0.5),
                         fontSize: 12,
                       ),
                     ),
@@ -60,6 +64,7 @@ class PostWidget extends StatelessWidget {
                   'assets/icons/post_bookmark.svg',
                   height: 14,
                   width: 14,
+                  color: Theme.of(context).colorScheme.inverseSurface,
                 ),
               ],
             ),
@@ -69,7 +74,7 @@ class PostWidget extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'ABeeZee',
                 fontWeight: FontWeight.normal,
-                color: Color(0xff323232),
+                color: Theme.of(context).colorScheme.inverseSurface,
                 fontSize: 13,
               ),
             ),
@@ -87,6 +92,7 @@ class PostWidget extends StatelessWidget {
                       'assets/icons/post_like.svg',
                       height: 14,
                       width: 14,
+                      color: Theme.of(context).colorScheme.inverseSurface,
                     ),
                     SizedBox(width: 2),
                     Text(postData['likeNum']!.toString()),
@@ -95,6 +101,7 @@ class PostWidget extends StatelessWidget {
                       'assets/icons/post_comment.svg',
                       height: 14,
                       width: 14,
+                      color: Theme.of(context).colorScheme.inverseSurface,
                     ),
                     SizedBox(width: 2),
                     Text(postData['commentNum']!.toString()),
@@ -105,16 +112,23 @@ class PostWidget extends StatelessWidget {
                   'assets/icons/bar_home.svg',
                   height: 15,
                   width: 15,
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
                 ),
                 SizedBox(width: 5),
                 Text(
                   postData['gridCode']!,
                   style: TextStyle(
-                      fontFamily: 'BigShouldersDisplay',
-                      fontWeight: FontWeight.normal,
-                      color: Color(0xff808080)
-                      //fontSize: 12,
-                      ),
+                    fontFamily: 'BigShouldersDisplay',
+                    fontWeight: FontWeight.normal,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .inverseSurface
+                        .withOpacity(0.5),
+                    //fontSize: 12,
+                  ),
                 ),
               ],
             ),

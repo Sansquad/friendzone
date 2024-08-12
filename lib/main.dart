@@ -15,6 +15,8 @@ import 'pages/get_started_2_page.dart';
 // import 'pages/google_map_testing.dart';
 import 'pages/google_map_page.dart';
 import 'pages/sign_in_2_page.dart';
+import 'theme/dark_mode.dart';
+import 'theme/light_mode.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +54,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       //debugShowMaterialGrid: true,
       home: HomePage(),
+      theme: lightMode,
+      darkTheme: darkMode,
+      themeMode: ThemeMode.system,
       routes: {
         '/signin': (context) => SignInPage(),
         '/signin2': (context) => SignIn2Page(),
