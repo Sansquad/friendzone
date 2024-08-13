@@ -7,17 +7,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:friendzone/pages/authentication_start.dart';
 import '../components/form_container_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 
 
 class GetStartedPage extends StatefulWidget {
+  const GetStartedPage({Key? key}) : super(key: key);
 
   @override
   _GetStartedPageState createState() => _GetStartedPageState();
 }
 
 class _GetStartedPageState extends State<GetStartedPage> {
-  
-  final FirebaseAuthService _auth = FirebaseAuthService();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuthService _firebaseAuth = FirebaseAuthService();
   
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
@@ -25,6 +28,8 @@ class _GetStartedPageState extends State<GetStartedPage> {
   
   ValueNotifier<bool> _isPasswordInvalid = ValueNotifier(false);
   ValueNotifier<bool> _isPasswordValid = ValueNotifier(false);
+
+  User? _user;
   
   
   // Check if password is valid (> 8 characters)
@@ -32,7 +37,13 @@ class _GetStartedPageState extends State<GetStartedPage> {
   void initState() {
     super.initState();
     _passwordController.addListener(_validatePassword);
+    _auth.authStateChanges().listen((event) {
+      setState(() {
+        _user = event;
+      });
+    });
   }
+
 
   void _validatePassword() {
     final password = _passwordController.text;
@@ -233,7 +244,11 @@ class _GetStartedPageState extends State<GetStartedPage> {
                 SocialButton(
                   assetPath: 'assets/icons/google_logo.png',
                   text: 'Continue with Google',
-                  onPressed: () {},
+                  onPressed: () {
+                    _handleGoogleSignIn();
+
+                    // bongbong //
+                  },
                 ),
                 SizedBox(height: 20),
 
@@ -276,6 +291,34 @@ class _GetStartedPageState extends State<GetStartedPage> {
     );
   }
 
+  void _handleGoogleSignIn() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) {
+        // The user canceled the sign-in
+        return;
+      }
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final OAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Sign in to Firebase with the Google [UserCredential]
+      final UserCredential userCredential = await _auth.signInWithCredential(credential);
+      _user = userCredential.user;
+
+      setState(() {});
+
+      // Navigate to the next screen
+      Navigator.pushNamed(context, '/contentlayout');
+    } catch (error) {
+      print('Error during Google Sign-In: $error');
+      // You could display a dialog or message to the user here
+    }
+  }
+
+
   void _signUp() async{
     String username = _usernameController.text;
     String email = _emailController.text;
@@ -286,7 +329,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
       return;
   }
 
-    User? user = await _auth.signUpWithEmailAndPassword(email, password);
+    User? user = await _firebaseAuth.signUpWithEmailAndPassword(email, password);
 
     if (user != null) {
       print('Sign up successful');
