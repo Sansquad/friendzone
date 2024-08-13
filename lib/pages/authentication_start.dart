@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../components/form_container_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 
@@ -325,24 +326,39 @@ class _GetStartedPageState extends State<GetStartedPage> {
     String email = _emailController.text;
     String password = _passwordController.text;
 
+    // 항목이 비어있는지 확인
     if (username.isEmpty || email.isEmpty || password.isEmpty) {
       print('All fields are required.');
       return;
-  }
+    }
 
-    User? user = await _firebaseAuth.signUpWithEmailAndPassword(email, password);
+    try {
+      User? user = await _firebaseAuth.signUpWithEmailAndPassword(email, password);
 
-    if (user != null) {
-      print('Sign up successful');
-      if (mounted) {
-      Navigator.pushNamed(context, '/contentlayout');
+      if (user != null) {
+        // 만약 사용자의 추가적인 정보를 받고 싶다면 추가하기
+        // 'users' collection에 저장됨
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'username': username,
+          'email': email,
+          'createdAt': Timestamp.now(),
+        });
+
+          print('Sign up successful');
+
+          if (mounted) {
+          Navigator.pushNamed(context, '/contentlayout');
+          }
+      } else {
+        print('Sign up failed');
+
       }
 
-    } else {
-      print('Sign up failed');
+
+    } catch (e) {
+      print('Failed to sign up: $e');
     }
   }
-
 }
 
 class SocialButton extends StatelessWidget {

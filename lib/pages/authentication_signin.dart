@@ -5,6 +5,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import '../components/form_container_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:friendzone/components/authentication/firebase_auth_services.dart';
@@ -330,10 +332,13 @@ class _SignInPageState extends State<SignInPage> {
     String password = _passwordController.text;
 
     String? email;
+
     if (input.contains('@')) {
+      // user signed in with email address
       email = input;
     } else {
-      email = await _firebaseAuth.getEmailFromUsername(input);
+      // user is signing in with username
+      email = await _getEmailFromUsername(input);
     }
 
     if (email != null) {
@@ -357,6 +362,24 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
+  Future<String?> _getEmailFromUsername(String username) async {
+    try {
+      QuerySnapshot query = await FirebaseFirestore.instance
+        .collection('users')
+        .where('username', isEqualTo: username)
+        .limit(1)
+        .get();
+
+      if (query.docs.isNotEmpty) {
+        return query.docs.first.get('email');
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Error getting email from username: $e');
+      return null;
+    }
+  }
 
 
   void _signOut() async {
