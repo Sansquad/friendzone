@@ -30,13 +30,13 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // Check if running in development mode (aka. not production)
-  const bool isDevelopment = !bool.fromEnvironment('dart.vm.product');
+  // const bool isDevelopment = !bool.fromEnvironment('dart.vm.product');
 
-  if (isDevelopment) {
-    await _configureEmulators();
-    //await uploadDummyData();
-    //await initializeBestPosts();
-  }
+  // if (isDevelopment) {
+  //   await _configureEmulators();
+  //   //await uploadDummyData();
+  //   //await initializeBestPosts();
+  // }
 
   runApp(const MyApp());
 }
