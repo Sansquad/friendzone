@@ -233,7 +233,8 @@ class _GetStartedPageState extends State<GetStartedPage> {
                   ),
                 ),
                 SizedBox(height: 20),
-                // Continue with Apple button
+                // Sign in with apple needs a paid Apple Developer account
+                // 2024 08 13
                 SocialButton(
                   assetPath: 'assets/icons/auth_apple.svg',
                   text: 'Continue with Apple',

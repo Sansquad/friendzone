@@ -209,6 +209,8 @@ class _SignInPageState extends State<SignInPage> {
               ),
             ),
             SizedBox(height: 20),
+            // Sign in with apple needs a paid Apple Developer account
+            // 2024 08 13
             SocialButton(
               assetPath: 'assets/icons/auth_apple.svg',
               text: 'Continue with Apple',
