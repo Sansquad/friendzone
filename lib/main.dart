@@ -17,6 +17,8 @@ import 'pages/google_map_page.dart';
 import 'pages/authentication_signin.dart';
 import 'pages/authentication_start.dart';
 
+import 'pages/content_layout.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

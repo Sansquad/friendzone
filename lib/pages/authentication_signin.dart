@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:friendzone/components/authentication/firebase_auth_services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import '../widgets/form_container_widget.dart';
+import '../components/form_container_widget.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
