@@ -57,7 +57,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDBuqGpIwGcLyMKXPi4wpaZb9LnYFSY43Q',
-    appId: '1:865928637202:android:7216f54de7da5b6fe961cb',
+    appId: '1:865928637202:android:f9ac3e64340e1a86e961cb',
     messagingSenderId: '865928637202',
     projectId: 'friendzone-dpju0q',
     storageBucket: 'friendzone-dpju0q.appspot.com',
@@ -65,10 +65,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAY1Zn6CkfL2U2uAqZ5Jc2DqqTNrdVF66A',
-    appId: '1:865928637202:ios:7ecbd7c00cc3a63de961cb',
+    appId: '1:865928637202:ios:a804a23e68288e9ae961cb',
     messagingSenderId: '865928637202',
     projectId: 'friendzone-dpju0q',
     storageBucket: 'friendzone-dpju0q.appspot.com',
-    iosBundleId: 'com.example.friendzone',
+    androidClientId: '865928637202-25au6racgho4e5vub3n040mkelpdqdqm.apps.googleusercontent.com',
+    iosClientId: '865928637202-n3c4i2qpnd6eqlg04qff5b55ora1kafl.apps.googleusercontent.com',
+    iosBundleId: 'com.mycompany.friendzone',
   );
+
 }

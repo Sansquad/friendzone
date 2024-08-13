@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:friendzone/components/authentication/firebase_auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:friendzone/pages/authentication_start.dart';
+// import 'package:friendzone/pages/authentication_start.dart';
 import '../components/form_container_widget.dart';
 
 class GetStartedPage extends StatefulWidget {

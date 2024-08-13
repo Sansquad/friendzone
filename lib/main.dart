@@ -1,16 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:friendzone/firebase_options.dart'; 
 import 'package:flutter/material.dart';
 
 import 'config/firebase_options.dart';
 import 'database/upload_dummy_data.dart';
+
 import 'pages/authentication_email.dart';
 import 'pages/authentication_home.dart';
-import 'pages/X_signin.dart';
-import 'pages/X_start.dart';
 import 'pages/authentication_email.dart';
 import 'pages/authentication_profile.dart';
+import 'pages/authentication_start.dart';
+import 'pages/authentication_signin.dart';
+
 // import 'pages/google_map_testing.dart';
 import 'pages/google_map_page.dart';
 
@@ -56,6 +59,8 @@ class MyApp extends StatelessWidget {
       //debugShowMaterialGrid: true,
       home: HomePage(),
       routes: {
+        '/homepage': (context) => HomePage(),
+        '/signin' : (context) => SignInPage(),
         '/homepage': (context) => HomePage(),
         '/signin' : (context) => SignInPage(),
         '/getstarted': (context) => GetStartedPage(),
