@@ -8,8 +8,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../components/form_container_widget.dart';
 
 class GetStartedPage extends StatefulWidget {
-  // final VoidCallback showSignInPage;
-  // const GetStartedPage({Key? key, required this.showSignInPage}) : super(key: key);
 
   @override
   _GetStartedPageState createState() => _GetStartedPageState();
@@ -278,6 +276,11 @@ class _GetStartedPageState extends State<GetStartedPage> {
     String username = _usernameController.text;
     String email = _emailController.text;
     String password = _passwordController.text;
+
+    if (username.isEmpty || email.isEmpty || password.isEmpty) {
+      print('All fields are required.');
+      return;
+  }
 
     User? user = await _auth.signUpWithEmailAndPassword(email, password);
 
