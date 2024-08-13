@@ -1,34 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:friendzone/components/post_widget.dart';
-// TODO: Delete if not used.
-class ContentArchive extends StatefulWidget {
-  const ContentArchive({super.key});
+
+class ContentChat extends StatefulWidget {
+  const ContentChat({super.key});
 
   @override
-  State<ContentArchive> createState() => _ContentArchiveState();
+  State<ContentChat> createState() => _ContentChatState();
 }
 
-class _ContentArchiveState extends State<ContentArchive> {
-
+class _ContentChatState extends State<ContentChat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        forceMaterialTransparency: true,
+        //forceMaterialTransparency: false,
         automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
             children: [
               SvgPicture.asset(
-                'assets/icons/bar_archive.svg',
+                'assets/icons/bar_chat.svg',
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.primary,
+                  BlendMode.srcIn,
+                ),
                 height: 27,
                 width: 27,
               ),
               SizedBox(width: 12),
               Text(
-                'My Posts',
+                'Messages',
                 style: TextStyle(
                   fontFamily: 'BigShouldersText',
                   fontSize: 30,
@@ -39,19 +42,10 @@ class _ContentArchiveState extends State<ContentArchive> {
           ),
         ),
         centerTitle: false,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Padding(
-              padding: const EdgeInsets.only(right: 15.0),
-              child: SvgPicture.asset('assets/icons/bar_notification.svg'),
-            ),
-          )
-        ],
       ),
       body:
-      // TODO: implement archive page
-      Column(),
+          // TODO: implement archive page
+          Column(),
       /*
       ListView.separated(
         itemCount: _posts.length,

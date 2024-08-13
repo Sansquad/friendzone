@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:friendzone/components/nav_bar.dart';
-import 'package:friendzone/pages/content_archive.dart';
+import 'package:friendzone/pages/content_chat.dart';
 import 'package:friendzone/pages/content_best.dart';
 import 'package:friendzone/pages/content_home.dart';
 import 'package:friendzone/pages/content_more.dart';
@@ -26,13 +26,14 @@ class _ContentLayoutState extends State<ContentLayout> {
     ContentHome(),
     ContentBest(),
     ContentPost(),
-    ContentArchive(),
+    ContentChat(),
     ContentMore(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: _pages[_currentIndex],
       bottomNavigationBar: NavBarComponent(
         currentIndex: _currentIndex,

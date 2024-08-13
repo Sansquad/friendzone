@@ -11,53 +11,10 @@ class ContentBest extends StatefulWidget {
 }
 
 class _ContentBestState extends State<ContentBest> {
-  Future<List<Map<String, dynamic>>> _fetchBestPosts() async {
-    List<Map<String, dynamic>> bestPosts = [];
-
-    // Fetch all grid documents
-    QuerySnapshot gridSnapshot = await FirebaseFirestore.instance.collection('grids').get();
-    List<DocumentSnapshot> grids = gridSnapshot.docs;
-
-    for (var grid in grids) {
-      String gridId = grid.id;
-
-      // Fetch the best post for each grid
-      QuerySnapshot postSnapshot = await FirebaseFirestore.instance
-          .collection('grids')
-          .doc(gridId)
-          .collection('posts')
-          .orderBy('likeNum', descending: true)
-          .limit(1)
-          .get();
-
-      if (postSnapshot.docs.isNotEmpty) {
-        final postData = postSnapshot.docs.first.data() as Map<String, dynamic>;
-        final user = postData['user'] as Map<String, dynamic>?;
-
-        final bestPost = {
-          'username': user?['username'] ?? 'Unknown',
-          'profileImgUrl': user?['profileImgUrl'] ?? '',
-          'timestamp': postData['timestamp'] ?? 'Unknown',
-          'contentText': postData['contentText'] ?? '',
-          'likeNum': postData['likeNum'] ?? 0,
-          'commentNum': postData['commentNum'] ?? 0,
-          'contentImageUrl': postData['contentImageUrl'] ?? '',
-          'gridCode': gridId,
-        };
-
-        bestPosts.add(bestPost);
-      }
-    }
-
-    // Sort the best posts by likeNum in descending order
-    bestPosts.sort((a, b) => b['likeNum'].compareTo(a['likeNum']));
-
-    return bestPosts;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         forceMaterialTransparency: true,
         automaticallyImplyLeading: false,
@@ -69,6 +26,10 @@ class _ContentBestState extends State<ContentBest> {
                 'assets/icons/bar_best.svg',
                 height: 27,
                 width: 27,
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.primary,
+                  BlendMode.srcIn,
+                ),
               ),
               SizedBox(width: 12),
               Text(
@@ -85,23 +46,38 @@ class _ContentBestState extends State<ContentBest> {
         centerTitle: false,
         actions: [
           IconButton(
-            //highlightColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             visualDensity: VisualDensity.compact,
             onPressed: () {},
-            icon: SvgPicture.asset('assets/icons/bar_notification.svg'),
+            icon: SvgPicture.asset(
+              'assets/icons/bar_notification.svg',
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).colorScheme.inverseSurface,
+                BlendMode.srcIn,
+              ),
+            ),
           ),
           IconButton(
-            //highlightColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             onPressed: () {},
             icon: Padding(
               padding: const EdgeInsets.only(right: 15.0),
-              child: SvgPicture.asset('assets/icons/bar_map.svg'),
+              child: SvgPicture.asset(
+                'assets/icons/bar_map.svg',
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.inverseSurface,
+                  BlendMode.srcIn,
+                ),
+              ),
             ),
           )
         ],
       ),
-      body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: _fetchBestPosts(),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('bestPosts')
+            .orderBy('likeNum', descending: true)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -111,11 +87,25 @@ class _ContentBestState extends State<ContentBest> {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
 
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No posts found.'));
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(child: Text('No posts globally!'));
           }
 
-          final bestPosts = snapshot.data!;
+          final bestPosts = snapshot.data!.docs.map((doc) {
+            final data = doc.data() as Map<String, dynamic>;
+            final user = data['user'] as Map<String, dynamic>?;
+            return {
+              'gridCode': data['gridCode'] ?? 'Unknown',
+              'username': user?['username'] ?? 'Unknown',
+              'profileImgUrl': user?['profileImgUrl'] ?? '',
+              'timestamp': data['timestamp'] ?? 'Unknown',
+              'contentText': data['contentText'] ?? '',
+              'likeNum': data['likeNum'] ?? 0,
+              'commentNum': data['commentNum'] ?? 0,
+              'contentImageUrl': data['contentImageUrl'] ?? ''
+            };
+          }).toList();
+
           return ListView.builder(
             itemCount: bestPosts.length,
             itemBuilder: (context, index) {
@@ -139,4 +129,3 @@ class _ContentBestState extends State<ContentBest> {
     );
   }
 }
-

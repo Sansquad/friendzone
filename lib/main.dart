@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 // import 'package:friendzone/firebase_options.dart'; 
 import 'package:flutter/material.dart';
+import 'package:friendzone/database/initialize_best_posts.dart';
 
 import 'config/firebase_options.dart';
 import 'database/upload_dummy_data.dart';
@@ -21,6 +22,8 @@ import 'pages/authentication_signin.dart';
 import 'pages/authentication_start.dart';
 
 import 'pages/content_layout.dart';
+import 'theme/dark_mode.dart';
+import 'theme/light_mode.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +35,7 @@ Future<void> main() async {
   if (isDevelopment) {
     await _configureEmulators();
     //await uploadDummyData();
+    //await initializeBestPosts();
   }
 
   runApp(const MyApp());
@@ -58,6 +62,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       //debugShowMaterialGrid: true,
       home: HomePage(),
+      theme: lightMode,
+      darkTheme: darkMode,
+      themeMode: ThemeMode.system,
       routes: {
         '/homepage': (context) => HomePage(),
         '/signin' : (context) => SignInPage(),
