@@ -45,7 +45,9 @@ class _FormContainerWidgetState extends State<FormContainerWidget>{
       height: 47,
 
       child: new TextFormField(
-        style: TextStyle(color: Colors.blue),
+        style: TextStyle(
+          color: Color(0xFF69B7FF),
+          ),
         controller: widget.controller,
         keyboardType: widget.inputType,
         key: widget.fieldKey,
@@ -74,10 +76,11 @@ class _FormContainerWidgetState extends State<FormContainerWidget>{
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide(
-              color: Color(0xFFE0E0E0),
+              color: Color(0xFF69B7FF),
               width: 2,
             ),
           ),
+          contentPadding: EdgeInsets.only(top: 5, left: 12),
           suffixIcon: new GestureDetector(
             onTap: (){
               setState(() {
