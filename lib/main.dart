@@ -17,6 +17,7 @@ import 'pages/authentication_signin.dart';
 
 // import 'pages/google_map_testing.dart';
 import 'pages/google_map_page.dart';
+import 'pages/google_map_testing.dart';
 
 import 'pages/authentication_signin.dart';
 import 'pages/authentication_start.dart';
@@ -74,7 +75,7 @@ class MyApp extends StatelessWidget {
         '/checkyouremail': (context) => CheckYourEmailPage(),
         '/createyourprofile': (context) => CreateYourProfilePage(),
         // '/googlemaptesting': (context) => GoogleMapTestingPage(),
-        '/googlemappage': (context) => GoogleMapPage(),
+        '/googlemappagetest': (context) => GoogleMapPage(),
         '/contentlayout': (context) => ContentLayout(),
       },
     );
