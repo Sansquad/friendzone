@@ -6,6 +6,8 @@ import 'package:friendzone/components/authentication/firebase_auth_services.dart
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:friendzone/pages/authentication_start.dart';
 import '../components/form_container_widget.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 
 class GetStartedPage extends StatefulWidget {
 
@@ -66,12 +68,12 @@ class _GetStartedPageState extends State<GetStartedPage> {
                 Navigator.pushNamed(context, '/homepage');
           },
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Theme.of(context).colorScheme.primary),
       ),
       body: Container(
-        color: Colors.white, // Set the background color to white
+        color: Theme.of(context).colorScheme.surface,
         child: Center(
           child: SingleChildScrollView(
             padding: EdgeInsets.all(16.0),
@@ -92,7 +94,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                               fontFamily: 'BigShouldersText',
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              color: Theme.of(context).colorScheme.inverseSurface,
                             ),
                           ),
                           TextSpan(
@@ -101,7 +103,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                               fontFamily: 'BigShouldersText',
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF69B7FF),
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                         ],
@@ -144,7 +146,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                             fontFamily: 'BigShouldersDisplay',
                             fontSize: 17,
                             fontWeight: FontWeight.w500,
-                            color: isPasswordInvalid ? Colors.red : Colors.black,
+                            color: isPasswordInvalid ? Colors.red : Color(0xFF818080),
                           ),
                         );
                       },
@@ -169,7 +171,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                                 // Optional: Implement buzzing effect here
                               },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF69B7FF),
+                          backgroundColor: Theme.of(context).colorScheme.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -178,16 +180,16 @@ class _GetStartedPageState extends State<GetStartedPage> {
                           'Create Account',
                           style: TextStyle(
                             fontFamily: 'BigShouldersDisplay',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500, // Semibold
-                            color: Colors.black,
+                            color: Theme.of(context).colorScheme.surface,
+                            fontSize: 23,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
                     );
                   },
                 ),
-
+                SizedBox(height: 20),
                 // Adding "- or -", Google Sign in, Apple sign in
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -222,14 +224,16 @@ class _GetStartedPageState extends State<GetStartedPage> {
                 SizedBox(height: 20),
                 // Continue with Apple button
                 SocialButton(
-                  assetPath: 'assets/icons/apple_logo.png',
+                  assetPath: 'assets/icons/auth_apple.svg',
                   text: 'Continue with Apple',
+                  onPressed: () {},
                 ),
                 SizedBox(height: 10),
                 // Continue with Google button
                 SocialButton(
                   assetPath: 'assets/icons/google_logo.png',
                   text: 'Continue with Google',
+                  onPressed: () {},
                 ),
                 SizedBox(height: 20),
 
@@ -242,7 +246,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                         fontFamily: 'BigShouldersDisplay',
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
-                        color: Color(0xFF818080),
+                        color: Theme.of(context).colorScheme.inverseSurface,
                       ),
                     ),
                     GestureDetector(
@@ -256,7 +260,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                           fontFamily: 'BigShouldersDisplay',
                           fontSize: 17,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF69B7FF),
+                          color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                     ),
@@ -297,12 +301,12 @@ class _GetStartedPageState extends State<GetStartedPage> {
 
 }
 
-
 class SocialButton extends StatelessWidget {
   final String assetPath;
   final String text;
+  final VoidCallback onPressed;
 
-  const SocialButton({required this.assetPath, required this.text});
+  const SocialButton({required this.assetPath, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -310,24 +314,35 @@ class SocialButton extends StatelessWidget {
       width: 313,
       height: 47,
       child: OutlinedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: OutlinedButton.styleFrom(
-          padding: EdgeInsets.symmetric(horizontal: 12.0), // Adjust padding to align logos to the left
+          padding: EdgeInsets.symmetric(horizontal: 12.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
           side: BorderSide(
-            color: Color(0xFFCECECE),
+            color: Color(0xFFF0EDED),
             width: 2,
           ),
         ),
         child: Row(
           children: [
-            Image.asset(
-              assetPath,
-              height: 24,
-            ),
-            SizedBox(width: 10),
+            if (assetPath.endsWith('.png'))
+              Image.asset(
+                assetPath, // Ensure the image exists in this path
+                height: 24,
+              ),
+            if (assetPath.endsWith('.svg'))
+              SvgPicture.asset(
+                  assetPath, // Ensure the image exists in this path
+                  height: 24,
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.inverseSurface,
+                    BlendMode.srcIn,
+                  ),
+                ),
+
+            SizedBox(width: 0),
             Expanded(
               child: Center(
                 child: Text(
@@ -336,7 +351,7 @@ class SocialButton extends StatelessWidget {
                     fontFamily: 'BigShouldersDisplay',
                     fontSize: 17,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.inverseSurface,
                   ),
                 ),
               ),

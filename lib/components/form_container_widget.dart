@@ -46,7 +46,8 @@ class _FormContainerWidgetState extends State<FormContainerWidget>{
 
       child: new TextFormField(
         style: TextStyle(
-          color: Color(0xFF69B7FF),
+          // color: Color(0xFF69B7FF),
+          color: Theme.of(context).colorScheme.primary,
           ),
         controller: widget.controller,
         keyboardType: widget.inputType,
@@ -65,7 +66,6 @@ class _FormContainerWidgetState extends State<FormContainerWidget>{
             fontWeight: FontWeight.w500,
           ),
           // filled: true,
-          fillColor: Colors.white,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide(
@@ -76,7 +76,7 @@ class _FormContainerWidgetState extends State<FormContainerWidget>{
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide(
-              color: Color(0xFF69B7FF),
+              color: Theme.of(context).colorScheme.primary,
               width: 2,
             ),
           ),
