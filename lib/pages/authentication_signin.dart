@@ -341,25 +341,54 @@ class _SignInPageState extends State<SignInPage> {
       email = await _getEmailFromUsername(input);
     }
 
-    if (email != null) {
-      try {
-        User? user = await _firebaseAuth.signInWithEmailAndPassword(email, password);
-        if (user != null) {
-          print('Sign in successful');
-          if (mounted) {
-            Navigator.pushNamed(context, '/contentlayout');
-          }
-        } else {
-          print('Sign in failed: User is null');
-        }
-      } on FirebaseAuthException catch (e) {
-        print('Sign in failed: ${e.message}');
-      } catch (e) {
-        print('Sign in failed: $e');
-      }
-    } else {
+    if (email == null) {
       print('No user found for that username.');
+      return;
     }
+
+    try {
+      User? user = await _firebaseAuth.signInWithEmailAndPassword(email, password);
+      
+      if (user != null) {
+        await user.reload();
+        if (user.emailVerified) {
+          // Email verified
+          print('Sign in successful');
+          Navigator.pushNamed(context, '/contentlayout');
+        } else {
+          // Email not verified
+          print('Please verify email to continue');
+          await _auth.signOut();
+          Navigator.pushNamed(context, '/verifyemail');
+        }
+      } else {
+        print('Sign in failed: User is null');
+      }
+    } on FirebaseAuthException catch (e) {
+      print('Sign in failed: ${e.message}');
+    } catch (e) {
+      print('Sign in failed: $e');
+    }
+
+    // if (email != null) {
+    //   try {
+    //     User? user = await _firebaseAuth.signInWithEmailAndPassword(email, password);
+    //     if (user != null) {
+    //       print('Sign in successful');
+    //       if (mounted) {
+    //         Navigator.pushNamed(context, '/contentlayout');
+    //       }
+    //     } else {
+    //       print('Sign in failed: User is null');
+    //     }
+    //   } on FirebaseAuthException catch (e) {
+    //     print('Sign in failed: ${e.message}');
+    //   } catch (e) {
+    //     print('Sign in failed: $e');
+    //   }
+    // } else {
+    //   print('No user found for that username.');
+    // }
   }
 
   Future<String?> _getEmailFromUsername(String username) async {
@@ -371,7 +400,7 @@ class _SignInPageState extends State<SignInPage> {
         .get();
 
       if (query.docs.isNotEmpty) {
-        return query.docs.first.get('email');
+        return query.docs.first.get('email') as String?;
       } else {
         return null;
       }

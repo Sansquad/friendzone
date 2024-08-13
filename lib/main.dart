@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-// import 'package:friendzone/firebase_options.dart'; 
 import 'package:flutter/material.dart';
 import 'package:friendzone/database/initialize_best_posts.dart';
 
 import 'config/firebase_options.dart';
 import 'database/upload_dummy_data.dart';
 
+// Authentication pages
 import 'pages/authentication_email.dart';
 import 'pages/authentication_home.dart';
 import 'pages/authentication_email.dart';
@@ -67,15 +67,21 @@ class MyApp extends StatelessWidget {
       darkTheme: darkMode,
       themeMode: ThemeMode.system,
       routes: {
-        '/homepage': (context) => HomePage(),
-        '/signin' : (context) => SignInPage(),
+
+        // Authentication
         '/homepage': (context) => HomePage(),
         '/signin' : (context) => SignInPage(),
         '/getstarted': (context) => GetStartedPage(),
-        '/checkyouremail': (context) => CheckYourEmailPage(),
+
+        // Verification
+        '/verifyemail': (context) => CheckYourEmailPage(),
         '/createyourprofile': (context) => CreateYourProfilePage(),
+
+        // Googlemaps 맛보기띠
         // '/googlemaptesting': (context) => GoogleMapTestingPage(),
         '/googlemappagetest': (context) => GoogleMapPage(),
+
+        // Contents
         '/contentlayout': (context) => ContentLayout(),
       },
     );

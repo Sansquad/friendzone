@@ -307,19 +307,30 @@ class _GetStartedPageState extends State<GetStartedPage> {
       );
 
       // Sign in to Firebase with the Google [UserCredential]
-      final UserCredential userCredential = await _auth.signInWithCredential(credential);
-      _user = userCredential.user;
+      // final UserCredential userCredential = await _auth.signInWithCredential(credential);
+      UserCredential userCredential = await _auth.signInWithCredential(credential);
+      // _user = userCredential.user;
+      User? user = userCredential.user;
 
-      setState(() {});
+      // setState(() {});
 
-      // Navigate to the next screen
-      Navigator.pushNamed(context, '/contentlayout');
-    } catch (error) {
-      print('Error during Google Sign-In: $error');
-      // You could display a dialog or message to the user here
+    if (user != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      if (!userDoc.exists) {
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'username': user.displayName,
+          'email': user.email,
+          'createdAt': Timestamp.now(),
+        });
+        Navigator.pushNamed(context, '/createyourprofile');
+      } else {
+        Navigator.pushNamed(context, '/contentlayout');
+      }
     }
+  } catch (error) {
+    print('Error during Google Sign-In: $error');
   }
-
+}
 
   void _signUp() async{
     String username = _usernameController.text;
@@ -333,9 +344,14 @@ class _GetStartedPageState extends State<GetStartedPage> {
     }
 
     try {
+      // Check if the username exists
+      
+
       User? user = await _firebaseAuth.signUpWithEmailAndPassword(email, password);
 
       if (user != null) {
+        // await user.updateDisplayName(username);
+
         // 만약 사용자의 추가적인 정보를 받고 싶다면 추가하기
         // 'users' collection에 저장됨
         await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
@@ -344,17 +360,15 @@ class _GetStartedPageState extends State<GetStartedPage> {
           'createdAt': Timestamp.now(),
         });
 
-          print('Sign up successful');
-
-          if (mounted) {
-          Navigator.pushNamed(context, '/contentlayout');
+        // Send email verification
+        await user.sendEmailVerification();
+        if (mounted) {
+          // Navigator.pushNamed(context, '/contentlayout');
+          Navigator.pushNamed(context, '/verifyemail');
           }
       } else {
         print('Sign up failed');
-
       }
-
-
     } catch (e) {
       print('Failed to sign up: $e');
     }
