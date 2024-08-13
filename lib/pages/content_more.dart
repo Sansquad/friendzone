@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:friendzone/services/auth/firebase_auth_services.dart';
 
 class ContentMore extends StatefulWidget {
   const ContentMore({super.key});
@@ -9,12 +10,18 @@ class ContentMore extends StatefulWidget {
 }
 
 class _ContentMoreState extends State<ContentMore> {
+  final _auth = FirebaseAuthService();
+
+  void logOut() {
+    _auth.logOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        forceMaterialTransparency:  true,
+        forceMaterialTransparency: true,
         leading: Padding(
           padding: const EdgeInsets.only(left: 30.0),
           child: IconButton(
@@ -34,8 +41,8 @@ class _ContentMoreState extends State<ContentMore> {
                   child: CircleAvatar(
                     radius: 35,
                     backgroundColor: Color(0xffD9D9D9),
-                    child:
-                    Icon(Icons.person_add_alt, color: Colors.white, size: 40),
+                    child: Icon(Icons.person_add_alt,
+                        color: Colors.white, size: 40),
                   ),
                 ),
                 Column(
@@ -62,7 +69,8 @@ class _ContentMoreState extends State<ContentMore> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10),
               child: Text(
                 'Check out my youtube channel\nhttps://www.youtube.com/@Kusupman\nPlease like and subscribe!',
                 style: TextStyle(
@@ -128,6 +136,10 @@ class _ContentMoreState extends State<ContentMore> {
                       'assets/icons/profile_zone_num.svg',
                       width: 32,
                       height: 32,
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).colorScheme.inverseSurface,
+                        BlendMode.srcIn,
+                      ),
                     ),
                     title: Text(
                       '  Number of zones visited: 1344',
@@ -142,6 +154,10 @@ class _ContentMoreState extends State<ContentMore> {
                       'assets/icons/profile_zone_hero.svg',
                       width: 32,
                       height: 32,
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).colorScheme.primary,
+                        BlendMode.srcIn,
+                      ),
                     ),
                     title: Text(
                       ' Zone hero: 633',
@@ -156,6 +172,10 @@ class _ContentMoreState extends State<ContentMore> {
                       'assets/icons/profile_points.svg',
                       width: 32,
                       height: 32,
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).colorScheme.inverseSurface,
+                        BlendMode.srcIn,
+                      ),
                     ),
                     title: Text(
                       'Points: 512373',
@@ -203,9 +223,7 @@ class _ContentMoreState extends State<ContentMore> {
                       ),
                     ),
                     splashColor: Colors.transparent,
-                    onTap: (){
-                      print("User wants to sign out!");
-                    },
+                    onTap: logOut,
                   ),
                 ],
               ),

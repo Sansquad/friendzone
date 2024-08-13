@@ -105,8 +105,8 @@ class _ContentHomeState extends State<ContentHome> {
                 'profileImgUrl': user?['profileImgUrl'] ?? '',
                 'timestamp': data['timestamp'] ?? 'Unknown',
                 'contentText': data['contentText'] ?? '',
-                'likeNum': data['likeNum'] ?? 0,
-                'commentNum': data['commentNum'] ?? 0,
+                'likeCount': data['likeCount'] ?? 0,
+                'commentCount': data['commentCount'] ?? 0,
                 'contentImageUrl': data['contentImageUrl'] ?? ''
               };
             }).toList();

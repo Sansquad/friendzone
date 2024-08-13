@@ -95,7 +95,7 @@ class PostWidget extends StatelessWidget {
                       color: Theme.of(context).colorScheme.inverseSurface,
                     ),
                     SizedBox(width: 2),
-                    Text(postData['likeNum']!.toString()),
+                    Text(postData['likeCount']!.toString()),
                     SizedBox(width: 10),
                     SvgPicture.asset(
                       'assets/icons/post_comment.svg',
@@ -104,7 +104,7 @@ class PostWidget extends StatelessWidget {
                       color: Theme.of(context).colorScheme.inverseSurface,
                     ),
                     SizedBox(width: 2),
-                    Text(postData['commentNum']!.toString()),
+                    Text(postData['commentCount']!.toString()),
                   ],
                 ),
                 Spacer(),

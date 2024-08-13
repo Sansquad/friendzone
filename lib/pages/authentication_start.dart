@@ -1,9 +1,9 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:friendzone/components/authentication/firebase_auth_services.dart';
+import 'package:friendzone/services/auth/firebase_auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:friendzone/services/database/database_service.dart';
 // import 'package:friendzone/pages/authentication_start.dart';
 import '../components/form_container_widget.dart';
 
@@ -16,17 +16,16 @@ class GetStartedPage extends StatefulWidget {
 }
 
 class _GetStartedPageState extends State<GetStartedPage> {
-  
   final FirebaseAuthService _auth = FirebaseAuthService();
-  
+  final _db = DatabaseService();
+
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  
+
   ValueNotifier<bool> _isPasswordInvalid = ValueNotifier(false);
   ValueNotifier<bool> _isPasswordValid = ValueNotifier(false);
-  
-  
+
   // Check if password is valid (> 8 characters)
   @override
   void initState() {
@@ -45,18 +44,16 @@ class _GetStartedPageState extends State<GetStartedPage> {
     }
   }
 
-  
   @override
-    void dispose() {
-      _usernameController.dispose();
-      _emailController.dispose();
-      _passwordController.dispose();
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
 
-      _isPasswordInvalid.dispose();
-      _isPasswordValid.dispose();
-      super.dispose();
-    }
-
+    _isPasswordInvalid.dispose();
+    _isPasswordValid.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +62,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-                Navigator.pushNamed(context, '/homepage');
+            Navigator.pushNamed(context, '/homepage');
           },
         ),
         backgroundColor: Colors.white,
@@ -84,7 +81,8 @@ class _GetStartedPageState extends State<GetStartedPage> {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(36, 0, 0, 20), // Adjust padding for positioning
+                    padding: const EdgeInsets.fromLTRB(
+                        36, 0, 0, 20), // Adjust padding for positioning
                     child: RichText(
                       text: TextSpan(
                         children: [
@@ -116,7 +114,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                   controller: _usernameController,
                   hintText: 'Username',
                   isPasswordField: false,
-                  ),
+                ),
                 SizedBox(height: 20),
 
                 FormContainerWidget(
@@ -146,7 +144,8 @@ class _GetStartedPageState extends State<GetStartedPage> {
                             fontFamily: 'BigShouldersDisplay',
                             fontSize: 17,
                             fontWeight: FontWeight.w500,
-                            color: isPasswordInvalid ? Colors.red : Colors.black,
+                            color:
+                                isPasswordInvalid ? Colors.red : Colors.black,
                           ),
                         );
                       },
@@ -163,8 +162,8 @@ class _GetStartedPageState extends State<GetStartedPage> {
                       child: ElevatedButton(
                         onPressed: isPasswordValid
                             ? () {
-                              _signUp();
-                              // Navigator.pushNamed(context, '/contentlayout');
+                                _signUp();
+                                // Navigator.pushNamed(context, '/contentlayout');
                               }
                             : () {
                                 _isPasswordInvalid.value = true;
@@ -235,7 +234,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                 ),
                 SizedBox(height: 20),
 
-                  Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
@@ -252,29 +251,28 @@ class _GetStartedPageState extends State<GetStartedPage> {
                       onTap: () {
                         Navigator.pushNamed(context, '/signin');
                       },
-                  child: Text(
+                      child: Text(
                         'Sign In',
                         style: TextStyle(
                           fontFamily: 'BigShouldersDisplay',
                           fontSize: 17,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF69B7FF),
+                        ),
                       ),
                     ),
-                    ),
                   ],
-),
+                ),
                 SizedBox(height: 90),
-
               ],
+            ),
           ),
         ),
       ),
-    ),
     );
   }
 
-  void _signUp() async{
+  void _signUp() async {
     String username = _usernameController.text;
     String email = _emailController.text;
     String password = _passwordController.text;
@@ -283,17 +281,18 @@ class _GetStartedPageState extends State<GetStartedPage> {
 
     if (user != null) {
       print('Sign up successful');
+      await _db.saveUserOnRegister(
+        username: username,
+        email: email,
+      );
       if (mounted) {
-      Navigator.pushNamed(context, '/contentlayout');
+        Navigator.pushNamed(context, '/contentlayout');
       }
-
     } else {
       print('Sign up failed');
     }
   }
-
 }
-
 
 class SocialButton extends StatelessWidget {
   final String assetPath;
@@ -309,7 +308,8 @@ class SocialButton extends StatelessWidget {
       child: OutlinedButton(
         onPressed: () {},
         style: OutlinedButton.styleFrom(
-          padding: EdgeInsets.symmetric(horizontal: 12.0), // Adjust padding to align logos to the left
+          padding: EdgeInsets.symmetric(
+              horizontal: 12.0), // Adjust padding to align logos to the left
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),

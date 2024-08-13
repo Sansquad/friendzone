@@ -28,7 +28,6 @@
 //       });
 //     }
 
-
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
@@ -78,10 +77,10 @@
 //   }
 // }
 
-
 // updated 2024 08 12
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:friendzone/services/auth/auth_gate.dart';
 import 'package:friendzone/services/auth/firebase_auth_services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_button/sign_in_button.dart';
@@ -143,191 +142,191 @@ class _SignInPageState extends State<SignInPage> {
       ),
       // body: _user != null ? _userInfo() : _googleSignInButton(),
       body: Container(
-  color: Colors.white,
-  child: Center(
-    child: SingleChildScrollView(
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          RichText(
-            text: TextSpan(
+        color: Colors.white,
+        child: Center(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                TextSpan(
-                  text: "Welcome back to Friend",
-                  style: TextStyle(
-                    fontFamily: 'BigShouldersText',
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Welcome back to Friend",
+                        style: TextStyle(
+                          fontFamily: 'BigShouldersText',
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      TextSpan(
+                        text: "zone",
+                        style: TextStyle(
+                          fontFamily: 'BigShouldersText',
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF69B7FF),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-  TextSpan(
-                  text: "zone",
-                  style: TextStyle(
-                    fontFamily: 'BigShouldersText',
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF69B7FF),
-                  ),
-  ),
-              ],
-),
-),
-          SizedBox(height: 20),
-          FormContainerWidget(
-            controller: _usernameOrEmailController,
-            hintText: 'Email Address or Username',
-            isPasswordField: false,
-          ),
-          SizedBox(height: 15),
-          FormContainerWidget(
-            controller: _passwordController,
-            hintText: 'Password',
-            isPasswordField: true,
-          ),
-          SizedBox(height: 5),
-          Container(
-            width: 313,
-            child: Row(
-              children: [
-                Checkbox(
-                  value: false,
-                  onChanged: (bool? newValue) {},
+                SizedBox(height: 20),
+                FormContainerWidget(
+                  controller: _usernameOrEmailController,
+                  hintText: 'Email Address or Username',
+                  isPasswordField: false,
                 ),
-                Text (
-                  'Remember me?',
-                  style: TextStyle(
-                    fontFamily: 'BigShouldersText',
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                SizedBox(height: 15),
+                FormContainerWidget(
+                  controller: _passwordController,
+                  hintText: 'Password',
+                  isPasswordField: true,
+                ),
+                SizedBox(height: 5),
+                Container(
+                  width: 313,
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: false,
+                        onChanged: (bool? newValue) {},
+                      ),
+                      Text(
+                        'Remember me?',
+                        style: TextStyle(
+                          fontFamily: 'BigShouldersText',
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-            ),
-          SizedBox(height: 5),
-          SizedBox(
-            width: 313,
-            height: 48,
-            child: ElevatedButton(
-              onPressed: () {
-                _signIn();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF69B7FF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
-              child: Text(
-                'Sign In',
-                style: TextStyle(
-                  fontFamily: 'BigShouldersDisplay',
-                  fontSize: 20,
-                  fontWeight: FontWeight.w300,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            width: 313,
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                'Forgot Password?',
-                style: TextStyle(
-                  fontFamily: 'BigShoulderDisplay',
-                  fontSize: 17,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF818080),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Divider(
-                    color: Color(0xFF818080),
-                    thickness: 1,
-                    endIndent: 8,
-                  ),
-                ),
-                Text(
-                  'OR',
-                  style: TextStyle(
-                    fontFamily: 'BigShouldersDisplay',
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF818080),
-                  ),
-                  ),
-                  Expanded(
-                    child: Divider(
-                      color: Color(0xFF818080),
-                      thickness: 1,
-                      indent: 8,
+                SizedBox(height: 5),
+                SizedBox(
+                  width: 313,
+                  height: 48,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _signIn();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF69B7FF),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    child: Text(
+                      'Sign In',
+                      style: TextStyle(
+                        fontFamily: 'BigShouldersDisplay',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ],
-              ),
-            ),
-            SizedBox(height: 20),
-            SocialButton(
-              assetPath: 'assets/icons/apple_logo.png',
-              text: 'Continue with Apple',
-              onPressed: () {},
-            ),
-            SizedBox(height: 10),
-            SocialButton(
-              assetPath: 'assets/icons/google_logo.png',
-              text: 'Continue with Google',
-              onPressed: () {
-                _handleGoogleSignIn();
-              },
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'New to Friendzone? ',
-                  style: TextStyle(
-                    fontFamily: 'BigShoulderDisplay',
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF818080),
+                ),
+                SizedBox(height: 10),
+                Container(
+                  width: 313,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'Forgot Password?',
+                      style: TextStyle(
+                        fontFamily: 'BigShoulderDisplay',
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF818080),
+                      ),
+                    ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/getstarted');
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFF818080),
+                          thickness: 1,
+                          endIndent: 8,
+                        ),
+                      ),
+                      Text(
+                        'OR',
+                        style: TextStyle(
+                          fontFamily: 'BigShouldersDisplay',
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF818080),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFF818080),
+                          thickness: 1,
+                          indent: 8,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                SocialButton(
+                  assetPath: 'assets/icons/apple_logo.png',
+                  text: 'Continue with Apple',
+                  onPressed: () {},
+                ),
+                SizedBox(height: 10),
+                SocialButton(
+                  assetPath: 'assets/icons/google_logo.png',
+                  text: 'Continue with Google',
+                  onPressed: () {
+                    _handleGoogleSignIn();
                   },
-                  child: Text(
-                    'Create an account',
-                    style: TextStyle(
-                      fontFamily: 'BigShoulderDisplay',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF69B7FF),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'New to Friendzone? ',
+                      style: TextStyle(
+                        fontFamily: 'BigShoulderDisplay',
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF818080),
+                      ),
                     ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/getstarted');
+                      },
+                      child: Text(
+                        'Create an account',
+                        style: TextStyle(
+                          fontFamily: 'BigShoulderDisplay',
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF69B7FF),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
+                ),
+                SizedBox(height: 120),
               ],
             ),
-            SizedBox(height:120),
-        ],
-      ),
-    ),
-  ),
+          ),
+        ),
       ),
     );
   }
@@ -375,14 +374,16 @@ class _SignInPageState extends State<SignInPage> {
         // The user canceled the sign-in
         return;
       }
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
       // Sign in to Firebase with the Google [UserCredential]
-      final UserCredential userCredential = await _auth.signInWithCredential(credential);
+      final UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
       _user = userCredential.user;
 
       setState(() {});
@@ -395,7 +396,7 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
-    void _signIn() async {
+  void _signIn() async {
     String input = _usernameOrEmailController.text;
     String password = _passwordController.text;
 
@@ -408,11 +409,13 @@ class _SignInPageState extends State<SignInPage> {
 
     if (email != null) {
       try {
-        User? user = await _firebaseAuth.signInWithEmailAndPassword(email, password);
+        User? user =
+            await _firebaseAuth.signInWithEmailAndPassword(email, password);
         if (user != null) {
           print('Sign in successful');
           if (mounted) {
-            Navigator.pushNamed(context, '/contentlayout');
+            //Navigator.pushNamed(context, '/contentlayout');
+            Navigator.of(context).popUntil((route) => route.isFirst);
           }
         } else {
           print('Sign in failed: User is null');
@@ -427,8 +430,6 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
-
-
   void _signOut() async {
     await _auth.signOut();
     await GoogleSignIn().signOut();
@@ -438,13 +439,13 @@ class _SignInPageState extends State<SignInPage> {
   }
 }
 
-
 class SocialButton extends StatelessWidget {
   final String assetPath;
   final String text;
   final VoidCallback onPressed;
 
-  const SocialButton({required this.assetPath, required this.text, required this.onPressed});
+  const SocialButton(
+      {required this.assetPath, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
