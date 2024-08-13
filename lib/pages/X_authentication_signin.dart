@@ -2,13 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:friendzone/components/authentication/firebase_auth_services.dart';
+import 'package:friendzone/services/auth/firebase_auth_services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../components/form_container_widget.dart';
 
 class SignInPageX extends StatefulWidget {
   const SignInPageX({super.key});
-  
+
   @override
   _SignInPageXState createState() => _SignInPageXState();
 }

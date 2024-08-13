@@ -9,7 +9,7 @@
 
 // class GoogleInPage extends StatefulWidget {
 //   const GoogleInPage({super.key});
-  
+
 //   @override
 //   _GoogleInPageState createState() => _GoogleInPageState();
 // }
@@ -27,7 +27,7 @@
 //         });
 //       });
 //     }
-  
+
 
 //   @override
 //   Widget build(BuildContext context) {
@@ -52,8 +52,8 @@
 //       child: SizedBox(
 //         height: 50,
 //         child: SignInButton(
-//           Buttons.google, 
-//         text: "Sign up with Google", 
+//           Buttons.google,
+//         text: "Sign up with Google",
 //         onPressed: _handleGoogleSignIn,
 //         ),
 //       ),
@@ -82,18 +82,17 @@
 // updated 2024 08 12
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:friendzone/components/authentication/firebase_auth_services.dart';
+import 'package:friendzone/services/auth/firebase_auth_services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import '../components/form_container_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:friendzone/components/authentication/firebase_auth_services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../components/form_container_widget.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
-  
+
   @override
   _SignInPageState createState() => _SignInPageState();
 }
