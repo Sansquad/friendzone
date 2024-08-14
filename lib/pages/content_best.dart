@@ -76,7 +76,7 @@ class _ContentBestState extends State<ContentBest> {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('bestPosts')
-            .orderBy('likeNum', descending: true)
+            .orderBy('likeCount', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -100,8 +100,8 @@ class _ContentBestState extends State<ContentBest> {
               'profileImgUrl': user?['profileImgUrl'] ?? '',
               'timestamp': data['timestamp'] ?? 'Unknown',
               'contentText': data['contentText'] ?? '',
-              'likeNum': data['likeNum'] ?? 0,
-              'commentNum': data['commentNum'] ?? 0,
+              'likeCount': data['likeCount'] ?? 0,
+              'commentCount': data['commentCount'] ?? 0,
               'contentImageUrl': data['contentImageUrl'] ?? ''
             };
           }).toList();

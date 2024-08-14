@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:friendzone/components/authentication/firebase_auth_services.dart';
+import 'package:friendzone/services/auth/auth_gate.dart';
+import 'package:friendzone/services/auth/firebase_auth_services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import '../components/form_container_widget.dart';
@@ -9,13 +10,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:friendzone/components/authentication/firebase_auth_services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../components/form_container_widget.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
-  
+
   @override
   _SignInPageState createState() => _SignInPageState();
 }
@@ -23,7 +23,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   // don't think we'll need this 20240813
   // bool _isChecked = false;
-  
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseAuthService _firebaseAuth = FirebaseAuthService();
   TextEditingController _usernameOrEmailController = TextEditingController();
@@ -307,14 +307,16 @@ class _SignInPageState extends State<SignInPage> {
         // The user canceled the sign-in
         return;
       }
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
       // Sign in to Firebase with the Google [UserCredential]
-      final UserCredential userCredential = await _auth.signInWithCredential(credential);
+      final UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
       _user = userCredential.user;
 
       setState(() {});
@@ -327,7 +329,7 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
-    void _signIn() async {
+  void _signIn() async {
     String input = _usernameOrEmailController.text;
     String password = _passwordController.text;
 
@@ -341,14 +343,32 @@ class _SignInPageState extends State<SignInPage> {
       email = await _getEmailFromUsername(input);
     }
 
-    if (email == null) {
+    if (email != null) {
+      try {
+        User? user =
+            await _firebaseAuth.signInWithEmailAndPassword(email, password);
+        if (user != null) {
+          print('Sign in successful');
+          if (mounted) {
+            //Navigator.pushNamed(context, '/contentlayout');
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          }
+        } else {
+          print('Sign in failed: User is null');
+        }
+      } on FirebaseAuthException catch (e) {
+        print('Sign in failed: ${e.message}');
+      } catch (e) {
+        print('Sign in failed: $e');
+      }
+    } else {
       print('No user found for that username.');
       return;
     }
 
     try {
       User? user = await _firebaseAuth.signInWithEmailAndPassword(email, password);
-      
+
       if (user != null) {
         await user.reload();
         if (user.emailVerified) {
@@ -420,13 +440,13 @@ class _SignInPageState extends State<SignInPage> {
   }
 }
 
-
 class SocialButton extends StatelessWidget {
   final String assetPath;
   final String text;
   final VoidCallback onPressed;
 
-  const SocialButton({required this.assetPath, required this.text, required this.onPressed});
+  const SocialButton(
+      {required this.assetPath, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {

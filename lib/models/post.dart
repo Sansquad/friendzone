@@ -4,44 +4,59 @@ import 'user.dart';
 
 class Post {
   final String gridCode;
-  final User user;
-  final Timestamp timestamp;
+  //final UserModel user;
+  final String id;
+  final String uid;
+  final String username;
   final String contentText;
-  final int likeNum;
-  final int commentNum;
   final String contentImageUrl;
+  final Timestamp timestamp;
+  final int likeCount;
+  final int commentCount;
+  final List<String> likedBy;
 
   Post({
     required this.gridCode,
-    required this.user,
-    required this.timestamp,
+    //required this.user,
+    required this.id,
+    required this.uid,
+    required this.username,
     required this.contentText,
-    required this.likeNum,
-    required this.commentNum,
     required this.contentImageUrl,
+    required this.timestamp,
+    required this.likeCount,
+    required this.commentCount,
+    required this.likedBy,
   });
 
-  factory Post.fromMap(Map<String, dynamic> data) {
+  factory Post.fromDocument(DocumentSnapshot doc) {
     return Post(
-      gridCode: data['gridCode'],
-      user: User.fromMap(data['user']),
-      timestamp: data['timestamp'],
-      contentText: data['contentText'],
-      likeNum: data['likeNum'],
-      commentNum: data['commentNum'],
-      contentImageUrl: data['contentImageUrl'],
+      gridCode: doc['gridCode'],
+      //user: UserModel.fromMap(doc['user']),
+      id: doc.id,
+      uid: doc['uid'],
+      username: doc['username'],
+      contentText: doc['contentText'],
+      contentImageUrl: doc['contentImageUrl'],
+      timestamp: doc['timestamp'],
+      likeCount: doc['likeCount'],
+      commentCount: doc['commentCount'],
+      likedBy: List<String>.from(doc['likedBy'] ?? []),
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'gridCode': gridCode,
-      'user': user.toMap(),
-      'timestamp': timestamp,
+      //'user': user.toMap(),
+      'uid': uid,
+      'username': username,
       'contentText': contentText,
-      'likeNum': likeNum,
-      'commentNum': commentNum,
       'contentImageUrl': contentImageUrl,
+      'timestamp': timestamp,
+      'likeCount': likeCount,
+      'commentCount': commentCount,
+      'likedBy': likedBy,
     };
   }
 }

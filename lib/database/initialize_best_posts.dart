@@ -13,7 +13,7 @@ Future<void> initializeBestPosts() async {
         .collection('grids')
         .doc(gridId)
         .collection('posts')
-        .orderBy('likeNum', descending: true)
+        .orderBy('likeCount', descending: true)
         .limit(1)
         .get();
 
@@ -27,8 +27,8 @@ Future<void> initializeBestPosts() async {
         'profileImgUrl': user?['profileImgUrl'] ?? '',
         'timestamp': postData['timestamp'] ?? 'Unknown',
         'contentText': postData['contentText'] ?? '',
-        'likeNum': postData['likeNum'] ?? 0,
-        'commentNum': postData['commentNum'] ?? 0,
+        'likeCount': postData['likeCount'] ?? 0,
+        'commentCount': postData['commentCount'] ?? 0,
         'contentImageUrl': postData['contentImageUrl'] ?? '',
         'user': user,
       };

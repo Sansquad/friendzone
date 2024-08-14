@@ -1,9 +1,9 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:friendzone/components/authentication/firebase_auth_services.dart';
+import 'package:friendzone/services/auth/firebase_auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:friendzone/services/database/database_service.dart';
 // import 'package:friendzone/pages/authentication_start.dart';
 import '../components/form_container_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,25 +20,26 @@ class GetStartedPage extends StatefulWidget {
 }
 
 class _GetStartedPageState extends State<GetStartedPage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseAuthService _firebaseAuth = FirebaseAuthService();
-  
+  final FirebaseAuthService _auth = FirebaseAuthService();
+  final FirebaseAuth _authInstance = FirebaseAuth.instance;
+  final _db = DatabaseService();
+
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  
+
   ValueNotifier<bool> _isPasswordInvalid = ValueNotifier(false);
   ValueNotifier<bool> _isPasswordValid = ValueNotifier(false);
 
   User? _user;
-  
-  
+
+
   // Check if password is valid (> 8 characters)
   @override
   void initState() {
     super.initState();
     _passwordController.addListener(_validatePassword);
-    _auth.authStateChanges().listen((event) {
+    _authInstance.authStateChanges().listen((event) {
       setState(() {
         _user = event;
       });
@@ -57,18 +58,16 @@ class _GetStartedPageState extends State<GetStartedPage> {
     }
   }
 
-  
   @override
-    void dispose() {
-      _usernameController.dispose();
-      _emailController.dispose();
-      _passwordController.dispose();
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
 
-      _isPasswordInvalid.dispose();
-      _isPasswordValid.dispose();
-      super.dispose();
-    }
-
+    _isPasswordInvalid.dispose();
+    _isPasswordValid.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +76,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-                Navigator.pushNamed(context, '/homepage');
+            Navigator.pushNamed(context, '/homepage');
           },
         ),
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -96,7 +95,8 @@ class _GetStartedPageState extends State<GetStartedPage> {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(36, 0, 0, 20), // Adjust padding for positioning
+                    padding: const EdgeInsets.fromLTRB(
+                        36, 0, 0, 20), // Adjust padding for positioning
                     child: RichText(
                       text: TextSpan(
                         children: [
@@ -128,7 +128,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                   controller: _usernameController,
                   hintText: 'Username',
                   isPasswordField: false,
-                  ),
+                ),
                 SizedBox(height: 20),
 
                 FormContainerWidget(
@@ -175,8 +175,8 @@ class _GetStartedPageState extends State<GetStartedPage> {
                       child: ElevatedButton(
                         onPressed: isPasswordValid
                             ? () {
-                              _signUp();
-                              // Navigator.pushNamed(context, '/contentlayout');
+                                _signUp();
+                                // Navigator.pushNamed(context, '/contentlayout');
                               }
                             : () {
                                 _isPasswordInvalid.value = true;
@@ -254,7 +254,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                 ),
                 SizedBox(height: 20),
 
-                  Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
@@ -271,7 +271,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                       onTap: () {
                         Navigator.pushNamed(context, '/signin');
                       },
-                  child: Text(
+                      child: Text(
                         'Sign In',
                         style: TextStyle(
                           fontFamily: 'BigShouldersDisplay',
@@ -282,14 +282,13 @@ class _GetStartedPageState extends State<GetStartedPage> {
                     ),
                     ),
                   ],
-),
+                ),
                 SizedBox(height: 90),
-
               ],
+            ),
           ),
         ),
       ),
-    ),
     );
   }
 
@@ -308,7 +307,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
 
       // Sign in to Firebase with the Google [UserCredential]
       // final UserCredential userCredential = await _auth.signInWithCredential(credential);
-      UserCredential userCredential = await _auth.signInWithCredential(credential);
+      UserCredential userCredential = await _authInstance.signInWithCredential(credential);
       // _user = userCredential.user;
       User? user = userCredential.user;
 
@@ -344,36 +343,27 @@ class _GetStartedPageState extends State<GetStartedPage> {
     }
 
     try {
-      // Check if the username exists
-      
-
-      User? user = await _firebaseAuth.signUpWithEmailAndPassword(email, password);
-
+      User? user = await _auth.signUpWithEmailAndPassword(email, password);
       if (user != null) {
-        // await user.updateDisplayName(username);
-
-        // 만약 사용자의 추가적인 정보를 받고 싶다면 추가하기
-        // 'users' collection에 저장됨
-        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-          'username': username,
-          'email': email,
-          'createdAt': Timestamp.now(),
-        });
-
-        // Send email verification
-        await user.sendEmailVerification();
+       // print('Sign up successful');
+        //await _db.saveUserOnRegister(
+         // username: username,
+          //email: email,
+        //);
+      await user.sendEmailVerification();
         if (mounted) {
           // Navigator.pushNamed(context, '/contentlayout');
           Navigator.pushNamed(context, '/verifyemail');
-          }
+        }
       } else {
         print('Sign up failed');
+
+        // Send email verification
       }
     } catch (e) {
       print('Failed to sign up: $e');
-    }
   }
-}
+  }}
 
 class SocialButton extends StatelessWidget {
   final String assetPath;

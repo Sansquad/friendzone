@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:friendzone/database/initialize_best_posts.dart';
+import 'package:friendzone/services/auth/auth_gate.dart';
 
 import 'config/firebase_options.dart';
 import 'database/upload_dummy_data.dart';
@@ -31,13 +32,13 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // Check if running in development mode (aka. not production)
-  // const bool isDevelopment = !bool.fromEnvironment('dart.vm.product');
+  const bool isDevelopment = !bool.fromEnvironment('dart.vm.product');
 
-  // if (isDevelopment) {
-  //   await _configureEmulators();
-  //   //await uploadDummyData();
-  //   //await initializeBestPosts();
-  // }
+  if (isDevelopment) {
+    await _configureEmulators();
+    await uploadDummyData();
+    //await initializeBestPosts();
+  }
 
   runApp(const MyApp());
 }
@@ -62,15 +63,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       //debugShowMaterialGrid: true,
-      home: HomePage(),
+      home: const AuthGate(),
       theme: lightMode,
       darkTheme: darkMode,
       themeMode: ThemeMode.system,
       routes: {
-
-        // Authentication
         '/homepage': (context) => HomePage(),
-        '/signin' : (context) => SignInPage(),
+        '/signin': (context) => SignInPage(),
         '/getstarted': (context) => GetStartedPage(),
 
         // Verification
