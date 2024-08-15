@@ -345,8 +345,40 @@ class _GetStartedPageState extends State<GetStartedPage> {
 
     try {
       // Check if the username exists
-      
+      QuerySnapshot usernameQuery = await FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .limit(1)
+        .get();
 
+      if (usernameQuery.docs.isNotEmpty) {
+        // Username is taken
+        print('Username is already taken');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Username is already taken'),
+          backgroundColor: Colors.red,
+        ));
+        return;
+      }
+          
+      // Check if the email already exists
+      QuerySnapshot emailQuery = await FirebaseFirestore.instance
+          .collection('users')
+          .where('email', isEqualTo: email)
+          .limit(1)
+          .get();
+
+      if (emailQuery.docs.isNotEmpty) {
+        // Email is taken
+        print('Email is already taken');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Email is already taken'),
+          backgroundColor: Colors.red,
+        ));
+        return;
+      }
+
+      // If both are available -> create the user
       User? user = await _firebaseAuth.signUpWithEmailAndPassword(email, password);
 
       if (user != null) {
@@ -371,6 +403,10 @@ class _GetStartedPageState extends State<GetStartedPage> {
       }
     } catch (e) {
       print('Failed to sign up: $e');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Failed to sign up: $e'),
+        backgroundColor: Colors.red,
+      ));
     }
   }
 }
