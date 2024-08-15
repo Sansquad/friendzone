@@ -36,7 +36,7 @@ Future<void> main() async {
 
   if (isDevelopment) {
     await _configureEmulators();
-    await uploadDummyData();
+    //await uploadDummyData();
     //await initializeBestPosts();
   }
 
@@ -69,8 +69,6 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       routes: {
         '/homepage': (context) => HomePage(),
-        '/signin': (context) => SignInPage(),
-        '/getstarted': (context) => GetStartedPage(),
 
         // Verification
         '/verifyemail': (context) => CheckYourEmailPage(),
