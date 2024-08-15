@@ -318,10 +318,6 @@ class _SignInPageState extends State<SignInPage> {
           await _auth.signInWithCredential(credential);
       _user = userCredential.user;
 
-      setState(() {});
-
-      // Navigate to the next screen
-      Navigator.pushNamed(context, '/contentlayout');
     } catch (error) {
       print('Error during Google Sign-In: $error');
       // You could display a dialog or message to the user here

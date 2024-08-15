@@ -353,7 +353,6 @@ class _GetStartedPageState extends State<GetStartedPage> {
     try {
       User? user = await _auth.signUpWithEmailAndPassword(email, password);
       if (user != null) {
-        // print('Sign up successful');
         //await _db.saveUserOnRegister(
         // username: username,
         //email: email,

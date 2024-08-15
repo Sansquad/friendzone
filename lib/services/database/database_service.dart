@@ -58,7 +58,7 @@ class DatabaseService {
 
       Map<String, dynamic> newPostMap = newPost.toMap();
       // TODO
-      await _db.collection("posts").add(newPostMap);
+      await _db.collection("grids").doc(gridCode).collection("posts").add(newPostMap);
     } catch (e) {
       print(e);
     }
