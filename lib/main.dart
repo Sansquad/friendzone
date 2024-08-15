@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:friendzone/database/database_provider.dart';
 import 'package:friendzone/database/initialize_best_posts.dart';
 import 'package:friendzone/services/auth/auth_gate.dart';
+import 'package:provider/provider.dart';
 
 import 'config/firebase_options.dart';
 import 'database/upload_dummy_data.dart';
@@ -40,7 +42,14 @@ Future<void> main() async {
     //await initializeBestPosts();
   }
 
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => DatabaseProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 Future<void> _configureEmulators() async {
