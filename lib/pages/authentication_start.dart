@@ -239,7 +239,9 @@ class _GetStartedPageState extends State<GetStartedPage> {
                 SocialButton(
                   assetPath: 'assets/icons/auth_apple.svg',
                   text: 'Continue with Apple',
-                  onPressed: () {},
+                  onPressed: () {
+                    _handleAppleSignIn();
+                  },
                 ),
                 SizedBox(height: 10),
                 // Continue with Google button
@@ -291,6 +293,14 @@ class _GetStartedPageState extends State<GetStartedPage> {
       ),
     ),
     );
+  }
+
+  void _handleAppleSignIn() async {
+    print('Apple Sign In is not supported yet');
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Lol. Use email or Google to sign in.'),
+      backgroundColor: Colors.red,
+    ));
   }
 
   void _handleGoogleSignIn() async {
@@ -347,7 +357,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
       // Check if the username exists
       QuerySnapshot usernameQuery = await FirebaseFirestore.instance
         .collection('users')
-        .where('email', isEqualTo: email)
+        .where('username', isEqualTo: username)
         .limit(1)
         .get();
 
@@ -382,7 +392,6 @@ class _GetStartedPageState extends State<GetStartedPage> {
       User? user = await _firebaseAuth.signUpWithEmailAndPassword(email, password);
 
       if (user != null) {
-        // await user.updateDisplayName(username);
 
         // 만약 사용자의 추가적인 정보를 받고 싶다면 추가하기
         // 'users' collection에 저장됨

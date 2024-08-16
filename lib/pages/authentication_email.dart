@@ -244,7 +244,7 @@ class _CheckYourEmailPageState extends State<CheckYourEmailPage> {
                     child: ElevatedButton(
                      onPressed: () {
                         if (_auth.currentUser != null) {
-                          // _auth.currentUser!.reload();
+                          _auth.currentUser!.reload();
                           var user = _auth.currentUser;
                           if (user != null && user.emailVerified) {
                             Navigator.pushNamed(context, '/createyourprofile');
@@ -255,6 +255,8 @@ class _CheckYourEmailPageState extends State<CheckYourEmailPage> {
                               ),
                             );
                           }
+                        } else {
+                          print("yaho");
                         }
                       },
                       style: ElevatedButton.styleFrom(
