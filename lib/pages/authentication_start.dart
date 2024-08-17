@@ -299,7 +299,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
     print('Apple Sign In is not supported yet');
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text('Lol. Use email or Google to sign in.'),
-      backgroundColor: Colors.red,
+      backgroundColor: Theme.of(context).colorScheme.primary,
     ));
   }
 
@@ -366,7 +366,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
         print('Username is already taken');
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Username is already taken'),
-          backgroundColor: Colors.red,
+          backgroundColor: Theme.of(context).colorScheme.primary,
         ));
         return;
       }
@@ -383,7 +383,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
         print('Email is already taken');
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Email is already taken'),
-          backgroundColor: Colors.red,
+          backgroundColor: Theme.of(context).colorScheme.primary,
         ));
         return;
       }
@@ -414,7 +414,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
       print('Failed to sign up: $e');
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Failed to sign up: $e'),
-        backgroundColor: Colors.red,
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ));
     }
   }

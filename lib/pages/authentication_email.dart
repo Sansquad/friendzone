@@ -38,12 +38,13 @@ class _CheckYourEmailPageState extends State<CheckYourEmailPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // Navigate back to the previous screen
+            // Navigator.pop(context); // Navigate back to the previous screen
+            Navigator.pushNamed(context, '/authentication_home');
           },
         ),
         backgroundColor: Theme.of(context).colorScheme.surface,
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Theme.of(context).colorScheme.primary),        
       ),
       body: Container(
         color: Theme.of(context).colorScheme.surface,
@@ -94,6 +95,7 @@ class _CheckYourEmailPageState extends State<CheckYourEmailPage> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('Email not verified!'),
+                            backgroundColor: Theme.of(context).colorScheme.primary,
                           ),
                         );
                       } 
@@ -160,6 +162,12 @@ class _CheckYourEmailPageState extends State<CheckYourEmailPage> {
                             ..onTap = () {
                               _resendVerificationEmail(); // Resend email on click
                               print("Resend email"); //
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Verification email resent!'),
+                                  backgroundColor: Theme.of(context).colorScheme.primary,
+                                  ),
+
+                                 );
                             }
 
                         ),
@@ -208,7 +216,11 @@ class _CheckYourEmailPageState extends State<CheckYourEmailPage> {
       try {
       await user.sendEmailVerification();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Verification email resent!')),
+        SnackBar(content: Text('Verification email resent!'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+
+        ),
+        
       );
       print('Verification email resent!');
       } catch (e) {
