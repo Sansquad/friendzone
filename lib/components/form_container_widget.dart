@@ -37,6 +37,39 @@ class FormContainerWidget extends StatefulWidget{
 class _FormContainerWidgetState extends State<FormContainerWidget>{
 
   bool _obscureText = true;
+  bool _hasText = false;
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller!.addListener(_textListener);
+    _focusNode.addListener(_focusListener); 
+  }
+
+  @override
+  void dispose() {
+    widget.controller?.removeListener(_textListener);
+    _focusNode.removeListener(_focusListener);
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _textListener() {
+    setState(() {
+      _hasText = widget.controller!.text.isNotEmpty;
+    });
+  }
+
+  void _focusListener() {
+    setState(() {
+      if (!_focusNode.hasFocus && widget.controller!.text.isEmpty) {
+        _hasText = false;
+      }
+
+
+    });
+  }
 
   @override
   Widget build(BuildContext context){
@@ -46,7 +79,6 @@ class _FormContainerWidgetState extends State<FormContainerWidget>{
 
       child: new TextFormField(
         style: TextStyle(
-          // color: Color(0xFF69B7FF),
           color: Theme.of(context).colorScheme.primary,
           ),
         controller: widget.controller,
@@ -56,7 +88,8 @@ class _FormContainerWidgetState extends State<FormContainerWidget>{
         onSaved: widget.onSaved,
         validator: widget.validator,
         onFieldSubmitted: widget.onFieldSubmitted,
-        decoration: new InputDecoration(
+        focusNode: _focusNode,
+        decoration: InputDecoration(
           border: InputBorder.none,
           filled: true,
           hintText: widget.hintText,
@@ -69,7 +102,9 @@ class _FormContainerWidgetState extends State<FormContainerWidget>{
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide(
-              color: Color(0xFFF0EDED),
+              color: _focusNode.hasFocus || _hasText
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.inverseSurface,
               width: 2,
             ),
           ),

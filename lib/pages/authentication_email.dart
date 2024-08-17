@@ -41,12 +41,12 @@ class _CheckYourEmailPageState extends State<CheckYourEmailPage> {
             Navigator.pop(context); // Navigate back to the previous screen
           },
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.black),
       ),
       body: Container(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         child: Center(
           child: SingleChildScrollView(
             padding: EdgeInsets.all(16.0),
@@ -62,7 +62,7 @@ class _CheckYourEmailPageState extends State<CheckYourEmailPage> {
                       fontFamily: 'BigShouldersText',
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.inverseSurface,
                     ),
                   ),
                 ),
@@ -74,7 +74,7 @@ class _CheckYourEmailPageState extends State<CheckYourEmailPage> {
                       fontFamily: 'BigShouldersDisplay',
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.inverseSurface,
                     ),
                   ),
                 ),
@@ -125,9 +125,9 @@ class _CheckYourEmailPageState extends State<CheckYourEmailPage> {
                         'Continue',
                         style: TextStyle(
                           fontFamily: 'BigShouldersDisplay',
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600, // Semibold
-                          color: Colors.black,
+                          fontSize: 23,
+                          fontWeight: FontWeight.w500, // Semibold
+                          color: Theme.of(context).colorScheme.surface,
                         ),
                       ),
                     ),
@@ -153,7 +153,7 @@ class _CheckYourEmailPageState extends State<CheckYourEmailPage> {
                             fontFamily: 'BigShouldersDisplay',
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: Theme.of(context).colorScheme.inverseSurface,
                             decoration: TextDecoration.underline,
                           ),
                           recognizer: TapGestureRecognizer()
@@ -169,7 +169,7 @@ class _CheckYourEmailPageState extends State<CheckYourEmailPage> {
                             fontFamily: 'BigShouldersDisplay',
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: Theme.of(context).colorScheme.inverseSurface,
                           ),
                         ),
                       ],
