@@ -1,4 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package = "com.mycompany.friendzone">
+
     <application
         android:label="friendzone"
         android:name="${applicationName}"
@@ -34,7 +36,7 @@
 
         <!-- Added google maps API 2024-07-28 -->
         <meta-data
-            android:name="AIzaSyAppGV254LCyJkRklgyklaH_vAx-2QGs9c"
+            android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAppGV254LCyJkRklgyklaH_vAx-2QGs9c"/>
     </application>
 
@@ -46,7 +48,7 @@
     </queries>
 
     <!-- Added for profile creation 2024-08-17 -->
-    <uses-permission androidLname="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!-- Added for google maps 2024-07-27 -->
