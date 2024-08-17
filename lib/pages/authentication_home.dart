@@ -116,21 +116,21 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 20), // Add this SizedBox here
 
 
-              //Google Maps Testing Button
-              // SizedBox(
-              //   width : 100,
-              //   height : 100,
-              //   child: ElevatedButton(
-              //     onPressed:(){
-              //       Navigator.pushNamed(context, '/testmap');
-              //     },
-              //     child : const Text(
-              //       'test',
-              //       style: TextStyle(
-              //       ),
-              //     )
-              //   ),
-              // ),
+              // Google Maps Testing Button
+              SizedBox(
+                width : 100,
+                height : 100,
+                child: ElevatedButton(
+                  onPressed:(){
+                    Navigator.pushNamed(context, '/testmap');
+                  },
+                  child : const Text(
+                    'test',
+                    style: TextStyle(
+                    ),
+                  )
+                ),
+              ),
 
 
               const SizedBox(height: 55),
