@@ -16,9 +16,10 @@ import 'pages/authentication_profile.dart';
 import 'pages/authentication_start.dart';
 import 'pages/authentication_signin.dart';
 
-// import 'pages/google_map_testing.dart';
+////// import 'pages/google_map_testing.dart';
 import 'pages/google_map_page.dart';
 import 'pages/google_map_testing.dart';
+import 'pages/test_googlemaps.dart';
 
 import 'pages/authentication_signin.dart';
 import 'pages/authentication_start.dart';
@@ -74,12 +75,15 @@ class MyApp extends StatelessWidget {
         '/verifyemail': (context) => CheckYourEmailPage(),
         '/createyourprofile': (context) => CreateYourProfilePage(),
 
-        // Googlemaps 맛보기띠
+        // Googlemaps testing 20240817
         // '/googlemaptesting': (context) => GoogleMapTestingPage(),
-        '/googlemappagetest': (context) => GoogleMapPage(),
+        // '/googlemappagetest': (context) => GoogleMapPage(),
+        '/testmap' : (context) => TestMapPage(),
 
         // Contents
         '/contentlayout': (context) => ContentLayout(),
+
+
       },
     );
   }

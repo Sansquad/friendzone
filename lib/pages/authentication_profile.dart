@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
 
 class CreateYourProfilePage extends StatefulWidget {
   @override
@@ -8,6 +11,18 @@ class CreateYourProfilePage extends StatefulWidget {
 }
 
 class _CreateYourProfilePageState extends State<CreateYourProfilePage> {
+  XFile? _imageFile;
+
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      _imageFile = pickedFile;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,12 +33,12 @@ class _CreateYourProfilePageState extends State<CreateYourProfilePage> {
             Navigator.pop(context); // Navigate back to the previous screen
           },
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Theme.of(context).colorScheme.primary),
       ),
       body: Container(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         child: Center(
           child: SingleChildScrollView(
             padding: EdgeInsets.all(16.0),
@@ -41,7 +56,7 @@ class _CreateYourProfilePageState extends State<CreateYourProfilePage> {
                         fontFamily: 'BigShouldersText',
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Theme.of(context).colorScheme.inverseSurface,
                       ),
                     ),
                   ),
@@ -52,30 +67,43 @@ class _CreateYourProfilePageState extends State<CreateYourProfilePage> {
                       width: 173,
                       height: 173,
                       decoration: BoxDecoration(
-                        color: Color(0xFF69B7FF),
+                        color: Theme.of(context).colorScheme.primary,
                         shape: BoxShape.circle,
+                        image: _imageFile != null
+                          ? DecorationImage(
+                              image: FileImage(File(_imageFile!.path)),
+                              fit: BoxFit.cover,
+                            )
+                            : null,
                       ),
-                    ),
-                    Positioned(
-                      left: 50,
-                      top: 50,
-                      child: SvgPicture.asset(
-                        'assets/icons/avatar_placeholder.svg', // Ensure the path is correct
-                        width: 73,
-                        height: 73,
-                        color: Colors.black,
+                      child: ClipOval(
+                      child: _imageFile == null
+                        ? Container(
+                          child: Padding(
+                             padding: EdgeInsets.only(top: 30.0),
+                            child: SvgPicture.asset(
+                              'assets/icons/avatar_placeholder.svg', // Ensure the path is correct
+                              width: 5,
+                              height: 5,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                            )
+                            : null,
                       ),
-                    ),
-                    Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF0EDED),
-                          borderRadius: BorderRadius.circular(12),
                         ),
+                      Positioned(
+                      left: 130,
+                      top: 130,
+                      child: GestureDetector(
+                        onTap: _pickImage,
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFF0EDED),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         child: Center(
                           child: SvgPicture.asset(
                             'assets/icons/camera.svg', // Ensure the path is correct
@@ -85,6 +113,7 @@ class _CreateYourProfilePageState extends State<CreateYourProfilePage> {
                           ),
                         ),
                       ),
+                    ),
                     ),
                   ],
                 ),
@@ -97,26 +126,23 @@ class _CreateYourProfilePageState extends State<CreateYourProfilePage> {
                       fontFamily: 'BigShouldersDisplay',
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
-                      color: Color(0xFF818080),
+                      color: Theme.of(context).colorScheme.inverseSurface,
                     ),
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: 20),
-                CustomTextField(
-                  hintText: 'Username',
-                  suffixText: '*',
-                  suffixTextColor: Color(0xFF69B7FF),
-                ),
-                SizedBox(height: 20),
-                CustomTextField(
-                  hintText: 'Nickname',
-                ),
+                // removing Nickname
+                // SizedBox(height: 20),
+                // CustomTextField(
+                //   hintText: 'Nickname',
+                // ),
                 SizedBox(height: 20),
                 CustomTextField(
                   hintText: 'Bio',
+                  height: 120,
+                  maxLength: 140,
                 ),
-                SizedBox(height: 40),
+                SizedBox(height: 20),
                 SizedBox(
                   width: 147,
                   height: 47,
@@ -125,10 +151,10 @@ class _CreateYourProfilePageState extends State<CreateYourProfilePage> {
                       // Add your next action here
                       //changed from welcometofriendzone to googlemappage for testing
                       // Navigator.pushNamed(context, '/googlemappage');
-                      Navigator.pushNamed(context, '/googlemappage');
+                      Navigator.pushNamed(context, '/contentlayout');
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF69B7FF),
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -139,12 +165,12 @@ class _CreateYourProfilePageState extends State<CreateYourProfilePage> {
                         fontFamily: 'BigShouldersDisplay',
                         fontSize: 20,
                         fontWeight: FontWeight.w600, // Semibold
-                        color:Colors.black,
+                        color: Theme.of(context).colorScheme.surface,
                       ),
                     ),
                   ),         
                 ),
-                SizedBox(height: 300),
+                // SizedBox(height: 300),
                 Padding(
                 padding: EdgeInsets.only(bottom: 200),
                  ), // Additional padding at the bottom
@@ -157,53 +183,92 @@ class _CreateYourProfilePageState extends State<CreateYourProfilePage> {
   }
 }
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final String hintText;
   final String? suffixText;
   final Color? suffixTextColor;
+  final double height;
+  final int maxLength;
 
   const CustomTextField({
     required this.hintText,
     this.suffixText,
     this.suffixTextColor,
+    this.height = 47,
+    this.maxLength = 80, //change max number of characters
   });
+
+
+  @override
+  _CustomTextFieldState createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =  TextEditingController();
+    _controller.addListener(_checkCharLimit);
+  }
+
+  void _checkCharLimit() {
+    final text = _controller.text;
+    if (text.length > widget.maxLength) {
+      _controller.value = _controller.value.copyWith(
+        text: text.substring(0, widget.maxLength),
+        selection: TextSelection.collapsed(offset: widget.maxLength),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+  
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 315,
-      height: 47,
+      height: widget.height,
       child: TextField(
+        controller: _controller,
+        maxLines: widget.height ~/ 20, 
+        minLines: widget.height ~/ 20,
         decoration: InputDecoration(
-          hintText: hintText,
+          hintText: widget.hintText,
           hintStyle: TextStyle(
             fontFamily: 'BigShouldersDisplay',
             fontSize: 17,
             fontWeight: FontWeight.w500,
           ),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: Colors.transparent,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide(
-              color: Color(0xFFF0EDED),
+              color: Theme.of(context).colorScheme.inverseSurface,
               width: 2,
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide(
-              color: Color(0xFFF0EDED),
+              color: Theme.of(context).colorScheme.primary,
               width: 2,
             ),
           ),
-          suffixIcon: suffixText != null
+          suffixIcon: widget.suffixText != null
               ? Padding(
                   padding: const EdgeInsets.only(right: 8.0, top: 8.0),
                   child: Text(
-                    suffixText!,
+                    widget.suffixText!,
                     style: TextStyle(
-                      color: suffixTextColor ?? Colors.black,
+                      color: widget.suffixTextColor ?? Colors.black,
                       fontFamily: 'BigShouldersDisplay',
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
