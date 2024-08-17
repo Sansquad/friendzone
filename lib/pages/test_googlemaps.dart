@@ -8,6 +8,39 @@ class TestMapPage extends StatefulWidget {
 }
 
 class TestMapPageState extends State<TestMapPage> {
+  GoogleMapController? _mapController;
+  LatLng? _currentPosition;
+  double _zoomLevel = 14.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  Future<void> _getCurrentLocation() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      setState(() {
+        _currentPosition = LatLng(position.latitude, position.longitude);
+      });
+    } catch (e) {
+      print('Error fetching location: $e');
+    }
+  }
+  
+
+  void _goToMyLocation() {
+    if (_currentPosition != null) {
+      _mapController?.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: _currentPosition!, zoom: _zoomLevel),
+      ));
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +82,7 @@ class TestMapPageState extends State<TestMapPage> {
                         fontFamily: 'BigShouldersText',
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF69B7FF),
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                   ],
