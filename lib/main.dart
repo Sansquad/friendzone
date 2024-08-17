@@ -13,17 +13,11 @@ import 'database/upload_dummy_data.dart';
 // Authentication pages
 import 'pages/authentication_email.dart';
 import 'pages/authentication_home.dart';
-import 'pages/authentication_email.dart';
 import 'pages/authentication_profile.dart';
-import 'pages/authentication_start.dart';
-import 'pages/authentication_signin.dart';
 
 // import 'pages/google_map_testing.dart';
 import 'pages/google_map_page.dart';
 import 'pages/google_map_testing.dart';
-
-import 'pages/authentication_signin.dart';
-import 'pages/authentication_start.dart';
 
 import 'pages/content_layout.dart';
 import 'theme/dark_mode.dart';
