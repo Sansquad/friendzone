@@ -374,7 +374,7 @@ class _SignInPageState extends State<SignInPage> {
         } else {
           // Email not verified
           print('Please verify email to continue');
-          await _auth.signOut();
+          // await _auth.signOut();
           Navigator.pushNamed(context, '/verifyemail');
         }
       } else {

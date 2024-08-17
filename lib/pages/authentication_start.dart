@@ -241,7 +241,9 @@ class _GetStartedPageState extends State<GetStartedPage> {
                 SocialButton(
                   assetPath: 'assets/icons/auth_apple.svg',
                   text: 'Continue with Apple',
-                  onPressed: () {},
+                  onPressed: () {
+                    _handleAppleSignIn();
+                  },
                 ),
                 SizedBox(height: 10),
                 // Continue with Google button
@@ -290,6 +292,14 @@ class _GetStartedPageState extends State<GetStartedPage> {
         ),
       ),
     );
+  }
+
+  void _handleAppleSignIn() async {
+    print('Apple Sign In is not supported yet');
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Lol. Use email or Google to sign in.'),
+      backgroundColor: Colors.red,
+    ));
   }
 
   void _handleGoogleSignIn() async {
@@ -351,12 +361,54 @@ class _GetStartedPageState extends State<GetStartedPage> {
     }
 
     try {
-      User? user = await _auth.signUpWithEmailAndPassword(email, password);
+      // Check if the username exists
+      QuerySnapshot usernameQuery = await FirebaseFirestore.instance
+        .collection('users')
+        .where('username', isEqualTo: username)
+        .limit(1)
+        .get();
+
+      if (usernameQuery.docs.isNotEmpty) {
+        // Username is taken
+        print('Username is already taken');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Username is already taken'),
+          backgroundColor: Colors.red,
+        ));
+        return;
+      }
+          
+      // Check if the email already exists
+      QuerySnapshot emailQuery = await FirebaseFirestore.instance
+          .collection('users')
+          .where('email', isEqualTo: email)
+          .limit(1)
+          .get();
+
+      if (emailQuery.docs.isNotEmpty) {
+        // Email is taken
+        print('Email is already taken');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Email is already taken'),
+          backgroundColor: Colors.red,
+        ));
+        return;
+      }
+
+      // If both are available -> create the user
+      User? user = await _firebaseAuth.signUpWithEmailAndPassword(email, password);
+
       if (user != null) {
-        //await _db.saveUserOnRegister(
-        // username: username,
-        //email: email,
-        //);
+
+        // 만약 사용자의 추가적인 정보를 받고 싶다면 추가하기
+        // 'users' collection에 저장됨
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'username': username,
+          'email': email,
+          'createdAt': Timestamp.now(),
+        });
+
+        // Send email verification
         await user.sendEmailVerification();
         if (mounted) {
           // Navigator.pushNamed(context, '/contentlayout');
@@ -369,6 +421,10 @@ class _GetStartedPageState extends State<GetStartedPage> {
       }
     } catch (e) {
       print('Failed to sign up: $e');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Failed to sign up: $e'),
+        backgroundColor: Colors.red,
+      ));
     }
   }
 }
