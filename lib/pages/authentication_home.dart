@@ -95,7 +95,6 @@ class _HomePageState extends State<HomePage> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/getstarted'); // Navigate to get started page
-                    Navigator.pushNamed(context, '/getstarted'); // Navigate to get started page
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.primary,
@@ -115,6 +114,24 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               const SizedBox(height: 20), // Add this SizedBox here
+
+
+              //Google Maps Testing Button
+              // SizedBox(
+              //   width : 100,
+              //   height : 100,
+              //   child: ElevatedButton(
+              //     onPressed:(){
+              //       Navigator.pushNamed(context, '/testmap');
+              //     },
+              //     child : const Text(
+              //       'test',
+              //       style: TextStyle(
+              //       ),
+              //     )
+              //   ),
+              // ),
+
 
               const SizedBox(height: 55),
             ],
