@@ -29,6 +29,7 @@ class _ContentMoreState extends State<ContentMore> {
               ProfileContent(uid: _auth.getCurrentUid()),
               Divider(),
               ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 0),
                 title: Text(
                   'My Posts',
                   style: TextStyle(
@@ -38,6 +39,7 @@ class _ContentMoreState extends State<ContentMore> {
                 ),
               ),
               ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 0),
                 title: Text(
                   'Saved Posts',
                   style: TextStyle(
@@ -47,6 +49,7 @@ class _ContentMoreState extends State<ContentMore> {
                 ),
               ),
               ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 0),
                 title: Text(
                   'My Friendzone',
                   style: TextStyle(
@@ -56,6 +59,7 @@ class _ContentMoreState extends State<ContentMore> {
                 ),
               ),
               ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 0),
                 title: Text(
                   'Sign out',
                   style: TextStyle(
