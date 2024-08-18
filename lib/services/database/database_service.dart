@@ -106,4 +106,22 @@ class DatabaseService {
       return [];
     }
   }
+
+  // Get bestPosts
+  Future<List<Post>> getBestPostsDB() async {
+    return [];
+    //try {
+    //  QuerySnapshot snapshot = await _db
+    //      .collection("bestPosts")
+    //      .doc(gridCode)
+    //      .collection("posts")
+    //      .orderBy("timestamp", descending: true)
+    //      .get();
+
+    //  return snapshot.docs.map((doc) => Post.fromDocument(doc)).toList();
+    //} catch (e) {
+    //  print(e);
+    //  return [];
+    //}
+  }
 }

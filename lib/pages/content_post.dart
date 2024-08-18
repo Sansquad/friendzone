@@ -30,10 +30,10 @@ class _ContentPostState extends State<ContentPost> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           forceMaterialTransparency: true,
-          leading: IconButton(
-            icon: SvgPicture.asset('assets/icons/bar_back_yellow.svg'),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
+          //leading: IconButton(
+          //  icon: SvgPicture.asset('assets/icons/bar_back_yellow.svg'),
+          //  onPressed: () => Navigator.of(context).pop(),
+          //),
           title: Padding(
             padding: const EdgeInsets.only(right: 5.0),
             child: Row(

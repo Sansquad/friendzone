@@ -38,7 +38,6 @@ class _ContentBestState extends State<ContentBest> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        forceMaterialTransparency: true,
         automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),

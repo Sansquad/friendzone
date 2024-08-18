@@ -37,7 +37,6 @@ class _ContentHomeState extends State<ContentHome> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        forceMaterialTransparency: true,
         automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -81,7 +80,7 @@ class _ContentHomeState extends State<ContentHome> {
             ),
           ),
           IconButton(
-            //highlightColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             onPressed: () {
               // 승제 쿤 adding google map stuff 20240813
               //Navigator.pushNamed(context, '/googlemappagetest');

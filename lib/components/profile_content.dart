@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:friendzone/database/database_provider.dart';
+import 'package:friendzone/pages/edit_profile_page.dart';
 import 'package:friendzone/services/auth/firebase_auth_services.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +24,8 @@ class _ProfileContentState extends State<ProfileContent> {
   late final databaseProvider =
       Provider.of<DatabaseProvider>(context, listen: false);
 
+  final _auth = FirebaseAuth.instance;
+
   UserModel? user;
   String currentUid = FirebaseAuthService().getCurrentUid();
 
@@ -30,7 +34,12 @@ class _ProfileContentState extends State<ProfileContent> {
   @override
   void initState() {
     super.initState();
-    loadUser();
+    if (widget.uid == _auth.currentUser!.uid) {
+      user = databaseProvider.currentUser;
+      _isLoading = false;
+    } else {
+      loadUser();
+    }
   }
 
   Future<void> loadUser() async {
@@ -71,24 +80,33 @@ class _ProfileContentState extends State<ProfileContent> {
             ),
           ],
         ),
+        _isLoading || (user!.bio.isEmpty)
+            ? SizedBox
+                .shrink() // This renders nothing when the condition is true
+            : Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: Text(
+                  user!.bio,
+                  style: TextStyle(
+                    fontFamily: 'BigShouldersDisplay',
+                    fontWeight: FontWeight.normal,
+                    fontSize: 17,
+                  ),
+                ),
+              ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15),
-          child: Text(
-            _isLoading ? '' : user!.bio,
-            style: TextStyle(
-              fontFamily: 'BigShouldersDisplay',
-              fontWeight: FontWeight.normal,
-              fontSize: 17,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EditProfilePage()),
+                  );
+                },
                 style: OutlinedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
