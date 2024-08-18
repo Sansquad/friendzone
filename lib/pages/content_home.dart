@@ -84,7 +84,7 @@ class _ContentHomeState extends State<ContentHome> {
             //highlightColor: Colors.transparent,
             onPressed: () {
               // 승제 쿤 adding google map stuff 20240813
-              Navigator.pushNamed(context, '/googlemappagetest');
+              //Navigator.pushNamed(context, '/googlemappagetest');
             },
             icon: Padding(
               padding: const EdgeInsets.only(right: 15.0),
