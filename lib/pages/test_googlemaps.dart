@@ -15,6 +15,16 @@ class TestMapPageState extends State<TestMapPage> {
 
   GoogleMapController? _googleMapController;
 
+  Marker _origin = Marker(
+    markerId: MarkerId('current_position'),
+    position: _initialCameraPosition.target,
+  );
+
+  // longitude: 세로줄
+
+
+  // latitude: 가로줄
+
   @override
   void dispose() {
     _googleMapController!.dispose();
@@ -82,6 +92,9 @@ class TestMapPageState extends State<TestMapPage> {
                   zoomControlsEnabled: true,
                   initialCameraPosition: _initialCameraPosition,
                   onMapCreated: (controller) => _googleMapController = controller,
+                  markers: {
+                    if (_origin != null) _origin,
+                  }
                 ),
               ),
             ],
