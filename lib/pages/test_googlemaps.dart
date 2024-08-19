@@ -24,10 +24,57 @@ class TestMapPageState extends State<TestMapPage> {
     infoWindow: InfoWindow(title: 'Current Location'),
   );
 
-  // longitude: 세로줄
+  /////////////////////////////
 
+  final Set<Polyline> _gridLines = {};
+  
+  // long lat lines
+  void _createGrid() {
+    // Define the latitude and longitude range for the grid over the US
+    double minLat = 24.396308;  // Southernmost point in the continental US
+    double maxLat = 49.384358;  // Northernmost point in the continental US
+    double minLng = -125.0;     // Westernmost point in the continental US
+    double maxLng = -66.93457;  // Easternmost point in the continental US
+    double gridSpacing = 0.0145;   // 1 degree is approximately 69 miles -> 0.0145 degrees is approximately 1 mile
 
-  // latitude: 가로줄
+    // Create horizontal grid lines (constant latitude)
+    for (double lat = minLat; lat <= maxLat; lat += gridSpacing) {
+      _gridLines.add(
+        Polyline(
+          polylineId: PolylineId('lat_$lat'),
+          points: [
+            LatLng(lat, minLng),
+            LatLng(lat, maxLng),
+          ],
+          color: Colors.blue,
+          width: 1,
+        ),
+      );
+    }
+
+    // Create vertical grid lines (constant longitude)
+    for (double lng = minLng; lng <= maxLng; lng += gridSpacing) {
+      _gridLines.add(
+        Polyline(
+          polylineId: PolylineId('lng_$lng'),
+          points: [
+            LatLng(minLat, lng),
+            LatLng(maxLat, lng),
+          ],
+          color: Colors.blue,
+          width: 1,
+        ),
+      );
+    }
+  }
+
+  ////////////////////////////
+
+  @override
+  void initState() {
+    super.initState();
+    _createGrid();
+  }
 
   @override
   void dispose() {
@@ -96,9 +143,9 @@ class TestMapPageState extends State<TestMapPage> {
                   zoomControlsEnabled: true,
                   initialCameraPosition: _initialCameraPosition,
                   onMapCreated: (controller) => _googleMapController = controller,
-                  markers: {
-                    if (_origin != null) _origin,
-                  },
+                  markers: { _origin },
+                  polylines: _gridLines,
+                  
                 ),
               ),
             ],
@@ -115,3 +162,4 @@ class TestMapPageState extends State<TestMapPage> {
     );
   }
 }
+
