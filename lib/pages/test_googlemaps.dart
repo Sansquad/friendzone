@@ -8,37 +8,33 @@ class TestMapPage extends StatefulWidget {
 }
 
 class TestMapPageState extends State<TestMapPage> {
-  GoogleMapController? _mapController;
-  LatLng? _currentPosition;
-  double _zoomLevel = 14.0;
+  
+  // initial position of the camera
+  static const _initialCameraPosition = CameraPosition(
+    target: LatLng(37.773972, -122.431297),
+    zoom: 13.5,
+  );
+
+  GoogleMapController? _googleMapController;
+
+  // initial position marker
+  Marker _origin = Marker(
+    markerId: MarkerId('current_position'),
+    position: _initialCameraPosition.target,
+    infoWindow: InfoWindow(title: 'Current Location'),
+  );
+
+  
+  // longitude: 세로줄
+
+
+  // latitude: 가로줄
 
   @override
-  void initState() {
-    super.initState();
-    _getCurrentLocation();
+  void dispose() {
+    _googleMapController!.dispose();
+    super.dispose();
   }
-
-  Future<void> _getCurrentLocation() async {
-    try {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-      setState(() {
-        _currentPosition = LatLng(position.latitude, position.longitude);
-      });
-    } catch (e) {
-      print('Error fetching location: $e');
-    }
-  }
-  
-
-  void _goToMyLocation() {
-    if (_currentPosition != null) {
-      _mapController?.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: _currentPosition!, zoom: _zoomLevel),
-      ));
-    }
-  }
-
 
 
   @override
@@ -97,16 +93,25 @@ class TestMapPageState extends State<TestMapPage> {
                 height: 300,
                 width: 300,
                 child: GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(37.42796133580664, -122.085749655962),
-                    zoom: 14,
-                  ),
+                  myLocationButtonEnabled: false,
+                  zoomControlsEnabled: true,
+                  initialCameraPosition: _initialCameraPosition,
+                  onMapCreated: (controller) => _googleMapController = controller,
+                  markers: {
+                    if (_origin != null) _origin,
+                  },
                 ),
               ),
-
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        foregroundColor: Theme.of(context).colorScheme.onPrimary, // Use the color of the text on the primary color
+        onPressed: () => _googleMapController?.animateCamera(
+          CameraUpdate.newCameraPosition(_initialCameraPosition),
+        ),
+        child: const Icon(Icons.center_focus_strong),
       ),
     );
   }
