@@ -2,6 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:friendzone/components/post_widget.dart';
+import 'package:provider/provider.dart';
+
+import '../database/database_provider.dart';
+import '../models/post.dart';
 
 class ContentBest extends StatefulWidget {
   const ContentBest({super.key});
@@ -11,12 +15,29 @@ class ContentBest extends StatefulWidget {
 }
 
 class _ContentBestState extends State<ContentBest> {
+  final String _currentZone = 'C - 137';
+
+  late final listeningProvider = Provider.of<DatabaseProvider>(context);
+  late final databaseProvider =
+      Provider.of<DatabaseProvider>(context, listen: false);
+
+  // fetch local posts on init
+  @override
+  void initState() {
+    super.initState();
+
+    loadLocalPosts();
+  }
+
+  Future<void> loadLocalPosts() async {
+    await databaseProvider.loadLocalPosts(_currentZone);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        forceMaterialTransparency: true,
         automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -73,59 +94,26 @@ class _ContentBestState extends State<ContentBest> {
           )
         ],
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('bestPosts')
-            .orderBy('likeCount', descending: true)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
+      body: _buildLocalList(listeningProvider.localPosts),
+    );
+  }
 
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No posts globally!'));
-          }
-
-          final bestPosts = snapshot.data!.docs.map((doc) {
-            final data = doc.data() as Map<String, dynamic>;
-            final user = data['user'] as Map<String, dynamic>?;
-            return {
-              'gridCode': data['gridCode'] ?? 'Unknown',
-              'username': user?['username'] ?? 'Unknown',
-              'profileImgUrl': user?['profileImgUrl'] ?? '',
-              'timestamp': data['timestamp'] ?? 'Unknown',
-              'contentText': data['contentText'] ?? '',
-              'likeCount': data['likeCount'] ?? 0,
-              'commentCount': data['commentCount'] ?? 0,
-              'contentImageUrl': data['contentImageUrl'] ?? ''
-            };
-          }).toList();
-
-          return ListView.builder(
-            itemCount: bestPosts.length,
+  Widget _buildLocalList(List<Post> posts) {
+    return posts.isEmpty
+        ? const Center(child: Text('No posts in the current zone yet.'))
+        : ListView.separated(
+            itemCount: posts.length,
+            separatorBuilder: (BuildContext context, int index) => Divider(
+              color:
+                  Theme.of(context).colorScheme.inverseSurface.withOpacity(0.4),
+              height: 0,
+              thickness: 1,
+              indent: 20,
+              endIndent: 20,
+            ),
             itemBuilder: (context, index) {
-              final post = bestPosts[index];
-              return Column(
-                children: [
-                  PostWidget(postData: post),
-                  Divider(
-                    color: Color(0xff999999),
-                    height: 0,
-                    thickness: 1,
-                    indent: 20,
-                    endIndent: 20,
-                  ),
-                ],
-              );
+              return PostWidget(post: posts[index]);
             },
           );
-        },
-      ),
-    );
   }
 }

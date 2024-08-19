@@ -5,6 +5,9 @@ class FirebaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  User? getCurrentUser() => _auth.currentUser;
+  String getCurrentUid() => _auth.currentUser!.uid;
+
   Future<String?> getEmailFromUsername(String username) async {
     try {
       QuerySnapshot snapshot = await _firestore

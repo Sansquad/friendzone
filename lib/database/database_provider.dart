@@ -1,14 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:friendzone/models/user.dart';
-import 'package:friendzone/services/auth/firebase_auth_services.dart';
 import 'package:friendzone/services/database/database_service.dart';
 
-class DatabaseProvider extends ChangeNotifier {
+import '../models/post.dart';
 
-  final _auth = FirebaseAuthService();
+class DatabaseProvider extends ChangeNotifier {
   final _db = DatabaseService();
 
-  // Get userModel given uid
-  Future<UserModel?> userModel(String uid) => _db.getUserFirebase(uid);
+  UserModel? _currentUser;
+  List<Post> _localPosts = [];
+  List<Post> _bestPosts = [];
 
+  List<Post> get localPosts => _localPosts;
+  List<Post> get bestPosts => _bestPosts;
+  UserModel? get currentUser => _currentUser;
+
+  // Fetch all data on content_layout
+  Future<void> loadAllData(String uid, gridCode) async {
+    _currentUser = await _db.getUserDB(uid);
+    _localPosts = await _db.getLocalPostsDB(gridCode);
+    _bestPosts = await _db.getBestPostsDB();
+
+    notifyListeners();
+  }
+
+  // Get userModel given uid
+  Future<UserModel?> userModel(String uid) => _db.getUserDB(uid);
+
+  // Update user bio
+  Future<void> updateBio(String bio) => _db.updateUserBioDB(bio);
+
+  // Posting a post
+  Future<void> createPost(
+      String gridCode, String contentText, String contentImageUrl) async {
+    await _db.createPostDB(gridCode, contentText, contentImageUrl);
+    await loadLocalPosts(gridCode);
+  }
+
+  // Fetch local posts
+  Future<void> loadLocalPosts(String gridCode) async {
+    final localPosts = await _db.getLocalPostsDB(gridCode);
+    _localPosts = localPosts;
+
+    // Update UI
+    notifyListeners();
+  }
 }

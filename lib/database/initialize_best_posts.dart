@@ -19,18 +19,18 @@ Future<void> initializeBestPosts() async {
 
     if (postSnapshot.docs.isNotEmpty) {
       final postData = postSnapshot.docs.first.data() as Map<String, dynamic>;
-      final user = postData['user'] as Map<String, dynamic>?;
 
       final bestPost = {
         'gridCode': gridId,
-        'username': user?['username'] ?? 'Unknown',
-        'profileImgUrl': user?['profileImgUrl'] ?? '',
-        'timestamp': postData['timestamp'] ?? 'Unknown',
+        'uid': postData['uid'],
+        'username': postData['username'] ?? 'Unknown',
+        'profileImgUrl': postData['profileImgUrl'] ?? '',
         'contentText': postData['contentText'] ?? '',
+        'contentImageUrl': postData['contentImageUrl'] ?? '',
+        'timestamp': postData['timestamp'] ?? 'Unknown',
         'likeCount': postData['likeCount'] ?? 0,
         'commentCount': postData['commentCount'] ?? 0,
-        'contentImageUrl': postData['contentImageUrl'] ?? '',
-        'user': user,
+        'likedBy': postData['likedBy']
       };
 
       // Add the best post to the bestPosts collection

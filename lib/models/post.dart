@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'user.dart';
-
 class Post {
   final String gridCode;
   //final UserModel user;
   final String id;
   final String uid;
   final String username;
+  final String profileImgUrl;
   final String contentText;
   final String contentImageUrl;
   final Timestamp timestamp;
@@ -21,6 +20,7 @@ class Post {
     required this.id,
     required this.uid,
     required this.username,
+    required this.profileImgUrl,
     required this.contentText,
     required this.contentImageUrl,
     required this.timestamp,
@@ -36,6 +36,7 @@ class Post {
       id: doc.id,
       uid: doc['uid'],
       username: doc['username'],
+      profileImgUrl: doc['profileImgUrl'],
       contentText: doc['contentText'],
       contentImageUrl: doc['contentImageUrl'],
       timestamp: doc['timestamp'],
@@ -51,6 +52,7 @@ class Post {
       //'user': user.toMap(),
       'uid': uid,
       'username': username,
+      'profileImgUrl': profileImgUrl,
       'contentText': contentText,
       'contentImageUrl': contentImageUrl,
       'timestamp': timestamp,
