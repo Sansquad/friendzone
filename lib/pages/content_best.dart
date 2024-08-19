@@ -26,11 +26,11 @@ class _ContentBestState extends State<ContentBest> {
   void initState() {
     super.initState();
 
-    loadLocalPosts();
+    loadBestPosts();
   }
 
-  Future<void> loadLocalPosts() async {
-    await databaseProvider.loadLocalPosts(_currentZone);
+  Future<void> loadBestPosts() async {
+    await databaseProvider.loadBestPosts(_currentZone);
   }
 
   @override
@@ -94,13 +94,13 @@ class _ContentBestState extends State<ContentBest> {
           )
         ],
       ),
-      body: _buildLocalList(listeningProvider.localPosts),
+      body: _buildBestList(listeningProvider.bestPosts),
     );
   }
 
-  Widget _buildLocalList(List<Post> posts) {
+  Widget _buildBestList(List<Post> posts) {
     return posts.isEmpty
-        ? const Center(child: Text('No posts in the current zone yet.'))
+        ? const Center(child: Text('No one in the world has posted yet.'))
         : ListView.separated(
             itemCount: posts.length,
             separatorBuilder: (BuildContext context, int index) => Divider(

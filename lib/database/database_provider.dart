@@ -45,4 +45,14 @@ class DatabaseProvider extends ChangeNotifier {
     // Update UI
     notifyListeners();
   }
+
+  // Fetch best posts
+  Future<void> loadBestPosts(String gridCode) async {
+    // TODO: Implement fetching best posts
+    final bestPosts = await _db.getBestPostsDB();
+    _bestPosts = bestPosts;
+
+    // Update UI
+    notifyListeners();
+  }
 }
