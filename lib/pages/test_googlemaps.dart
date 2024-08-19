@@ -8,16 +8,20 @@ class TestMapPage extends StatefulWidget {
 }
 
 class TestMapPageState extends State<TestMapPage> {
+  
+  // initial position of the camera
   static const _initialCameraPosition = CameraPosition(
     target: LatLng(37.773972, -122.431297),
-    zoom: 11.5,
+    zoom: 13.5,
   );
 
   GoogleMapController? _googleMapController;
 
+  // initial position marker
   Marker _origin = Marker(
     markerId: MarkerId('current_position'),
     position: _initialCameraPosition.target,
+    infoWindow: InfoWindow(title: 'Current Location'),
   );
 
   // longitude: 세로줄
@@ -94,7 +98,7 @@ class TestMapPageState extends State<TestMapPage> {
                   onMapCreated: (controller) => _googleMapController = controller,
                   markers: {
                     if (_origin != null) _origin,
-                  }
+                  },
                 ),
               ),
             ],
