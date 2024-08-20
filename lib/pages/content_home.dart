@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:friendzone/components/post_widget.dart';
 import 'package:friendzone/database/database_provider.dart';
+import 'package:friendzone/helper/navigate_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../models/post.dart';
@@ -37,6 +38,7 @@ class _ContentHomeState extends State<ContentHome> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
+        forceMaterialTransparency: true,
         automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -82,9 +84,8 @@ class _ContentHomeState extends State<ContentHome> {
           IconButton(
             highlightColor: Colors.transparent,
             onPressed: () {
-            // 승제 쿤 adding google map stuff 20240817
-            Navigator.pushNamed(context, '/testmap');
-
+              // 승제 쿤 adding google map stuff 20240817
+              Navigator.pushNamed(context, '/testmap');
             },
             icon: Padding(
               padding: const EdgeInsets.only(right: 15.0),
@@ -117,7 +118,12 @@ class _ContentHomeState extends State<ContentHome> {
               endIndent: 20,
             ),
             itemBuilder: (context, index) {
-              return PostWidget(post: posts[index]);
+              final post = posts[index];
+              return PostWidget(
+                post: post,
+                onUserTap: () => goUserPage(context, post.uid),
+                onPostTap: () => goPostPage(context, post),
+              );
             },
           );
   }

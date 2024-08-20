@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:friendzone/components/post_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../database/database_provider.dart';
+import '../helper/navigate_widget.dart';
 import '../models/post.dart';
 
 class ContentBest extends StatefulWidget {
@@ -38,6 +38,7 @@ class _ContentBestState extends State<ContentBest> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
+        forceMaterialTransparency: true,
         automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -112,7 +113,12 @@ class _ContentBestState extends State<ContentBest> {
               endIndent: 20,
             ),
             itemBuilder: (context, index) {
-              return PostWidget(post: posts[index]);
+              final post = posts[index];
+              return PostWidget(
+                post: post,
+                onUserTap: () => goUserPage(context, post.uid),
+                onPostTap: () => goPostPage(context, post),
+              );
             },
           );
   }
