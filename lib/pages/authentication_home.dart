@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:friendzone/services/auth/login_or_register.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,14 +13,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface, // Use the theme's surface color
+      backgroundColor: Theme.of(context)
+          .colorScheme
+          .surface, // Use the theme's surface color
       body: Container(
-
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-
               const SizedBox(height: 50),
               // Logo
               // Image.asset(
@@ -45,7 +45,6 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         fontFamily: 'TurretRoad',
                         color: Theme.of(context).colorScheme.inverseSurface,
-                        
                         fontSize: 55,
                         fontWeight: FontWeight.bold,
                       ),
@@ -62,14 +61,20 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              const SizedBox(height: 40), // Increased space between text and buttons
+              const SizedBox(
+                  height: 40), // Increased space between text and buttons
               SizedBox(
                 width: 288,
                 height: 48,
                 child: ElevatedButton(
                   onPressed: () {
-                    print('Sign In Button Pressed'); // Debug print
-                    Navigator.pushNamed(context, '/signin'); // Navigate to sign-in page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const LoginOrRegister(showLoginPage: true),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.primary,
@@ -84,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                       fontSize: 23,
                       fontFamily: 'BigShouldersDisplay',
                       fontWeight: FontWeight.w800,
-                      ),
+                    ),
                   ),
                 ),
               ),
@@ -94,7 +99,13 @@ class _HomePageState extends State<HomePage> {
                 height: 48,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/getstarted'); // Navigate to get started page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const LoginOrRegister(showLoginPage: false),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.primary,
@@ -109,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                       fontSize: 23,
                       fontFamily: 'BigShouldersDisplay',
                       fontWeight: FontWeight.w800,
-                      ),
+                    ),
                   ),
                 ),
               ),

@@ -1,8 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:friendzone/database/database_provider.dart';
+import 'package:provider/provider.dart';
 
-class ContentPost extends StatelessWidget {
+class ContentPost extends StatefulWidget {
   const ContentPost({super.key});
+
+  @override
+  State<ContentPost> createState() => _ContentPostState();
+}
+
+class _ContentPostState extends State<ContentPost> {
+  final String _currentZone = 'C - 137';
+
+  late final databaseProvider =
+      Provider.of<DatabaseProvider>(context, listen: false);
+
+  final _contentController = TextEditingController();
+
+  Future<void> createPost(String contentText, String contentImgUrl) async {
+    await databaseProvider.createPost(_currentZone, contentText, contentImgUrl);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +30,10 @@ class ContentPost extends StatelessWidget {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           forceMaterialTransparency: true,
-          leading: IconButton(
-            icon: SvgPicture.asset('assets/icons/bar_back_yellow.svg'),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
+          //leading: IconButton(
+          //  icon: SvgPicture.asset('assets/icons/bar_back_yellow.svg'),
+          //  onPressed: () => Navigator.of(context).pop(),
+          //),
           title: Padding(
             padding: const EdgeInsets.only(right: 5.0),
             child: Row(
@@ -34,7 +52,7 @@ class ContentPost extends StatelessWidget {
                     ),
                     SizedBox(width: 5),
                     Text(
-                      'Grid C - 137',
+                      'Grid $_currentZone',
                       style: TextStyle(
                         fontFamily: 'BigShouldersDisplay',
                         fontWeight: FontWeight.normal,
@@ -100,6 +118,7 @@ class ContentPost extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.orangeAccent),
                   ),
                 ),
+                controller: _contentController,
                 maxLines: 6,
               ),
               SizedBox(height: 20),
@@ -135,12 +154,14 @@ class ContentPost extends StatelessWidget {
                     ],
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await createPost(_contentController.text, '');
+                    },
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      //shape: RoundedRectangleBorder(
-                      //borderRadius: BorderRadius.circular(10),
-                      //),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                     child: Text(
                       'Post',

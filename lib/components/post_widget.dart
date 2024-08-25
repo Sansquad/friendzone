@@ -1,14 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:friendzone/models/post.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class PostWidget extends StatelessWidget {
-  final Map<String, dynamic> postData;
+class PostWidget extends StatefulWidget {
+  final Post post;
 
-  const PostWidget({super.key, required this.postData});
+  const PostWidget({super.key, required this.post});
 
+  @override
+  State<PostWidget> createState() => _PostWidgetState();
+}
+
+class _PostWidgetState extends State<PostWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -24,19 +29,19 @@ class PostWidget extends StatelessWidget {
                 CircleAvatar(
                   radius: 16,
                   backgroundColor: Colors.grey[300],
-                  backgroundImage: postData['profileImgUrl']!.isNotEmpty
-                      ? NetworkImage(postData['profileImgUrl']!)
+                  backgroundImage: widget.post.profileImgUrl.isNotEmpty
+                      ? NetworkImage(widget.post.profileImgUrl)
                       : null,
-                  child: postData['profileImgUrl']!.isEmpty
+                  child: widget.post.profileImgUrl.isEmpty
                       ? Icon(Icons.person, color: Colors.white)
                       : null,
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      postData['username']!,
+                      widget.post.username,
                       style: TextStyle(
                         fontFamily: 'BigShouldersDisplay',
                         fontWeight: FontWeight.w600,
@@ -46,7 +51,7 @@ class PostWidget extends StatelessWidget {
                     ),
                     Text(
                       timeago.format(
-                          (postData['timestamp'] as Timestamp).toDate()),
+                          (widget.post.timestamp).toDate()),
                       style: TextStyle(
                         fontFamily: 'BigShouldersDisplay',
                         fontWeight: FontWeight.w300,
@@ -59,7 +64,7 @@ class PostWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 SvgPicture.asset(
                   'assets/icons/post_bookmark.svg',
                   height: 14,
@@ -68,9 +73,9 @@ class PostWidget extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
-              postData['contentText']!,
+              widget.post.contentText,
               style: TextStyle(
                 fontFamily: 'ABeeZee',
                 fontWeight: FontWeight.normal,
@@ -78,12 +83,12 @@ class PostWidget extends StatelessWidget {
                 fontSize: 13,
               ),
             ),
-            if (postData['contentImageUrl']!.isNotEmpty)
+            if (widget.post.contentImageUrl.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
-                child: Image.network(postData['contentImageUrl']!),
+                child: Image.network(widget.post.contentImageUrl),
               ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               children: [
                 Row(
@@ -94,20 +99,20 @@ class PostWidget extends StatelessWidget {
                       width: 14,
                       color: Theme.of(context).colorScheme.inverseSurface,
                     ),
-                    SizedBox(width: 2),
-                    Text(postData['likeNum']!.toString()),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 4),
+                    Text(widget.post.likeCount.toString()),
+                    const SizedBox(width: 10),
                     SvgPicture.asset(
                       'assets/icons/post_comment.svg',
                       height: 14,
                       width: 14,
                       color: Theme.of(context).colorScheme.inverseSurface,
                     ),
-                    SizedBox(width: 2),
-                    Text(postData['commentNum']!.toString()),
+                    const SizedBox(width: 4),
+                    Text(widget.post.commentCount.toString()),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 SvgPicture.asset(
                   'assets/icons/bar_home.svg',
                   height: 15,
@@ -117,9 +122,9 @@ class PostWidget extends StatelessWidget {
                     BlendMode.srcIn,
                   ),
                 ),
-                SizedBox(width: 5),
+                const SizedBox(width: 5),
                 Text(
-                  postData['gridCode']!,
+                  widget.post.gridCode,
                   style: TextStyle(
                     fontFamily: 'BigShouldersDisplay',
                     fontWeight: FontWeight.normal,
