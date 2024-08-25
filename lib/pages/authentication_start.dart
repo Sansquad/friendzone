@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:friendzone/services/auth/firebase_auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:friendzone/services/database/database_service.dart';
 import '../components/form_container_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -19,6 +20,8 @@ class GetStartedPage extends StatefulWidget {
 class _GetStartedPageState extends State<GetStartedPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseAuthService _firebaseAuth = FirebaseAuthService();
+
+  final DatabaseService _service = DatabaseService();
 
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
@@ -397,11 +400,12 @@ class _GetStartedPageState extends State<GetStartedPage> {
       if (user != null) {
         // 만약 사용자의 추가적인 정보를 받고 싶다면 추가하기
         // 'users' collection에 저장됨
-        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-          'username': username,
-          'email': email,
-          'createdAt': Timestamp.now(),
-        });
+        //await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        //  'username': username,
+        //  'email': email,
+        //  'createdAt': Timestamp.now(),
+        //});
+        _service.saveUserDB(username: username, email: email);
 
         // Send email verification
         await user.sendEmailVerification();
