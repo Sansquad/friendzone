@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class TestMapPage extends StatefulWidget {
+class AuthMapPage extends StatefulWidget {
   @override
-  TestMapPageState createState() => TestMapPageState();
+  AuthMapPageState createState() => AuthMapPageState();
 }
 
-class TestMapPageState extends State<TestMapPage> {
+class AuthMapPageState extends State<AuthMapPage> {
   static const _initialCameraPosition = CameraPosition(
     target: LatLng(37.773972, -122.431297), // San Francisco coordinates
     zoom: 13.5,
@@ -173,8 +173,6 @@ class TestMapPageState extends State<TestMapPage> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        title: Text('Test Map Page'),
-        centerTitle: true,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -291,6 +289,26 @@ class TestMapPageState extends State<TestMapPage> {
                   ),
                 ),
               ),
+              SizedBox(height: 20),
+              Text(
+                "You are currently in Zone C-197",
+                style: TextStyle(
+                  fontFamily: 'BigShouldersText',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.inverseSurface,
+                ),
+              ),
+              // SizedBox(height: 10),
+              // Text(
+              //   "200 Active Users",
+              //   style: TextStyle(
+              //     fontFamily: 'BigShouldersText',
+              //     fontSize: 20,
+              //     fontWeight: FontWeight.bold,
+              //     color: Theme.of(context).colorScheme.inverseSurface,
+              //   ),
+              // )
             ],
           ),
         ),

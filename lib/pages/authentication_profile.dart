@@ -151,7 +151,7 @@ class _CreateYourProfilePageState extends State<CreateYourProfilePage> {
                       // Add your next action here
                       //changed from welcometofriendzone to googlemappage for testing
                       // Navigator.pushNamed(context, '/googlemappage');
-                      Navigator.pushNamed(context, '/contentlayout');
+                      Navigator.pushNamed(context, '/authmap');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,
