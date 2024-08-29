@@ -15,9 +15,12 @@ class ContentMapPageState extends State<ContentMapPage> {
 
   GoogleMapController? _googleMapController;
 
+  // fixed position to generate grid (Madison Capitol | C-197)
+  static const LatLng _capitol = LatLng(43.07489216060602, -89.38419409024608); // New position
+
   Marker _origin = Marker(
     markerId: MarkerId('current_position'),
-    position: LatLng(37.773972, -122.431297), // Same position as initial camera
+    position: LatLng(37.773972, -122.431297), // Current location (San Francisco)
     infoWindow: InfoWindow(title: 'Current Location'),
   );
 
@@ -31,29 +34,36 @@ class ContentMapPageState extends State<ContentMapPage> {
     double lnggridSpacing = 0.0145;
     double latgridSpacing = 0.012;
 
-    double markerLat = _origin.position.latitude;
-    double markerLng = _origin.position.longitude;
+    // Coordinates for the fixed grid origin
+    double gridMinLat = (_capitol.latitude ~/ latgridSpacing) * latgridSpacing;
+    double gridMinLng = (_capitol.longitude ~/ lnggridSpacing) * lnggridSpacing;
 
-    // Calculate the grid boundaries for the marker's position
-    double gridMinLat = (markerLat ~/ latgridSpacing) * latgridSpacing;
-    double gridMinLng = (markerLng ~/ lnggridSpacing) * lnggridSpacing;
+    if (_capitol.latitude < 0) gridMinLat -= latgridSpacing;
+    if (_capitol.longitude < 0) gridMinLng -= lnggridSpacing;
 
-    if (markerLat < 0) gridMinLat -= latgridSpacing;
-    if (markerLng < 0) gridMinLng -= lnggridSpacing;
+    // Calculate the grid boundaries for the current location
+    double currentLat = _origin.position.latitude;
+    double currentLng = _origin.position.longitude;
 
-    // Define the coordinates of the 8 surrounding grids
+    double currentGridMinLat = (currentLat ~/ latgridSpacing) * latgridSpacing;
+    double currentGridMinLng = (currentLng ~/ lnggridSpacing) * lnggridSpacing;
+
+    if (currentLat < 0) currentGridMinLat -= latgridSpacing;
+    if (currentLng < 0) currentGridMinLng -= lnggridSpacing;
+
+    // Define the coordinates of the 8 surrounding grids around the current location
     List<LatLng> surroundingGrids = [
-      LatLng(gridMinLat + latgridSpacing, gridMinLng), // above
-      LatLng(gridMinLat - latgridSpacing, gridMinLng), // below
-      LatLng(gridMinLat, gridMinLng - lnggridSpacing), // left
-      LatLng(gridMinLat, gridMinLng + lnggridSpacing), // right
-      LatLng(gridMinLat + latgridSpacing, gridMinLng + lnggridSpacing), // top-right
-      LatLng(gridMinLat + latgridSpacing, gridMinLng - lnggridSpacing), // top-left
-      LatLng(gridMinLat - latgridSpacing, gridMinLng + lnggridSpacing), // bottom-right
-      LatLng(gridMinLat - latgridSpacing, gridMinLng - lnggridSpacing), // bottom-left
+      LatLng(currentGridMinLat + latgridSpacing, currentGridMinLng), // above
+      LatLng(currentGridMinLat - latgridSpacing, currentGridMinLng), // below
+      LatLng(currentGridMinLat, currentGridMinLng - lnggridSpacing), // left
+      LatLng(currentGridMinLat, currentGridMinLng + lnggridSpacing), // right
+      LatLng(currentGridMinLat + latgridSpacing, currentGridMinLng + lnggridSpacing), // top-right
+      LatLng(currentGridMinLat + latgridSpacing, currentGridMinLng - lnggridSpacing), // top-left
+      LatLng(currentGridMinLat - latgridSpacing, currentGridMinLng + lnggridSpacing), // bottom-right
+      LatLng(currentGridMinLat - latgridSpacing, currentGridMinLng - lnggridSpacing), // bottom-left
     ];
 
-    // Lightly shade the 8 surrounding grids
+    // Lightly shade the grids surrounding the fixed origin point (Capitol)
     for (LatLng grid in surroundingGrids) {
       _shadedAreas.add(
         Polygon(
@@ -70,28 +80,7 @@ class ContentMapPageState extends State<ContentMapPage> {
       );
     }
 
-    // Shade the rest of the area more heavily, excluding the 9 grids
-    List<List<LatLng>> holes = [];
-
-    // Add the current grid as a hole (no shading)
-    holes.add([
-      LatLng(gridMinLat, gridMinLng),
-      LatLng(gridMinLat + latgridSpacing, gridMinLng),
-      LatLng(gridMinLat + latgridSpacing, gridMinLng + lnggridSpacing),
-      LatLng(gridMinLat, gridMinLng + lnggridSpacing),
-    ]);
-
-    // Add the surrounding grids as holes
-    for (LatLng grid in surroundingGrids) {
-      holes.add([
-        LatLng(grid.latitude, grid.longitude),
-        LatLng(grid.latitude + latgridSpacing, grid.longitude),
-        LatLng(grid.latitude + latgridSpacing, grid.longitude + lnggridSpacing),
-        LatLng(grid.latitude, grid.longitude + lnggridSpacing),
-      ]);
-    }
-
-    // Add the heavily shaded polygon, with holes for the 9 grids
+    // Lightly shade all other grids except the one surrounding the current location
     _shadedAreas.add(
       Polygon(
         polygonId: PolygonId('outer_shade'),
@@ -101,7 +90,20 @@ class ContentMapPageState extends State<ContentMapPage> {
           LatLng(bounds.northeast.latitude, bounds.northeast.longitude),
           LatLng(bounds.southwest.latitude, bounds.northeast.longitude),
         ],
-        holes: holes,
+        holes: [
+          [
+            LatLng(currentGridMinLat, currentGridMinLng),
+            LatLng(currentGridMinLat + latgridSpacing, currentGridMinLng),
+            LatLng(currentGridMinLat + latgridSpacing, currentGridMinLng + lnggridSpacing),
+            LatLng(currentGridMinLat, currentGridMinLng + lnggridSpacing),
+          ],
+          ...surroundingGrids.map((grid) => [
+            LatLng(grid.latitude, grid.longitude),
+            LatLng(grid.latitude + latgridSpacing, grid.longitude),
+            LatLng(grid.latitude + latgridSpacing, grid.longitude + lnggridSpacing),
+            LatLng(grid.latitude, grid.longitude + lnggridSpacing),
+          ])
+        ],
         fillColor: Colors.black.withOpacity(0.8),
         strokeColor: Colors.transparent,
       ),
