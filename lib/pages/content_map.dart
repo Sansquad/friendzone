@@ -26,6 +26,8 @@ class ContentMapPageState extends State<ContentMapPage> {
 
   final Set<Polyline> _gridLines = {};
   final Set<Polygon> _shadedAreas = {};
+  final Set<Marker> _gridLabels = {};
+
 
   void _createGrid(LatLngBounds bounds) {
     _gridLines.clear();
