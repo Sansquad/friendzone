@@ -28,6 +28,14 @@ class ContentMapPageState extends State<ContentMapPage> {
   final Set<Polygon> _shadedAreas = {};
   final Set<Marker> _gridLabels = {};
 
+  String _generateGridLabel(int index) {
+    String label = '';
+    while (index >= 0) {
+      label = String.fromCharCode(65 + index % 26) + label;
+      index = (index ~/ 26) - 1;
+    }
+    return label;
+  }
 
   void _createGrid(LatLngBounds bounds) {
     _gridLines.clear();
