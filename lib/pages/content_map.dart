@@ -15,7 +15,7 @@ class ContentMapPageState extends State<ContentMapPage> {
 
   GoogleMapController? _googleMapController;
 
-  // fixed position to generate grid (Madison Capitol | C-197)
+  // Fixed position to generate grid (Madison Capitol | C-197)
   static const LatLng _capitol = LatLng(43.07489216060602, -89.38419409024608); // New position
 
   Marker _origin = Marker(
@@ -26,16 +26,52 @@ class ContentMapPageState extends State<ContentMapPage> {
 
   final Set<Polyline> _gridLines = {};
   final Set<Polygon> _shadedAreas = {};
-  final Set<Marker> _gridLabels = {};
 
-  String _generateGridLabel(int index) {
-    String label = '';
-    while (index >= 0) {
-      label = String.fromCharCode(65 + index % 26) + label;
-      index = (index ~/ 26) - 1;
+  LatLng _currentGridCenter = LatLng(0, 0);
+  String _currentGridLabel = "";
+
+  // Function to generate grid label
+  String _generateGridLabel(double lat, double lng) {
+    // Calculate the row and column indices based on latitude and longitude
+    double latDifference = lat - _capitol.latitude;
+    double lngDifference = lng - _capitol.longitude;
+
+    int latIndex = (latDifference / 0.012).floor();
+    int lngIndex = (lngDifference / 0.0145).floor();
+
+    // Debugging output
+    print('Latitude Difference: $latDifference');
+    print('Longitude Difference: $lngDifference');
+    print('Latitude Index: $latIndex');
+    print('Longitude Index: $lngIndex');
+
+    // Convert latIndex to positive for alphabetic labeling
+    latIndex = latIndex.abs();
+
+    // Generate the row label (e.g., A, B, ..., Z, AA, AB, etc.)
+    String latLabel = '';
+    while (latIndex >= 0) {
+        latLabel = String.fromCharCode(65 + (latIndex % 26)) + latLabel;
+        latIndex = (latIndex ~/ 26) - 1;
     }
-    return label;
-  }
+
+    // Convert lngIndex to positive for labeling
+    lngIndex = lngIndex.abs();
+
+    // Return the final grid label with both row and column information
+    String gridLabel = '$latLabel-${lngIndex.toString().padLeft(4, '0')}';
+
+    // Print the generated label for debugging
+    print('Generated grid label: $gridLabel');
+
+    return gridLabel;
+}
+
+
+
+
+
+
 
   void _createGrid(LatLngBounds bounds) {
     _gridLines.clear();
@@ -89,6 +125,13 @@ class ContentMapPageState extends State<ContentMapPage> {
         ),
       );
     }
+
+    // Set the label and center for the current grid (unshaded)
+    _currentGridLabel = _generateGridLabel(currentGridMinLat, currentGridMinLng);
+    _currentGridCenter = LatLng(
+      currentGridMinLat + latgridSpacing / 2,
+      currentGridMinLng + lnggridSpacing / 2,
+    );
 
     // Lightly shade all other grids except the one surrounding the current location
     _shadedAreas.add(
@@ -154,7 +197,7 @@ class ContentMapPageState extends State<ContentMapPage> {
       );
     }
 
-    setState(() {}); // Trigger a rebuild to update the map with new grid lines and shading
+    setState(() {}); // Trigger a rebuild to update the map with new grid lines, shading, and labels
   }
 
   @override
@@ -214,6 +257,19 @@ class ContentMapPageState extends State<ContentMapPage> {
               polylines: _gridLines,
               polygons: _shadedAreas, // Apply shading to the map
               minMaxZoomPreference: MinMaxZoomPreference(10, null),
+            ),
+            // Overlay the text at the center of the current grid
+            Positioned(
+              left: MediaQuery.of(context).size.width / 2 - 50, // Adjust as needed
+              top: MediaQuery.of(context).size.height / 2 - 20, // Adjust as needed
+              child: Text(
+                _currentGridLabel,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  backgroundColor: Colors.white.withOpacity(0.7),
+                ),
+              ),
             ),
             Positioned(
               top: 50,
