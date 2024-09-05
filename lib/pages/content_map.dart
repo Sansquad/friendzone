@@ -8,6 +8,28 @@ class ContentMapPage extends StatefulWidget {
 }
 
 class ContentMapPageState extends State<ContentMapPage> {
+
+  Widget _getMarker() {
+    return Container(
+      width: 20,
+      height: 20,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: BorderRadius.circular(100),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            offset: Offset(0, 3),
+            spreadRadius: 2,
+            blurRadius: 3,
+          ),
+        ],
+      ),
+      // implement if I want to replace circle with profile image
+      // child:
+    );
+  }
+
   static const _initialCameraPosition = CameraPosition(
     target: LatLng(37.773972, -122.431297), // San Francisco coordinates
     zoom: 13.5,
@@ -29,6 +51,8 @@ class ContentMapPageState extends State<ContentMapPage> {
 
   LatLng _currentGridCenter = LatLng(0, 0);
   String _currentGridLabel = "";
+  List<String> surroundingGridLabels = [];
+  List<LatLng> surroundingGrids = [];
 
   // Function to generate grid label
   String _generateGridLabel(double lat, double lng) {
@@ -39,20 +63,14 @@ class ContentMapPageState extends State<ContentMapPage> {
     int latIndex = (latDifference / 0.012).floor();
     int lngIndex = (lngDifference / 0.0145).floor();
 
-    // Debugging output
-    print('Latitude Difference: $latDifference');
-    print('Longitude Difference: $lngDifference');
-    print('Latitude Index: $latIndex');
-    print('Longitude Index: $lngIndex');
-
     // Convert latIndex to positive for alphabetic labeling
     latIndex = latIndex.abs();
 
     // Generate the row label (e.g., A, B, ..., Z, AA, AB, etc.)
     String latLabel = '';
     while (latIndex >= 0) {
-        latLabel = String.fromCharCode(65 + (latIndex % 26)) + latLabel;
-        latIndex = (latIndex ~/ 26) - 1;
+      latLabel = String.fromCharCode(65 + (latIndex % 26)) + latLabel;
+      latIndex = (latIndex ~/ 26) - 1;
     }
 
     // Convert lngIndex to positive for labeling
@@ -65,13 +83,7 @@ class ContentMapPageState extends State<ContentMapPage> {
     print('Generated grid label: $gridLabel');
 
     return gridLabel;
-}
-
-
-
-
-
-
+  }
 
   void _createGrid(LatLngBounds bounds) {
     _gridLines.clear();
@@ -98,7 +110,7 @@ class ContentMapPageState extends State<ContentMapPage> {
     if (currentLng < 0) currentGridMinLng -= lnggridSpacing;
 
     // Define the coordinates of the 8 surrounding grids around the current location
-    List<LatLng> surroundingGrids = [
+    surroundingGrids = [
       LatLng(currentGridMinLat + latgridSpacing, currentGridMinLng), // above
       LatLng(currentGridMinLat - latgridSpacing, currentGridMinLng), // below
       LatLng(currentGridMinLat, currentGridMinLng - lnggridSpacing), // left
@@ -132,6 +144,11 @@ class ContentMapPageState extends State<ContentMapPage> {
       currentGridMinLat + latgridSpacing / 2,
       currentGridMinLng + lnggridSpacing / 2,
     );
+
+    // Generate labels for the surrounding grids
+    surroundingGridLabels = surroundingGrids.map((grid) {
+      return _generateGridLabel(grid.latitude, grid.longitude);
+    }).toList();
 
     // Lightly shade all other grids except the one surrounding the current location
     _shadedAreas.add(
@@ -253,15 +270,25 @@ class ContentMapPageState extends State<ContentMapPage> {
                   _createGrid(bounds);
                 }
               },
-              markers: {_origin},
+              // markers: {_origin},
               polylines: _gridLines,
               polygons: _shadedAreas, // Apply shading to the map
               minMaxZoomPreference: MinMaxZoomPreference(10, null),
             ),
-            // Overlay the text at the center of the current grid
+
+            // dot at current position
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.center,
+                child: _getMarker(),
+              )
+
+            ),
+
+            // Overlay the text for the current grid
             Positioned(
-              left: MediaQuery.of(context).size.width / 2 - 50, // Adjust as needed
-              top: MediaQuery.of(context).size.height / 2 - 20, // Adjust as needed
+              left: MediaQuery.of(context).size.width / 2 - 30, // Adjust as needed
+              top: MediaQuery.of(context).size.height / 2 + 10, // Adjust as needed
               child: Text(
                 _currentGridLabel,
                 style: TextStyle(
@@ -271,6 +298,20 @@ class ContentMapPageState extends State<ContentMapPage> {
                 ),
               ),
             ),
+            // Overlay the text for the surrounding grids
+            for (int i = 0; i < surroundingGrids.length; i++)
+              Positioned(
+                left: MediaQuery.of(context).size.width / 2 - 50 + ((surroundingGrids[i].longitude - _currentGridCenter.longitude) / 0.0145) * 100, // Adjust position based on grid
+                top: MediaQuery.of(context).size.height / 2 - 20 + ((surroundingGrids[i].latitude - _currentGridCenter.latitude) / 0.012) * 100, // Adjust position based on grid
+                child: Text(
+                  surroundingGridLabels[i],
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    backgroundColor: Colors.white.withOpacity(0.7),
+                  ),
+                ),
+              ),
             Positioned(
               top: 50,
               right: 10,
