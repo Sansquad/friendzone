@@ -8,28 +8,6 @@ class ContentMapPage extends StatefulWidget {
 }
 
 class ContentMapPageState extends State<ContentMapPage> {
-
-  Widget _getMarker() {
-    return Container(
-      width: 20,
-      height: 20,
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
-        borderRadius: BorderRadius.circular(100),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            offset: Offset(0, 3),
-            spreadRadius: 2,
-            blurRadius: 3,
-          ),
-        ],
-      ),
-      // implement if I want to replace circle with profile image
-      // child:
-    );
-  }
-
   static const _initialCameraPosition = CameraPosition(
     target: LatLng(37.773972, -122.431297), // San Francisco coordinates
     zoom: 13.5,
@@ -56,30 +34,24 @@ class ContentMapPageState extends State<ContentMapPage> {
 
   // Function to generate grid label
   String _generateGridLabel(double lat, double lng) {
-    // Calculate the row and column indices based on latitude and longitude
     double latDifference = lat - _capitol.latitude;
     double lngDifference = lng - _capitol.longitude;
 
     int latIndex = (latDifference / 0.012).floor();
     int lngIndex = (lngDifference / 0.0145).floor();
 
-    // Convert latIndex to positive for alphabetic labeling
     latIndex = latIndex.abs();
 
-    // Generate the row label (e.g., A, B, ..., Z, AA, AB, etc.)
     String latLabel = '';
     while (latIndex >= 0) {
       latLabel = String.fromCharCode(65 + (latIndex % 26)) + latLabel;
       latIndex = (latIndex ~/ 26) - 1;
     }
 
-    // Convert lngIndex to positive for labeling
     lngIndex = lngIndex.abs();
 
-    // Return the final grid label with both row and column information
     String gridLabel = '$latLabel-${lngIndex.toString().padLeft(4, '0')}';
 
-    // Print the generated label for debugging
     print('Generated grid label: $gridLabel');
 
     return gridLabel;
@@ -92,14 +64,12 @@ class ContentMapPageState extends State<ContentMapPage> {
     double lnggridSpacing = 0.0145;
     double latgridSpacing = 0.012;
 
-    // Coordinates for the fixed grid origin
     double gridMinLat = (_capitol.latitude ~/ latgridSpacing) * latgridSpacing;
     double gridMinLng = (_capitol.longitude ~/ lnggridSpacing) * lnggridSpacing;
 
     if (_capitol.latitude < 0) gridMinLat -= latgridSpacing;
     if (_capitol.longitude < 0) gridMinLng -= lnggridSpacing;
 
-    // Calculate the grid boundaries for the current location
     double currentLat = _origin.position.latitude;
     double currentLng = _origin.position.longitude;
 
@@ -109,7 +79,6 @@ class ContentMapPageState extends State<ContentMapPage> {
     if (currentLat < 0) currentGridMinLat -= latgridSpacing;
     if (currentLng < 0) currentGridMinLng -= lnggridSpacing;
 
-    // Define the coordinates of the 8 surrounding grids around the current location
     surroundingGrids = [
       LatLng(currentGridMinLat + latgridSpacing, currentGridMinLng), // above
       LatLng(currentGridMinLat - latgridSpacing, currentGridMinLng), // below
@@ -121,7 +90,6 @@ class ContentMapPageState extends State<ContentMapPage> {
       LatLng(currentGridMinLat - latgridSpacing, currentGridMinLng - lnggridSpacing), // bottom-left
     ];
 
-    // Lightly shade the grids surrounding the fixed origin point (Capitol)
     for (LatLng grid in surroundingGrids) {
       _shadedAreas.add(
         Polygon(
@@ -138,19 +106,16 @@ class ContentMapPageState extends State<ContentMapPage> {
       );
     }
 
-    // Set the label and center for the current grid (unshaded)
     _currentGridLabel = _generateGridLabel(currentGridMinLat, currentGridMinLng);
     _currentGridCenter = LatLng(
       currentGridMinLat + latgridSpacing / 2,
       currentGridMinLng + lnggridSpacing / 2,
     );
 
-    // Generate labels for the surrounding grids
     surroundingGridLabels = surroundingGrids.map((grid) {
       return _generateGridLabel(grid.latitude, grid.longitude);
     }).toList();
 
-    // Lightly shade all other grids except the one surrounding the current location
     _shadedAreas.add(
       Polygon(
         polygonId: PolygonId('outer_shade'),
@@ -179,7 +144,6 @@ class ContentMapPageState extends State<ContentMapPage> {
       ),
     );
 
-    // Generate grid lines across the map area, ensuring full coverage
     double latStart = (bounds.southwest.latitude ~/ latgridSpacing) * latgridSpacing;
     if (bounds.southwest.latitude < 0) latStart -= latgridSpacing;
 
@@ -214,7 +178,12 @@ class ContentMapPageState extends State<ContentMapPage> {
       );
     }
 
-    setState(() {}); // Trigger a rebuild to update the map with new grid lines, shading, and labels
+    setState(() {}); 
+  }
+
+  Future<Offset> _getScreenCoordinates(LatLng latLng) async {
+    ScreenCoordinate screenCoordinate = await _googleMapController!.getScreenCoordinate(latLng);
+    return Offset(screenCoordinate.x.toDouble(), screenCoordinate.y.toDouble());
   }
 
   @override
@@ -244,10 +213,10 @@ class ContentMapPageState extends State<ContentMapPage> {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent, // transparent status bar
-        systemNavigationBarColor: Colors.transparent, // transparent navigation bar
-        systemNavigationBarIconBrightness: Brightness.dark, // light icons on navigation bar
-        statusBarIconBrightness: Brightness.dark, // light icons on status bar
+        statusBarColor: Colors.transparent, 
+        systemNavigationBarColor: Colors.transparent, 
+        systemNavigationBarIconBrightness: Brightness.dark, 
+        statusBarIconBrightness: Brightness.dark, 
       ),
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -267,51 +236,86 @@ class ContentMapPageState extends State<ContentMapPage> {
               onCameraIdle: () async {
                 if (_googleMapController != null) {
                   LatLngBounds bounds = await _googleMapController!.getVisibleRegion();
-                  _createGrid(bounds);
+                  _createGrid(bounds); // Update grid and labels after dragging or zooming
                 }
               },
-              // markers: {_origin},
               polylines: _gridLines,
-              polygons: _shadedAreas, // Apply shading to the map
+              polygons: _shadedAreas, 
               minMaxZoomPreference: MinMaxZoomPreference(10, null),
             ),
 
-            // dot at current position
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.center,
-                child: _getMarker(),
-              )
-
+            // Center marker and label for current location grid
+            FutureBuilder<Offset>(
+              future: _getScreenCoordinates(_origin.position), 
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  Offset offset = snapshot.data!;
+                  return Stack(
+                    children: [
+                      Positioned(
+                        left: offset.dx - 7.5, 
+                        top: offset.dy - 7.5,  
+                        child: _getMarker(),   
+                      ),
+                      Positioned(
+                        left: offset.dx - 30,  
+                        top: offset.dy + 25,   
+                        child: Container(
+                          padding: EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary.withOpacity(0.6),
+                            borderRadius: BorderRadius.circular(8), // Add rounded corners
+                          ),
+                          child: Text(
+                            _currentGridLabel,
+                            style: TextStyle(
+                              fontFamily: 'BigShouldersText',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+                return Container(); 
+              },
             ),
 
-            // Overlay the text for the current grid
-            Positioned(
-              left: MediaQuery.of(context).size.width / 2 - 30, // Adjust as needed
-              top: MediaQuery.of(context).size.height / 2 + 10, // Adjust as needed
-              child: Text(
-                _currentGridLabel,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                  backgroundColor: Colors.white.withOpacity(0.7),
-                ),
-              ),
-            ),
-            // Overlay the text for the surrounding grids
+            // Dynamically place the labels for surrounding grids
             for (int i = 0; i < surroundingGrids.length; i++)
-              Positioned(
-                left: MediaQuery.of(context).size.width / 2 - 50 + ((surroundingGrids[i].longitude - _currentGridCenter.longitude) / 0.0145) * 100, // Adjust position based on grid
-                top: MediaQuery.of(context).size.height / 2 - 20 + ((surroundingGrids[i].latitude - _currentGridCenter.latitude) / 0.012) * 100, // Adjust position based on grid
-                child: Text(
-                  surroundingGridLabels[i],
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                    backgroundColor: Colors.white.withOpacity(0.7),
-                  ),
-                ),
+              FutureBuilder<Offset>(
+                future: _getScreenCoordinates(surroundingGrids[i]),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    Offset offset = snapshot.data!;
+                    return Positioned(
+                      left: offset.dx + 32, 
+                      top: offset.dy - 80,  
+                      child: Container(
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.7),
+                          borderRadius: BorderRadius.circular(8), // Add rounded corners
+                        ),
+                        child: Text(
+                          surroundingGridLabels[i],
+                          style: TextStyle(
+                            fontFamily: 'BigShouldersText',
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  return Container(); 
+                },
               ),
+
             Positioned(
               top: 50,
               right: 10,
@@ -367,6 +371,29 @@ class ContentMapPageState extends State<ContentMapPage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _getMarker() {
+    return Container(
+      width: 15,
+      height: 15,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: BorderRadius.circular(100),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.inverseSurface,
+          width: 2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            offset: Offset(0, 3),
+            spreadRadius: 2,
+            blurRadius: 3,
+          ),
+        ],
       ),
     );
   }
