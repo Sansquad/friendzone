@@ -222,27 +222,30 @@ class ContentMapPageState extends State<ContentMapPage> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: Stack(
           children: <Widget>[
-            GoogleMap(
-              myLocationButtonEnabled: false,
-              zoomControlsEnabled: false,
-              initialCameraPosition: _initialCameraPosition,
-              onMapCreated: (controller) {
-                _googleMapController = controller;
-                _googleMapController!.animateCamera(CameraUpdate.newCameraPosition(_initialCameraPosition));
-                _googleMapController!.getVisibleRegion().then((bounds) {
-                  _createGrid(bounds);
-                });
-              },
-              onCameraIdle: () async {
-                if (_googleMapController != null) {
-                  LatLngBounds bounds = await _googleMapController!.getVisibleRegion();
-                  _createGrid(bounds); // Update grid and labels after dragging or zooming
-                }
-              },
-              polylines: _gridLines,
-              polygons: _shadedAreas, 
-              minMaxZoomPreference: MinMaxZoomPreference(10, null),
-            ),
+GoogleMap(
+  myLocationEnabled: false, // Disable the blue dot
+  myLocationButtonEnabled: false, // Disable the location button
+  zoomControlsEnabled: false,
+  initialCameraPosition: _initialCameraPosition,
+  onMapCreated: (controller) {
+    _googleMapController = controller;
+    _googleMapController!.animateCamera(CameraUpdate.newCameraPosition(_initialCameraPosition));
+    _googleMapController!.getVisibleRegion().then((bounds) {
+      _createGrid(bounds);  // Create grid on map creation
+    });
+  },
+  onCameraIdle: () async {
+    if (_googleMapController != null) {
+      LatLngBounds bounds = await _googleMapController!.getVisibleRegion();
+      _createGrid(bounds);  // Update grid and labels after dragging or zooming
+    }
+  },
+  markers: { _origin },  // Only display your custom marker
+  polylines: _gridLines,
+  polygons: _shadedAreas,
+  minMaxZoomPreference: MinMaxZoomPreference(10, null),
+),
+
 
             // Center marker and label for current location grid
             FutureBuilder<Offset>(

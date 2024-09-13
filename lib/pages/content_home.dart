@@ -82,8 +82,10 @@ class _ContentHomeState extends State<ContentHome> {
           IconButton(
             highlightColor: Colors.transparent,
             onPressed: () {
-            // 승제 쿤 adding google map stuff 20240817
             Navigator.pushNamed(context, '/contentmap');
+
+            // for testing
+            // Navigator.pushNamed(context, '/authmap');
 
             },
             icon: Padding(
