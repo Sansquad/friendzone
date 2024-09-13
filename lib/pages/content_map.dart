@@ -1,3 +1,7 @@
+// TO BE IMPLEMENTED
+// 1. current location
+// 2. location update as person moves around
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/services.dart';
@@ -32,6 +36,9 @@ class ContentMapPageState extends State<ContentMapPage> {
   List<String> surroundingGridLabels = [];
   List<LatLng> surroundingGrids = [];
 
+  // Opacity variable for the labels
+  double _labelOpacity = 1.0;
+
   // Function to generate grid label
   String _generateGridLabel(double lat, double lng) {
     double latDifference = lat - _capitol.latitude;
@@ -39,21 +46,14 @@ class ContentMapPageState extends State<ContentMapPage> {
 
     int latIndex = (latDifference / 0.012).floor();
     int lngIndex = (lngDifference / 0.0145).floor();
-
     latIndex = latIndex.abs();
-
     String latLabel = '';
     while (latIndex >= 0) {
       latLabel = String.fromCharCode(65 + (latIndex % 26)) + latLabel;
       latIndex = (latIndex ~/ 26) - 1;
     }
-
     lngIndex = lngIndex.abs();
-
     String gridLabel = '$latLabel-${lngIndex.toString().padLeft(4, '0')}';
-
-    print('Generated grid label: $gridLabel');
-
     return gridLabel;
   }
 
@@ -178,7 +178,7 @@ class ContentMapPageState extends State<ContentMapPage> {
       );
     }
 
-    setState(() {}); 
+    setState(() {});
   }
 
   Future<Offset> _getScreenCoordinates(LatLng latLng) async {
@@ -198,14 +198,23 @@ class ContentMapPageState extends State<ContentMapPage> {
   }
 
   void _zoomIn() {
+    setState(() {
+      _labelOpacity = 0.0; // Hide labels when zooming
+    });
     _googleMapController?.animateCamera(CameraUpdate.zoomIn());
   }
 
   void _zoomOut() {
+    setState(() {
+      _labelOpacity = 0.0; // Hide labels when zooming out
+    });
     _googleMapController?.animateCamera(CameraUpdate.zoomOut());
   }
 
   void _returnToInitialPosition() {
+    setState(() {
+      _labelOpacity = 1.0; // Show labels when returning to initial position
+    });
     _googleMapController?.animateCamera(CameraUpdate.newCameraPosition(_initialCameraPosition));
   }
 
@@ -222,30 +231,28 @@ class ContentMapPageState extends State<ContentMapPage> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: Stack(
           children: <Widget>[
-GoogleMap(
-  myLocationEnabled: false, // Disable the blue dot
-  myLocationButtonEnabled: false, // Disable the location button
-  zoomControlsEnabled: false,
-  initialCameraPosition: _initialCameraPosition,
-  onMapCreated: (controller) {
-    _googleMapController = controller;
-    _googleMapController!.animateCamera(CameraUpdate.newCameraPosition(_initialCameraPosition));
-    _googleMapController!.getVisibleRegion().then((bounds) {
-      _createGrid(bounds);  // Create grid on map creation
-    });
-  },
-  onCameraIdle: () async {
-    if (_googleMapController != null) {
-      LatLngBounds bounds = await _googleMapController!.getVisibleRegion();
-      _createGrid(bounds);  // Update grid and labels after dragging or zooming
-    }
-  },
-  markers: { _origin },  // Only display your custom marker
-  polylines: _gridLines,
-  polygons: _shadedAreas,
-  minMaxZoomPreference: MinMaxZoomPreference(10, null),
-),
-
+            GoogleMap(
+              myLocationButtonEnabled: false,
+              zoomControlsEnabled: false,
+              initialCameraPosition: _initialCameraPosition,
+              onMapCreated: (controller) {
+                _googleMapController = controller;
+                _googleMapController!.animateCamera(CameraUpdate.newCameraPosition(_initialCameraPosition));
+                _googleMapController!.getVisibleRegion().then((bounds) {
+                  _createGrid(bounds);
+                });
+              },
+              onCameraIdle: () async {
+                if (_googleMapController != null) {
+                  LatLngBounds bounds = await _googleMapController!.getVisibleRegion();
+                  _createGrid(bounds); // Update grid and labels after dragging or zooming
+                }
+              },
+              markers: { _origin },
+              polylines: _gridLines,
+              polygons: _shadedAreas, 
+              minMaxZoomPreference: MinMaxZoomPreference(10, null),
+            ),
 
             // Center marker and label for current location grid
             FutureBuilder<Offset>(
@@ -263,19 +270,23 @@ GoogleMap(
                       Positioned(
                         left: offset.dx - 30,  
                         top: offset.dy + 25,   
-                        child: Container(
-                          padding: EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary.withOpacity(0.6),
-                            borderRadius: BorderRadius.circular(8), // Add rounded corners
-                          ),
-                          child: Text(
-                            _currentGridLabel,
-                            style: TextStyle(
-                              fontFamily: 'BigShouldersText',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.black,
+                        child: AnimatedOpacity(
+                          opacity: _labelOpacity,
+                          duration: Duration(milliseconds: 300),
+                          child: Container(
+                            padding: EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primary.withOpacity(0.6),
+                              borderRadius: BorderRadius.circular(8), // Add rounded corners
+                            ),
+                            child: Text(
+                              _currentGridLabel,
+                              style: TextStyle(
+                                fontFamily: 'BigShouldersText',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                         ),
@@ -297,19 +308,23 @@ GoogleMap(
                     return Positioned(
                       left: offset.dx + 32, 
                       top: offset.dy - 80,  
-                      child: Container(
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.7),
-                          borderRadius: BorderRadius.circular(8), // Add rounded corners
-                        ),
-                        child: Text(
-                          surroundingGridLabels[i],
-                          style: TextStyle(
-                            fontFamily: 'BigShouldersText',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                            color: Colors.black,
+                      child: AnimatedOpacity(
+                        opacity: _labelOpacity,
+                        duration: Duration(milliseconds: 300),
+                        child: Container(
+                          padding: EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.7),
+                            borderRadius: BorderRadius.circular(8), // Add rounded corners
+                          ),
+                          child: Text(
+                            surroundingGridLabels[i],
+                            style: TextStyle(
+                              fontFamily: 'BigShouldersText',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ),
