@@ -410,7 +410,6 @@ class _GetStartedPageState extends State<GetStartedPage> {
         // });
         _service.saveUserDB(username: username, email: email);
 
-
         // Send email verification
         await user.sendEmailVerification();
         if (mounted) {

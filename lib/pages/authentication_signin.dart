@@ -369,7 +369,6 @@ class _SignInPageState extends State<SignInPage> {
         if (user.emailVerified) {
           // Email verified
           print('Sign in successful');
-          Navigator.pushNamed(context, '/contentlayout');
         } else {
           // Email not verified
           print('Please verify email to continue');

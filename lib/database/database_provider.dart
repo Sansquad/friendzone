@@ -27,8 +27,11 @@ class DatabaseProvider extends ChangeNotifier {
   // Get userModel given uid
   Future<UserModel?> userModel(String uid) => _db.getUserDB(uid);
 
-  // Update user bio
+  // Update user info
   Future<void> updateBio(String bio) => _db.updateUserBioDB(bio);
+  Future<void> updateUsername(String username) => _db.updateUserUsernameDB(username);
+  Future<void> updateProfileImage(String profileImageUrl) => _db.updateUserProfileImageDB(profileImageUrl);
+
 
   // Posting a post
   Future<void> createPost(

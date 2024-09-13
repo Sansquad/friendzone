@@ -31,8 +31,8 @@ class EditProfilePage extends StatelessWidget {
                 BlendMode.srcIn,
               ),
             ),
-            SizedBox(width: 12),
-            Text(
+            const SizedBox(width: 12),
+            const Text(
               'Edit Profile',
               style: TextStyle(
                 fontFamily: 'BigShouldersText',
@@ -54,7 +54,10 @@ class EditProfilePage extends StatelessWidget {
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 child: SvgPicture.asset(
                   'assets/icons/default_avatar.svg',
-                  color: Theme.of(context).colorScheme.surface,
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.surface,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ),
@@ -83,7 +86,7 @@ class EditProfilePage extends StatelessWidget {
               ),
             ),
             title: Text(
-              'My Posts',
+              'Waiting for page design finalization',
               style: TextStyle(
                 fontFamily: 'BigShouldersDisplay',
                 fontSize: 20,

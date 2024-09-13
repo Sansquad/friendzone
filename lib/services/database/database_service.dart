@@ -36,11 +36,35 @@ class DatabaseService {
     }
   }
 
+  // Update user info
   Future<void> updateUserBioDB(String bio) async {
     String uid = FirebaseAuthService().getCurrentUid();
 
     try {
       await _db.collection("users").doc(uid).update({'bio': bio});
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> updateUserUsernameDB(String username) async {
+    String uid = FirebaseAuthService().getCurrentUid();
+
+    try {
+      await _db.collection("users").doc(uid).update({'username': username});
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> updateUserProfileImageDB(String profileImgUrl) async {
+    String uid = FirebaseAuthService().getCurrentUid();
+
+    try {
+      await _db
+          .collection("users")
+          .doc(uid)
+          .update({'profileImgUrl': profileImgUrl});
     } catch (e) {
       print(e);
     }
