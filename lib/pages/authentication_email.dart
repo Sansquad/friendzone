@@ -39,7 +39,7 @@ class _CheckYourEmailPageState extends State<CheckYourEmailPage> {
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             // Navigator.pop(context); // Navigate back to the previous screen
-            Navigator.pushNamed(context, '/authentication_home');
+            Navigator.pushNamed(context, '/homepage');
           },
         ),
         backgroundColor: Theme.of(context).colorScheme.surface,

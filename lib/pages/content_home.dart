@@ -86,6 +86,8 @@ class _ContentHomeState extends State<ContentHome> {
             onPressed: () {
               // 승제 쿤 adding google map stuff 20240817
               Navigator.pushNamed(context, '/testmap');
+
+              Navigator.pushNamed(context, '/contentmap');
             },
             icon: Padding(
               padding: const EdgeInsets.only(right: 15.0),
