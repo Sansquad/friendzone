@@ -41,41 +41,6 @@ target 'Runner' do
   end
 end
 
-# added below 08/04 for testing - xcode build error
-# target 'Runner' do
-#   use_frameworks!
-#   use_modular_headers!
-
-#   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-
-#   # Add Firebase dependencies
-#   pod 'Firebase/Core'
-#   pod 'Firebase/Auth'
-#   pod 'Firebase/Firestore'
-#   pod 'Firebase/Analytics' # Add other Firebase pods you need
-
-#   target 'RunnerTests' do
-#     inherit! :search_paths
-#   end
-# end
-
-# added below 08/04 for testing - xcode build error
-# target 'Runner' do
-#   use_frameworks!
-#   use_modular_headers!
-
-#   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-
-#   # Add Firebase dependencies
-#   pod 'Firebase/Core'
-#   pod 'Firebase/Auth'
-#   pod 'Firebase/Firestore'
-#   pod 'Firebase/Analytics' # Add other Firebase pods you need
-
-#   target 'RunnerTests' do
-#     inherit! :search_paths
-#   end
-# end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
