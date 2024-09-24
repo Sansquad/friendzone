@@ -16,77 +16,96 @@ class _ContentPostState extends State<ContentPost> {
   late final databaseProvider =
       Provider.of<DatabaseProvider>(context, listen: false);
 
+  late final currUser = databaseProvider.currentUser;
+
   final _contentController = TextEditingController();
 
   Future<void> createPost(String contentText, String contentImgUrl) async {
     await databaseProvider.createPost(_currentZone, contentText, contentImgUrl);
   }
 
+  // TODO handle post (no post on empty input, alert when posted, return to home)
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           forceMaterialTransparency: true,
-          //leading: IconButton(
-          //  icon: SvgPicture.asset('assets/icons/bar_back_yellow.svg'),
-          //  onPressed: () => Navigator.of(context).pop(),
-          //),
+          automaticallyImplyLeading: false,
           title: Padding(
-            padding: const EdgeInsets.only(right: 5.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/bar_home.svg',
-                      height: 20,
-                      width: 20,
-                      colorFilter: ColorFilter.mode(
-                        Theme.of(context).colorScheme.primary,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      'Grid $_currentZone',
-                      style: TextStyle(
-                        fontFamily: 'BigShouldersDisplay',
-                        fontWeight: FontWeight.normal,
-                        color: Color(0xff808080),
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
+                SvgPicture.asset(
+                  'assets/icons/bar_home.svg',
+                  height: 27,
+                  width: 27,
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                SizedBox(width: 12),
+                Text(
+                  'Zone $_currentZone',
+                  style: TextStyle(
+                    fontFamily: 'BigShouldersText',
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
           child: Column(
             children: [
               Row(
                 children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.grey[300],
-                    child: Icon(Icons.person, color: Colors.white),
+                  GestureDetector(
+                    // TODO ontap
+                    //onTap: widget.onUserTap,
+                    child: CircleAvatar(
+                      radius: 25,
+                      backgroundImage: currUser!.profileImgUrl.isNotEmpty
+                          ? NetworkImage(currUser!.profileImgUrl)
+                          : null,
+                      backgroundColor: currUser!.profileImgUrl.isEmpty
+                          ? Theme.of(context).colorScheme.primary
+                          : null,
+                      child: currUser!.profileImgUrl.isEmpty
+                          ? SvgPicture.asset(
+                              'assets/icons/default_avatar.svg',
+                              colorFilter: ColorFilter.mode(
+                                Theme.of(context).colorScheme.surface,
+                                BlendMode.srcIn,
+                              ),
+                              width: 30,
+                              height: 30,
+                            )
+                          : null,
+                    ),
                   ),
                   SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'ilovedanchu',
-                        style: TextStyle(
-                          fontFamily: 'BigShouldersDisplay',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
+                      GestureDetector(
+                        // TODO ontap
+                        //onTap:
+                        child: Text(
+                          'ilovedanchu',
+                          style: TextStyle(
+                            fontFamily: 'BigShouldersDisplay',
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                       Text(
@@ -110,8 +129,9 @@ class _ContentPostState extends State<ContentPost> {
                     color: Colors.grey,
                     fontSize: 14,
                   ),
-                  border: OutlineInputBorder(
+                  enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.orangeAccent),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),

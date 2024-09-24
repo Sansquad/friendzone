@@ -10,10 +10,17 @@ class DatabaseProvider extends ChangeNotifier {
   UserModel? _currentUser;
   List<Post> _localPosts = [];
   List<Post> _bestPosts = [];
+  String _currentZone = "";
 
   List<Post> get localPosts => _localPosts;
   List<Post> get bestPosts => _bestPosts;
   UserModel? get currentUser => _currentUser;
+  String get currentZone => _currentZone;
+
+  Future<String> calibrateZone() async {
+    _currentZone = "C - 137";
+    return currentZone;
+  }
 
   // Fetch all data on content_layout
   Future<void> loadAllData(String uid, gridCode) async {
@@ -29,14 +36,22 @@ class DatabaseProvider extends ChangeNotifier {
 
   // Update user info
   Future<void> updateBio(String bio) => _db.updateUserBioDB(bio);
-  Future<void> updateUsername(String username) => _db.updateUserUsernameDB(username);
-  Future<void> updateProfileImage(String profileImageUrl) => _db.updateUserProfileImageDB(profileImageUrl);
-
+  Future<void> updateUsername(String username) =>
+      _db.updateUserUsernameDB(username);
+  Future<void> updateProfileImage(String profileImageUrl) =>
+      _db.updateUserProfileImageDB(profileImageUrl);
 
   // Posting a post
   Future<void> createPost(
       String gridCode, String contentText, String contentImageUrl) async {
     await _db.createPostDB(gridCode, contentText, contentImageUrl);
+    await loadLocalPosts(gridCode);
+  }
+
+  // Deleting a post
+  Future<void> deletePost(String gridCode, String postId) async {
+    await _db.deletePostDB(gridCode, postId);
+    // TODO potential problem: current zone might be different from delted post grid
     await loadLocalPosts(gridCode);
   }
 

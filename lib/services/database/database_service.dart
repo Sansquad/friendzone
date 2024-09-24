@@ -70,6 +70,12 @@ class DatabaseService {
     }
   }
 
+  // Calibrate current grid
+  String calibrateZoneDB() {
+    // TODO finish zone calibration method
+    return "C - 137";
+  }
+
   // Create a post
   Future<void> createPostDB(
       String gridCode, String contentText, String contentImageUrl) async {
@@ -109,6 +115,20 @@ class DatabaseService {
           .doc(gridCode)
           .collection("posts")
           .add(newPostMap);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // Delete User Post
+  Future<void> deletePostDB(String gridCode, String postId) async {
+    try {
+      await _db
+          .collection("grids")
+          .doc(gridCode)
+          .collection("posts")
+          .doc(postId)
+          .delete();
     } catch (e) {
       print(e);
     }

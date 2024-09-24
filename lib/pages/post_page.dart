@@ -59,6 +59,7 @@ class _PostPageState extends State<PostPage> {
             indent: 20,
             endIndent: 20,
           )
+          //TODO add comments
         ],
       ),
     );
