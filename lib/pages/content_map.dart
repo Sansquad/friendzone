@@ -20,11 +20,13 @@ class ContentMapPageState extends State<ContentMapPage> {
   GoogleMapController? _googleMapController;
 
   // Fixed position to generate grid (Madison Capitol | C-197)
-  static const LatLng _capitol = LatLng(43.07489216060602, -89.38419409024608); // New position
+  static const LatLng _capitol =
+      LatLng(43.07489216060602, -89.38419409024608); // New position
 
   Marker _origin = Marker(
     markerId: MarkerId('current_position'),
-    position: LatLng(37.773972, -122.431297), // Current location (San Francisco)
+    position:
+        LatLng(37.773972, -122.431297), // Current location (San Francisco)
     infoWindow: InfoWindow(title: 'Current Location'),
   );
 
@@ -84,10 +86,14 @@ class ContentMapPageState extends State<ContentMapPage> {
       LatLng(currentGridMinLat - latgridSpacing, currentGridMinLng), // below
       LatLng(currentGridMinLat, currentGridMinLng - lnggridSpacing), // left
       LatLng(currentGridMinLat, currentGridMinLng + lnggridSpacing), // right
-      LatLng(currentGridMinLat + latgridSpacing, currentGridMinLng + lnggridSpacing), // top-right
-      LatLng(currentGridMinLat + latgridSpacing, currentGridMinLng - lnggridSpacing), // top-left
-      LatLng(currentGridMinLat - latgridSpacing, currentGridMinLng + lnggridSpacing), // bottom-right
-      LatLng(currentGridMinLat - latgridSpacing, currentGridMinLng - lnggridSpacing), // bottom-left
+      LatLng(currentGridMinLat + latgridSpacing,
+          currentGridMinLng + lnggridSpacing), // top-right
+      LatLng(currentGridMinLat + latgridSpacing,
+          currentGridMinLng - lnggridSpacing), // top-left
+      LatLng(currentGridMinLat - latgridSpacing,
+          currentGridMinLng + lnggridSpacing), // bottom-right
+      LatLng(currentGridMinLat - latgridSpacing,
+          currentGridMinLng - lnggridSpacing), // bottom-left
     ];
 
     for (LatLng grid in surroundingGrids) {
@@ -97,7 +103,8 @@ class ContentMapPageState extends State<ContentMapPage> {
           points: [
             LatLng(grid.latitude, grid.longitude),
             LatLng(grid.latitude + latgridSpacing, grid.longitude),
-            LatLng(grid.latitude + latgridSpacing, grid.longitude + lnggridSpacing),
+            LatLng(grid.latitude + latgridSpacing,
+                grid.longitude + lnggridSpacing),
             LatLng(grid.latitude, grid.longitude + lnggridSpacing),
           ],
           fillColor: Colors.black.withOpacity(0.3),
@@ -106,7 +113,8 @@ class ContentMapPageState extends State<ContentMapPage> {
       );
     }
 
-    _currentGridLabel = _generateGridLabel(currentGridMinLat, currentGridMinLng);
+    _currentGridLabel =
+        _generateGridLabel(currentGridMinLat, currentGridMinLng);
     _currentGridCenter = LatLng(
       currentGridMinLat + latgridSpacing / 2,
       currentGridMinLng + lnggridSpacing / 2,
@@ -129,28 +137,34 @@ class ContentMapPageState extends State<ContentMapPage> {
           [
             LatLng(currentGridMinLat, currentGridMinLng),
             LatLng(currentGridMinLat + latgridSpacing, currentGridMinLng),
-            LatLng(currentGridMinLat + latgridSpacing, currentGridMinLng + lnggridSpacing),
+            LatLng(currentGridMinLat + latgridSpacing,
+                currentGridMinLng + lnggridSpacing),
             LatLng(currentGridMinLat, currentGridMinLng + lnggridSpacing),
           ],
           ...surroundingGrids.map((grid) => [
-            LatLng(grid.latitude, grid.longitude),
-            LatLng(grid.latitude + latgridSpacing, grid.longitude),
-            LatLng(grid.latitude + latgridSpacing, grid.longitude + lnggridSpacing),
-            LatLng(grid.latitude, grid.longitude + lnggridSpacing),
-          ])
+                LatLng(grid.latitude, grid.longitude),
+                LatLng(grid.latitude + latgridSpacing, grid.longitude),
+                LatLng(grid.latitude + latgridSpacing,
+                    grid.longitude + lnggridSpacing),
+                LatLng(grid.latitude, grid.longitude + lnggridSpacing),
+              ])
         ],
         fillColor: Colors.black.withOpacity(0.8),
         strokeColor: Colors.transparent,
       ),
     );
 
-    double latStart = (bounds.southwest.latitude ~/ latgridSpacing) * latgridSpacing;
+    double latStart =
+        (bounds.southwest.latitude ~/ latgridSpacing) * latgridSpacing;
     if (bounds.southwest.latitude < 0) latStart -= latgridSpacing;
 
-    double lngStart = (bounds.southwest.longitude ~/ lnggridSpacing) * lnggridSpacing;
+    double lngStart =
+        (bounds.southwest.longitude ~/ lnggridSpacing) * lnggridSpacing;
     if (bounds.southwest.longitude < 0) lngStart -= lnggridSpacing;
 
-    for (double lat = latStart; lat <= bounds.northeast.latitude; lat += latgridSpacing) {
+    for (double lat = latStart;
+        lat <= bounds.northeast.latitude;
+        lat += latgridSpacing) {
       _gridLines.add(
         Polyline(
           polylineId: PolylineId('lat_$lat'),
@@ -164,7 +178,9 @@ class ContentMapPageState extends State<ContentMapPage> {
       );
     }
 
-    for (double lng = lngStart; lng <= bounds.northeast.longitude; lng += lnggridSpacing) {
+    for (double lng = lngStart;
+        lng <= bounds.northeast.longitude;
+        lng += lnggridSpacing) {
       _gridLines.add(
         Polyline(
           polylineId: PolylineId('lng_$lng'),
@@ -182,7 +198,8 @@ class ContentMapPageState extends State<ContentMapPage> {
   }
 
   Future<Offset> _getScreenCoordinates(LatLng latLng) async {
-    ScreenCoordinate screenCoordinate = await _googleMapController!.getScreenCoordinate(latLng);
+    ScreenCoordinate screenCoordinate =
+        await _googleMapController!.getScreenCoordinate(latLng);
     return Offset(screenCoordinate.x.toDouble(), screenCoordinate.y.toDouble());
   }
 
@@ -215,17 +232,18 @@ class ContentMapPageState extends State<ContentMapPage> {
     setState(() {
       _labelOpacity = 1.0; // Show labels when returning to initial position
     });
-    _googleMapController?.animateCamera(CameraUpdate.newCameraPosition(_initialCameraPosition));
+    _googleMapController
+        ?.animateCamera(CameraUpdate.newCameraPosition(_initialCameraPosition));
   }
 
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent, 
-        systemNavigationBarColor: Colors.transparent, 
-        systemNavigationBarIconBrightness: Brightness.dark, 
-        statusBarIconBrightness: Brightness.dark, 
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarIconBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -237,47 +255,54 @@ class ContentMapPageState extends State<ContentMapPage> {
               initialCameraPosition: _initialCameraPosition,
               onMapCreated: (controller) {
                 _googleMapController = controller;
-                _googleMapController!.animateCamera(CameraUpdate.newCameraPosition(_initialCameraPosition));
+                _googleMapController!.animateCamera(
+                    CameraUpdate.newCameraPosition(_initialCameraPosition));
                 _googleMapController!.getVisibleRegion().then((bounds) {
                   _createGrid(bounds);
                 });
               },
               onCameraIdle: () async {
                 if (_googleMapController != null) {
-                  LatLngBounds bounds = await _googleMapController!.getVisibleRegion();
-                  _createGrid(bounds); // Update grid and labels after dragging or zooming
+                  LatLngBounds bounds =
+                      await _googleMapController!.getVisibleRegion();
+                  _createGrid(
+                      bounds); // Update grid and labels after dragging or zooming
                 }
               },
-              markers: { _origin },
+              markers: {_origin},
               polylines: _gridLines,
-              polygons: _shadedAreas, 
+              polygons: _shadedAreas,
               minMaxZoomPreference: MinMaxZoomPreference(10, null),
             ),
 
             // Center marker and label for current location grid
             FutureBuilder<Offset>(
-              future: _getScreenCoordinates(_origin.position), 
+              future: _getScreenCoordinates(_origin.position),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   Offset offset = snapshot.data!;
                   return Stack(
                     children: [
                       Positioned(
-                        left: offset.dx - 7.5, 
-                        top: offset.dy - 7.5,  
-                        child: _getMarker(),   
+                        left: offset.dx - 7.5,
+                        top: offset.dy - 7.5,
+                        child: _getMarker(),
                       ),
                       Positioned(
-                        left: offset.dx - 30,  
-                        top: offset.dy + 25,   
+                        left: offset.dx - 30,
+                        top: offset.dy + 25,
                         child: AnimatedOpacity(
                           opacity: _labelOpacity,
                           duration: Duration(milliseconds: 300),
                           child: Container(
                             padding: EdgeInsets.all(4),
                             decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.primary.withOpacity(0.6),
-                              borderRadius: BorderRadius.circular(8), // Add rounded corners
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.6),
+                              borderRadius: BorderRadius.circular(
+                                  8), // Add rounded corners
                             ),
                             child: Text(
                               _currentGridLabel,
@@ -294,7 +319,7 @@ class ContentMapPageState extends State<ContentMapPage> {
                     ],
                   );
                 }
-                return Container(); 
+                return Container();
               },
             ),
 
@@ -306,8 +331,8 @@ class ContentMapPageState extends State<ContentMapPage> {
                   if (snapshot.hasData) {
                     Offset offset = snapshot.data!;
                     return Positioned(
-                      left: offset.dx + 32, 
-                      top: offset.dy - 80,  
+                      left: offset.dx + 32,
+                      top: offset.dy - 80,
                       child: AnimatedOpacity(
                         opacity: _labelOpacity,
                         duration: Duration(milliseconds: 300),
@@ -315,7 +340,8 @@ class ContentMapPageState extends State<ContentMapPage> {
                           padding: EdgeInsets.all(4),
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.7),
-                            borderRadius: BorderRadius.circular(8), // Add rounded corners
+                            borderRadius:
+                                BorderRadius.circular(8), // Add rounded corners
                           ),
                           child: Text(
                             surroundingGridLabels[i],
@@ -330,7 +356,7 @@ class ContentMapPageState extends State<ContentMapPage> {
                       ),
                     );
                   }
-                  return Container(); 
+                  return Container();
                 },
               ),
 
@@ -346,7 +372,8 @@ class ContentMapPageState extends State<ContentMapPage> {
                       onPressed: _zoomIn,
                       materialTapTargetSize: MaterialTapTargetSize.padded,
                       backgroundColor: Theme.of(context).colorScheme.primary,
-                      child: Icon(Icons.zoom_in, color: Theme.of(context).colorScheme.onPrimary),
+                      child: Icon(Icons.zoom_in,
+                          color: Theme.of(context).colorScheme.onPrimary),
                     ),
                   ),
                   SizedBox(height: 10),
@@ -357,7 +384,8 @@ class ContentMapPageState extends State<ContentMapPage> {
                       onPressed: _zoomOut,
                       materialTapTargetSize: MaterialTapTargetSize.padded,
                       backgroundColor: Theme.of(context).colorScheme.primary,
-                      child: Icon(Icons.zoom_out, color: Theme.of(context).colorScheme.onPrimary),
+                      child: Icon(Icons.zoom_out,
+                          color: Theme.of(context).colorScheme.onPrimary),
                     ),
                   ),
                 ],
@@ -373,7 +401,8 @@ class ContentMapPageState extends State<ContentMapPage> {
                   onPressed: _returnToInitialPosition,
                   materialTapTargetSize: MaterialTapTargetSize.padded,
                   backgroundColor: Theme.of(context).colorScheme.primary,
-                  child: Icon(Icons.center_focus_strong, color: Theme.of(context).colorScheme.onPrimary),
+                  child: Icon(Icons.center_focus_strong,
+                      color: Theme.of(context).colorScheme.onPrimary),
                 ),
               ),
             ),
@@ -381,9 +410,10 @@ class ContentMapPageState extends State<ContentMapPage> {
               top: 30,
               left: 10,
               child: IconButton(
-                icon: Icon(Icons.close, color: Theme.of(context).colorScheme.primary),
+                icon: Icon(Icons.close,
+                    color: Theme.of(context).colorScheme.primary),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/contentlayout');
+                  Navigator.pop(context);
                 },
               ),
             ),

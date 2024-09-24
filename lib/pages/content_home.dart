@@ -6,6 +6,7 @@ import 'package:friendzone/helper/navigate_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../models/post.dart';
+import 'content_map.dart';
 
 class ContentHome extends StatefulWidget {
   const ContentHome({super.key});
@@ -15,18 +16,25 @@ class ContentHome extends StatefulWidget {
 }
 
 class _ContentHomeState extends State<ContentHome> {
-  final String _currentZone = 'C - 137';
-
   late final listeningProvider = Provider.of<DatabaseProvider>(context);
   late final databaseProvider =
       Provider.of<DatabaseProvider>(context, listen: false);
+
+  String _currentZone = "";
 
   // fetch local posts on init
   @override
   void initState() {
     super.initState();
+    loadCurrentZone();
+  }
 
-    loadLocalPosts();
+  Future<void> loadCurrentZone() async {
+    final zone = await databaseProvider.calibrateZone();
+    setState(() {
+      _currentZone = zone;
+    });
+    await loadLocalPosts();
   }
 
   Future<void> loadLocalPosts() async {
@@ -84,8 +92,10 @@ class _ContentHomeState extends State<ContentHome> {
           IconButton(
             highlightColor: Colors.transparent,
             onPressed: () {
-              // 승제 쿤 adding google map stuff 20240817
-              Navigator.pushNamed(context, '/contentmap');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ContentMapPage()),
+              );
             },
             icon: Padding(
               padding: const EdgeInsets.only(right: 15.0),
