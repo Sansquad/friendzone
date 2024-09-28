@@ -32,6 +32,14 @@ class _PostWidgetState extends State<PostWidget> {
   late final databaseProvider =
       Provider.of<DatabaseProvider>(context, listen: false);
 
+  void _toggleLikePost() async {
+    try {
+      await databaseProvider.toggleLike(widget.post.id);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   void _showOptions() {
     showModalBottomSheet(
         context: context,
@@ -77,6 +85,7 @@ class _PostWidgetState extends State<PostWidget> {
   Widget build(BuildContext context) {
     String currentUid = FirebaseAuthService().getCurrentUid();
     final bool isPostOwner = widget.post.uid == currentUid;
+    bool likeByUser = listeningProvider.isLikedByUser(widget.post.id);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
@@ -187,11 +196,16 @@ class _PostWidgetState extends State<PostWidget> {
                 children: [
                   Row(
                     children: [
-                      SvgPicture.asset(
-                        'assets/icons/post_like.svg',
-                        height: 14,
-                        width: 14,
-                        color: Theme.of(context).colorScheme.inverseSurface,
+                      GestureDetector(
+                        onTap: _toggleLikePost,
+                        child: SvgPicture.asset(
+                          'assets/icons/post_like.svg',
+                          height: 14,
+                          width: 14,
+                          color: likeByUser
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.inverseSurface,
+                        ),
                       ),
                       const SizedBox(width: 4),
                       Text(widget.post.likeCount.toString()),

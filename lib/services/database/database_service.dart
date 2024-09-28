@@ -168,4 +168,44 @@ class DatabaseService {
     //  return [];
     //}
   }
+
+  Future<void> togglePostLikeDb(String gridCode, String postId) async {
+    try {
+      String uid = _auth.currentUser!.uid;
+
+      DocumentReference postDoc =
+          _db.collection("grids").doc(gridCode).collection("posts").doc(postId);
+
+      await _db.runTransaction(
+        (transaction) async {
+          // get post data
+          DocumentSnapshot postSnapshot = await transaction.get(postDoc);
+
+          // get like of users who like this post
+          List<String> likedBy =
+              List<String>.from(postSnapshot['likedBy'] ?? []);
+
+          // get like count
+          int currentLikeCount = postSnapshot['likeCount'];
+
+          // if user has not liked this post yet, like
+          if (!likedBy.contains(uid)) {
+            likedBy.add(uid);
+            currentLikeCount++;
+          } else {
+            likedBy.remove(uid);
+            currentLikeCount--;
+          }
+
+          // update in database
+          transaction.update(postDoc, {
+            'likeCount': currentLikeCount,
+            'likedBy': likedBy,
+          });
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
 }
