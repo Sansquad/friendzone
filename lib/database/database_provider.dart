@@ -79,7 +79,7 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   // Local map to track like counts for each post in the local posts page
-  Map<String, int> _localLikeCounts = {};
+  Map<String, int> _postLikeCounts = {};
 
   // Local map to track like counts for each post in the best posts page
   Map<String, int> _bestLikeCounts = {};
@@ -90,18 +90,21 @@ class DatabaseProvider extends ChangeNotifier {
   // return whether user likes a post
   bool isLikedByUser(String postId) => _userLikedPosts.contains(postId);
 
-  // get like count of local post
-  int getLocalLikeCount(String postId) => _localLikeCounts[postId]!;
+  // get like count of posts
+  int getLikeCount(String postId) => _postLikeCounts[postId] ?? 0;
 
   //initialize like map locally
   void initializeLocalLikeMap() {
     // get current uid
     final currentUserID = _auth.getCurrentUid();
 
+    // clear local maps in case new user logs in
+    _userLikedPosts.clear();
+
     // for each post get like data
     for (var post in _localPosts) {
       //update like count map
-      _localLikeCounts[post.id] == post.likeCount;
+      _postLikeCounts[post.id] = post.likeCount;
 
       if (post.likedBy.contains(currentUserID)) {
         _userLikedPosts.add(post.id);
@@ -129,22 +132,30 @@ class DatabaseProvider extends ChangeNotifier {
   }
 
   // Toggle like
-  Future<void> toggleLike(String postId) async {
+  Future<void> toggleLike(String gridCode, String postId) async {
     // store original values in case database write fails
-    final likedPostsOriginal = _userLikedPosts;
-    final localLikedCountsOriginal = _localLikeCounts;
+    final originalLikedPosts = _userLikedPosts;
+    final originalLikeCounts = _postLikeCounts;
 
     if (_userLikedPosts.contains(postId)) {
       _userLikedPosts.remove(postId);
-      _localLikeCounts[postId] = (_localLikeCounts[postId] ?? 0) - 1;
+      _postLikeCounts[postId] = (_postLikeCounts[postId] ?? 0) - 1;
     } else {
       _userLikedPosts.add(postId);
-      _localLikeCounts[postId] = (_localLikeCounts[postId] ?? 0) + 1;
+      _postLikeCounts[postId] = (_postLikeCounts[postId] ?? 0) + 1;
     }
 
-    // update UI optimistically
+    // update UI optimistically (before database write)
     notifyListeners();
 
     // perform database update
+    try {
+      await _db.togglePostLikeDb(gridCode, postId);
+    } catch (e) {
+      _userLikedPosts = originalLikedPosts;
+      _postLikeCounts = originalLikeCounts;
+    }
+
+    notifyListeners();
   }
 }

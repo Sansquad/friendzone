@@ -34,7 +34,7 @@ class _PostWidgetState extends State<PostWidget> {
 
   void _toggleLikePost() async {
     try {
-      await databaseProvider.toggleLike(widget.post.id);
+      await databaseProvider.toggleLike(widget.post.gridCode, widget.post.id);
     } catch (e) {
       print(e);
     }
@@ -85,7 +85,8 @@ class _PostWidgetState extends State<PostWidget> {
   Widget build(BuildContext context) {
     String currentUid = FirebaseAuthService().getCurrentUid();
     final bool isPostOwner = widget.post.uid == currentUid;
-    bool likeByUser = listeningProvider.isLikedByUser(widget.post.id);
+    bool likedByUser = listeningProvider.isLikedByUser(widget.post.id);
+    int likeCount = listeningProvider.getLikeCount(widget.post.id);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
@@ -202,13 +203,13 @@ class _PostWidgetState extends State<PostWidget> {
                           'assets/icons/post_like.svg',
                           height: 14,
                           width: 14,
-                          color: likeByUser
+                          color: likedByUser
                               ? Theme.of(context).colorScheme.primary
                               : Theme.of(context).colorScheme.inverseSurface,
                         ),
                       ),
                       const SizedBox(width: 4),
-                      Text(widget.post.likeCount.toString()),
+                      Text(likeCount.toString()),
                       const SizedBox(width: 10),
                       SvgPicture.asset(
                         'assets/icons/post_comment.svg',

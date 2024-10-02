@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:friendzone/models/comment.dart';
 import 'package:friendzone/models/post.dart';
 import 'package:friendzone/models/user.dart';
 import 'package:friendzone/services/auth/firebase_auth_services.dart';
@@ -204,6 +205,31 @@ class DatabaseService {
           });
         },
       );
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // Add comment to a post
+  Future<void> addCommentDB(String gridCode, String postId, message) async {
+    try {
+      String uid = _auth.currentUser!.uid;
+      UserModel? user = await getUserDB(uid);
+
+      Comment newComment = Comment(
+        id: '',
+        postId: postId,
+        uid: uid,
+        username: user!.username,
+        message: message,
+        timestamp: Timestamp.now(),
+      );
+
+      // Convert comment to map
+      Map<String, dynamic> newCommentMap = newComment.toMap();
+
+      // TODO add comments to posts themselves???
+      await _db.collection("comments").add(newCommentMap);
     } catch (e) {
       print(e);
     }
